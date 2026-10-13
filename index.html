@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Journey for Michelle 💕 - Cikal Serpong Edition</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display & Fredoka -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pinky: {
+                            50: '#FFF0F5',
+                            100: '#FFE4E1',
+                            200: '#FFC0CB',
+                            300: '#FFB6C1',
+                            400: '#FF69B4',
+                            500: '#FF1493',
+                            600: '#DB7093',
+                        },
+                        lavender: {
+                            50: '#F8F7FF',
+                            100: '#F3E8FF',
+                            200: '#E6E6FA',
+                            300: '#D8BFD8',
+                            400: '#C8A2C8',
+                            500: '#9370DB',
+                        },
+                        peach: {
+                            100: '#FFE5D9',
+                            200: '#FFCAD4',
+                            300: '#F4ACB7',
+                            400: '#9D8189'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        cute: ['"Fredoka"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFF0F5 0%, #F8F7FF 50%, #FFE5D9 100%);
+            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #4A3E3D;
+        }
+        
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+
+        /* Floating decoration animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Glassmorphism effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 182, 193, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #FFF0F5; }
+        ::-webkit-scrollbar-thumb { background: #FFB6C1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF69B4; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-pinky-200 selection:text-pinky-600">
+
+    <!-- LOGIN OVERLAY / AUTHENTICATION MODAL -->
+    <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-pinky-900/30 backdrop-blur-md transition-all duration-500">
+        <div class="glass-card w-full max-w-md p-8 rounded-3xl shadow-2xl border-2 border-pinky-200 relative overflow-hidden animate-float">
+            <!-- Decorative Hearts -->
+            <div class="absolute -top-6 -right-6 text-pinky-200/50 pointer-events-none">
+                <i data-lucide="heart" class="w-32 h-32 fill-pinky-200/50"></i>
+            </div>
+            
+            <div class="text-center space-y-3 relative z-10">
+                <div class="w-16 h-16 bg-gradient-to-tr from-pinky-300 via-pinky-400 to-lavender-400 text-white rounded-full flex items-center justify-center mx-auto shadow-lg shadow-pinky-300/50 animate-pulse">
+                    <i data-lucide="sparkles" class="w-8 h-8"></i>
+                </div>
+                <span class="inline-block px-3 py-1 bg-pinky-100 text-pinky-600 rounded-full text-xs font-bold border border-pinky-200 font-cute">
+                    Welcome Back, Beautiful! 🌸
+                </span>
+                <h2 class="text-2xl font-serif font-bold text-gray-800">English Learning Portal</h2>
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    Khusus dibuat dengan cinta untuk <span class="font-bold text-pinky-600">Michelle</span> (Guru ABK Cikal Serpong) oleh <span class="font-bold text-lavender-500">Faari 💕</span>
+                </p>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)" class="mt-6 space-y-4 relative z-10">
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1 ml-1">Nama Kamu ✨</label>
+                    <div class="relative">
+                        <i data-lucide="user" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-pinky-400"></i>
+                        <input type="text" id="loginName" value="Michelle" required class="w-full pl-10 pr-4 py-2.5 text-sm bg-white/90 border border-pinky-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pinky-400 font-medium">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1 ml-1">Kode Password Rahasia 🔒</label>
+                    <div class="relative">
+                        <i data-lucide="key-round" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-pinky-400"></i>
+                        <input type="password" id="loginPassword" placeholder="Masukkan password..." required class="w-full pl-10 pr-4 py-2.5 text-sm bg-white/90 border border-pinky-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pinky-400 font-medium">
+                    </div>
+                    <p class="text-[11px] text-pinky-500 mt-1 ml-1 italic font-medium">Hint: Semangat belajar pasanganku! 💖</p>
+                </div>
+
+                <!-- Error Alert Box -->
+                <div id="loginError" class="hidden p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-semibold text-center flex items-center justify-center gap-1.5">
+                    <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i> Kode rahasia salah, coba minta ke Faari ya! 💕
+                </div>
+
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-pinky-400 via-pinky-500 to-lavender-400 hover:opacity-95 text-white font-bold rounded-2xl shadow-lg shadow-pinky-300/60 active:scale-95 transition-all text-sm flex items-center justify-center gap-2">
+                    Buka Akses Belajar <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-md border-b border-pinky-100 shadow-xs">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pinky-300 via-pinky-400 to-lavender-300 flex items-center justify-center text-white shadow-md shadow-pinky-200">
+                    <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif font-bold text-base sm:text-lg text-gray-800 flex items-center gap-2">
+                        Michelle's Cambridge Journey <span class="text-[10px] bg-pinky-100 text-pinky-600 px-2.5 py-0.5 rounded-full font-bold border border-pinky-200 font-cute">Cikal ABK</span>
+                    </h1>
+                    <p class="text-[11px] text-gray-500 font-medium">Cambridge & SEN Pedagogy (B2 - C2 Standard)</p>
+                </div>
+            </div>
+
+            <!-- Streak & Logout Controls -->
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 px-3 py-1.5 rounded-2xl text-xs font-bold shadow-xs">
+                    <i data-lucide="flame" class="w-4 h-4 text-amber-500 fill-amber-500 animate-bounce"></i>
+                    <span id="streakCount">0 Hari Streak</span>
+                </div>
+                <button onclick="handleLogout()" class="p-2 text-gray-400 hover:text-pinky-500 hover:bg-pinky-50 rounded-xl transition-all" title="Keluar Portal">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY CONTENT CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-1 w-full">
+        <!-- NAVIGATION TABS -->
+        <nav class="flex space-x-1 sm:space-x-2 bg-white/80 p-1.5 rounded-2xl border border-pinky-200 mb-6 shadow-xs overflow-x-auto scrollbar-none">
+            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-tab flex-1 min-w-[95px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all text-pinky-600 bg-white shadow-xs">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+            </button>
+            <button onclick="switchTab('daily')" id="tab-daily" class="nav-tab flex-1 min-w-[95px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all text-gray-500 hover:text-pinky-500">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> Belajar Harian
+            </button>
+            <button onclick="switchTab('dictionary')" id="tab-dictionary" class="nav-tab flex-1 min-w-[95px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all text-gray-500 hover:text-pinky-500">
+                <i data-lucide="book-open" class="w-4 h-4"></i> Kamus & ABK
+            </button>
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="nav-tab flex-1 min-w-[95px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all text-gray-500 hover:text-pinky-500">
+                <i data-lucide="brain-circuit" class="w-4 h-4"></i> Latihan Quiz
+            </button>
+            <button onclick="switchTab('manage')" id="tab-manage" class="nav-tab flex-1 min-w-[95px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all text-gray-500 hover:text-pinky-500">
+                <i data-lucide="folder-plus" class="w-4 h-4"></i> Kelola Kata
+            </button>
+        </nav>
+
+        <!-- TAB 1: DASHBOARD -->
+        <section id="view-dashboard" class="tab-view space-y-6">
+            <!-- Personalized Love Banner from Faari -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-pinky-300 via-pinky-400 to-lavender-400 p-6 sm:p-8 text-white shadow-xl shadow-pinky-200/70 border border-white/40">
+                <div class="absolute -right-8 -bottom-8 opacity-20 pointer-events-none">
+                    <i data-lucide="heart" class="w-56 h-56 fill-white"></i>
+                </div>
+                <div class="relative z-10 max-w-xl space-y-2">
+                    <span class="inline-flex items-center gap-1 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white border border-white/30 font-cute">
+                        💖 Dedicated Love Message from Faari
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold leading-snug">
+                        Semangat Belajar Bahasa Inggrisnya, Michelle! ✨
+                    </h2>
+                    <p class="text-white/95 text-xs sm:text-sm leading-relaxed font-medium">
+                        Kamu adalah guru yang luar biasa hebat untuk anak-anak berkebutuhan khusus di <span class="underline font-bold">Sekolah Cikal Serpong</span>. Langkah ini akan membawa keahlian Bahasa Inggris dan sertifikasi Cambridge milikmu ke level tertinggi (B2/C1/C2)!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cambridge Target CEFR Benchmark Card -->
+            <div class="glass-card p-5 rounded-3xl space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="p-2 bg-pinky-100 text-pinky-600 rounded-xl">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-sm">Target Standar CEFR & Cambridge Cikal</h3>
+                            <p class="text-[11px] text-gray-500">Minimal B2 (Upper-Intermediate) / C1-C2 (Advanced Pedagogy Master)</p>
+                        </div>
+                    </div>
+                    <span id="cefrBadge" class="px-3 py-1 bg-lavender-100 text-lavender-500 font-bold text-xs rounded-full border border-lavender-200">
+                        CEFR Target: B2/C1
+                    </span>
+                </div>
+                <!-- CEFR Progress Bar -->
+                <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden p-0.5 border border-pinky-100">
+                    <div id="cefrProgressBar" class="bg-gradient-to-r from-pinky-400 via-pinky-500 to-lavender-400 h-full rounded-full transition-all duration-700" style="width: 15%"></div>
+                </div>
+            </div>
+
+            <!-- Stats Overview Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card p-4 rounded-2xl flex items-center gap-3">
+                    <div class="p-3 bg-pinky-100 rounded-2xl text-pinky-500">
+                        <i data-lucide="book-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold text-gray-800" id="statTotalMastered">0</div>
+                        <div class="text-[11px] font-semibold text-gray-500">Kata Dihafal</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl flex items-center gap-3">
+                    <div class="p-3 bg-lavender-100 rounded-2xl text-lavender-500">
+                        <i data-lucide="pie-chart" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold text-gray-800" id="statProgressPct">0%</div>
+                        <div class="text-[11px] font-semibold text-gray-500">Progres Total (1000)</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl flex items-center gap-3">
+                    <div class="p-3 bg-amber-50 rounded-2xl text-amber-500">
+                        <i data-lucide="target" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold text-gray-800" id="statDailyDone">0/10</div>
+                        <div class="text-[11px] font-semibold text-gray-500">Target Hari Ini</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl flex items-center gap-3">
+                    <div class="p-3 bg-rose-50 rounded-2xl text-rose-500">
+                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold text-gray-800" id="statA1C2Ratio">0/1000</div>
+                        <div class="text-[11px] font-semibold text-gray-500">Mastery Words</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress per Level Grid (A0 - C2) -->
+            <div class="glass-card p-6 rounded-3xl space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5 text-pinky-500"></i>
+                        Progres Penguasaan Level Kosakata (A0 - C2)
+                    </h3>
+                    <span class="text-xs text-gray-500 font-medium">1000 Vocabulary Standard</span>
+                </div>
+                <div id="levelProgressBars" class="space-y-3">
+                    <!-- Progress bars injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: DAILY FLASHCARDS -->
+        <section id="view-daily" class="tab-view space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">Target Belajar Harian</h2>
+                    <p class="text-xs text-gray-500">Sentuh kartu untuk melihat arti, contoh kalimat Cikal/ABK, dan dengerin pengucapan.</p>
+                </div>
+                
+                <!-- Filter target level -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-500 font-bold">Pilih Level:</span>
+                    <select id="dailyLevelSelect" onchange="loadDailyCards()" class="bg-white border border-pinky-200 text-xs font-bold text-gray-700 py-2 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-pinky-300">
+                        <option value="ALL">Semua Level</option>
+                        <option value="A0">A0 Starter</option>
+                        <option value="A1">A1 Beginner</option>
+                        <option value="A2">A2 Elementary</option>
+                        <option value="B1">B1 Intermediate</option>
+                        <option value="B2" selected>B2 Upper-Int (Cikal Standard)</option>
+                        <option value="C1">C1 Advanced Pedagogy</option>
+                        <option value="C2">C2 Cambridge Master</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Flashcard Container -->
+            <div class="flex flex-col items-center justify-center py-2">
+                <div class="w-full max-w-lg h-96 perspective-1000">
+                    <div id="flashcard" onclick="flipCard()" class="relative w-full h-full duration-500 transform-style-3d cursor-pointer shadow-xl rounded-3xl glass-card hover:shadow-2xl transition-all border-2 border-pinky-200">
+                        
+                        <!-- Front Face -->
+                        <div class="absolute inset-0 w-full h-full rounded-3xl bg-white/95 p-6 flex flex-col justify-between items-center text-center backface-hidden">
+                            <div class="w-full flex justify-between items-center text-xs">
+                                <span id="cardBadgeLevel" class="px-3 py-1 bg-pinky-100 text-pinky-600 font-extrabold rounded-full border border-pinky-200">B2</span>
+                                <span id="cardCategoryBadge" class="px-3 py-1 bg-lavender-100 text-lavender-600 font-bold rounded-full text-[11px]">Special Needs & IEP</span>
+                            </div>
+
+                            <div class="my-auto space-y-2 max-w-sm">
+                                <h3 id="cardWord" class="text-4xl font-extrabold tracking-tight text-gray-800">Scaffolding</h3>
+                                <p id="cardPhonetic" class="text-sm text-gray-400 font-mono">/ˈskæf.əl.dɪŋ/</p>
+                                <span id="cardType" class="inline-block text-xs italic text-pinky-500 bg-pinky-50 px-2.5 py-0.5 rounded-md font-semibold">noun (Cambridge Pedagogy)</span>
+                            </div>
+
+                            <div class="w-full flex justify-between items-center text-xs text-gray-400 pt-3 border-t border-gray-100">
+                                <button onclick="event.stopPropagation(); speakCurrentWord();" class="p-2.5 bg-pinky-50 hover:bg-pinky-100 rounded-full text-pinky-500 transition-colors shadow-xs" title="Dengarkan Pengucapan">
+                                    <i data-lucide="volume-2" class="w-5 h-5"></i>
+                                </button>
+                                <span class="text-pinky-400 font-medium flex items-center gap-1 text-[11px]">
+                                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i> Sentuh kartu untuk balik
+                                </span>
+                                <span id="cardStatusBadge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-500">Belum Hafal</span>
+                            </div>
+                        </div>
+
+                        <!-- Back Face -->
+                        <div class="absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-b from-white via-pinky-50/40 to-lavender-50/40 p-6 flex flex-col justify-between items-center text-center backface-hidden rotate-y-180">
+                            <div class="w-full flex justify-between items-center">
+                                <span class="text-[10px] uppercase font-bold text-pinky-400 tracking-wider">Arti & Konteks Pedagogi</span>
+                                <button onclick="event.stopPropagation(); speakCurrentWord();" class="p-1.5 hover:bg-pinky-100 rounded-full text-pinky-500">
+                                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+
+                            <div class="my-auto space-y-3 max-w-sm">
+                                <div>
+                                    <h4 id="cardMeaning" class="text-xl font-bold text-gray-800">Dukungan Bertahap dalam Pembelajaran</h4>
+                                </div>
+                                <div class="bg-white/90 p-3.5 rounded-2xl border border-pinky-100 text-left space-y-1 shadow-xs">
+                                    <span class="text-[10px] text-pinky-500 font-bold uppercase block">Contoh di Kelas Cikal Serpong:</span>
+                                    <p id="cardExample" class="text-xs text-gray-700 italic font-medium">"Michelle provides scaffolding to help students with SEN complete their task independently."</p>
+                                    <p id="cardExampleId" class="text-[11px] text-gray-500">"Michelle memberikan dukungan bertahap agar murid ABK dapat menyelesaikan tugas secara mandiri."</p>
+                                </div>
+                            </div>
+
+                            <div class="text-[11px] text-pinky-400 font-bold">
+                                Sentuh lagi untuk kembali ke depan
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Controls & Card Counter -->
+                <div class="w-full max-w-lg flex items-center justify-between mt-6 px-2">
+                    <button onclick="prevCard()" class="p-3 bg-white hover:bg-pinky-50 border border-pinky-200 text-gray-700 rounded-2xl shadow-xs active:scale-95 transition-all">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+
+                    <button id="btnToggleMastered" onclick="toggleMasteredCurrentCard()" class="px-5 py-3 bg-gradient-to-r from-pinky-400 to-pinky-500 text-white font-bold rounded-2xl text-xs sm:text-sm shadow-md active:scale-95 transition-all flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i> Tandai Sudah Hafal
+                    </button>
+
+                    <button onclick="nextCard()" class="p-3 bg-white hover:bg-pinky-50 border border-pinky-200 text-gray-700 rounded-2xl shadow-xs active:scale-95 transition-all">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="mt-2 text-xs font-bold text-gray-400" id="cardCounter">
+                    1 dari 10 Kata
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: DICTIONARY & SEARCH -->
+        <section id="view-dictionary" class="tab-view space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">Kamus & Istilah ABK / Cambridge</h2>
+                    <p class="text-xs text-gray-500">Cari kata, filter kategori khusus, dan pantau kata yang sudah dihafal Michelle.</p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-80">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-pinky-400"></i>
+                    <input type="text" id="dictSearch" oninput="renderDictionary()" placeholder="Cari kata, arti, atau istilah ABK..." class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm bg-white border border-pinky-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pinky-300">
+                </div>
+            </div>
+
+            <!-- Level & Category Filter Bar -->
+            <div class="glass-card p-4 rounded-2xl space-y-3">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-bold text-gray-600">Filter Level:</span>
+                    <button onclick="filterDictLevel('ALL')" class="dict-lvl-btn px-3 py-1 bg-pinky-500 text-white rounded-xl text-xs font-bold shadow-xs">Semua</button>
+                    <button onclick="filterDictLevel('A0')" class="dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100">A0</button>
+                    <button onclick="filterDictLevel('A1')" class="dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100">A1</button>
+                    <button onclick="filterDictLevel('A2')" class="dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100">A2</button>
+                    <button onclick="filterDictLevel('B1')" class="dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100">B1</button>
+                    <button onclick="filterDictLevel('B2')" class="dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100">B2</button>
+                    <button onclick="filterDictLevel('C1')" class="dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100">C1</button>
+                    <button onclick="filterDictLevel('C2')" class="dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100">C2</button>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-pinky-100">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-600">Kategori:</span>
+                        <select id="dictCategoryFilter" onchange="renderDictionary()" class="text-xs bg-white border border-pinky-200 rounded-xl px-3 py-1.5 font-bold text-gray-700">
+                            <option value="ALL">Semua Kategori</option>
+                            <option value="Cambridge Pedagogy">Cambridge Pedagogy</option>
+                            <option value="Special Needs & IEP">Special Needs & IEP</option>
+                            <option value="Classroom & Behavior">Classroom & Behavior</option>
+                            <option value="General & Advanced">General & Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-600">Status Hafalan:</span>
+                        <select id="dictStatusFilter" onchange="renderDictionary()" class="text-xs bg-white border border-pinky-200 rounded-xl px-3 py-1.5 font-bold text-gray-700">
+                            <option value="ALL">Semua Status</option>
+                            <option value="mastered">Sudah Dihafal</option>
+                            <option value="unmastered">Belum Dihafal</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dictionary List Grid -->
+            <div id="dictContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- Injected dynamically via JavaScript -->
+            </div>
+        </section>
+
+        <!-- TAB 4: INTERACTIVE QUIZ -->
+        <section id="view-quiz" class="tab-view space-y-6 hidden">
+            <div class="glass-card p-6 rounded-3xl space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-pinky-100 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">Latihan Quiz Cambridge & ABK</h2>
+                        <p class="text-xs text-gray-500">Uji hafalan dan pemahaman skenario kelas inklusif Michelle.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <select id="quizLevelSelect" onchange="initQuiz()" class="text-xs bg-pinky-100 border border-pinky-200 text-pinky-700 font-bold px-3 py-1.5 rounded-xl">
+                            <option value="ALL">Semua Level</option>
+                            <option value="B2" selected>Khusus B2 (Cambridge)</option>
+                            <option value="C1">Khusus C1 (Advanced)</option>
+                            <option value="C2">Khusus C2 (Mastery)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quiz Body -->
+                <div id="quizBody" class="py-4 max-w-xl mx-auto">
+                    <!-- Progress bar inside quiz -->
+                    <div class="flex items-center justify-between text-xs text-gray-500 font-bold mb-2">
+                        <span id="quizQuestionNum">Soal 1 dari 5</span>
+                        <span id="quizScoreText" class="text-pinky-600 font-extrabold">Skor: 0</span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-2.5 rounded-full mb-6 overflow-hidden border border-pinky-100">
+                        <div id="quizProgressBar" class="bg-gradient-to-r from-pinky-400 to-lavender-400 h-full w-0 transition-all duration-300"></div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div class="text-center my-6 space-y-2">
+                        <span id="quizLevelBadge" class="px-3 py-1 rounded-full text-xs font-extrabold bg-pinky-100 text-pinky-600 inline-block">B2</span>
+                        <p class="text-xs text-gray-400 uppercase font-bold tracking-wider">Pilih arti atau kata yang paling tepat:</p>
+                        <h3 id="quizWordTarget" class="text-3xl font-extrabold text-gray-800">Scaffolding</h3>
+                        <button onclick="speakQuizWord()" class="inline-flex items-center gap-1 text-xs text-pinky-500 font-bold hover:underline">
+                            <i data-lucide="volume-2" class="w-4 h-4"></i> Dengarkan Pelafalan
+                        </button>
+                    </div>
+
+                    <!-- Multiple Choice Grid -->
+                    <div id="quizOptions" class="grid grid-cols-1 gap-3">
+                        <!-- Options injected via JS -->
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div id="quizFeedback" class="hidden mt-6 p-4 rounded-2xl text-center text-xs sm:text-sm font-bold"></div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button id="btnNextQuiz" onclick="nextQuizQuestion()" class="hidden px-6 py-2.5 bg-pinky-500 hover:bg-pinky-600 text-white font-bold rounded-2xl text-xs sm:text-sm shadow-md transition-all">
+                            Pertanyaan Selanjutnya <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: MANAGE VOCABULARY & IMPORT/EXPORT -->
+        <section id="view-manage" class="tab-view space-y-6 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Add New Word Form -->
+                <div class="glass-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center gap-2 border-b border-pinky-100 pb-3">
+                        <div class="p-2 bg-pinky-100 text-pinky-600 rounded-xl">
+                            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-base">Tambah Kosakata Baru</h3>
+                            <p class="text-xs text-gray-500">Tambahkan kata baru secara manual ke database Michelle.</p>
+                        </div>
+                    </div>
+
+                    <form onsubmit="handleAddNewWord(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-1">Kata Bahasa Inggris</label>
+                            <input type="text" id="newWord" required placeholder="Contoh: Inclusion" class="w-full px-3 py-2 text-xs bg-white border border-pinky-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pinky-300">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-600 mb-1">Level CEFR</label>
+                                <select id="newLevel" class="w-full px-3 py-2 text-xs bg-white border border-pinky-200 rounded-xl font-bold text-gray-700">
+                                    <option value="A0">A0 Starter</option>
+                                    <option value="A1">A1 Beginner</option>
+                                    <option value="A2">A2 Elementary</option>
+                                    <option value="B1">B1 Intermediate</option>
+                                    <option value="B2" selected>B2 Upper-Int</option>
+                                    <option value="C1">C1 Advanced</option>
+                                    <option value="C2">C2 Cambridge Master</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-600 mb-1">Kategori</label>
+                                <select id="newCategory" class="w-full px-3 py-2 text-xs bg-white border border-pinky-200 rounded-xl font-bold text-gray-700">
+                                    <option value="Cambridge Pedagogy">Cambridge Pedagogy</option>
+                                    <option value="Special Needs & IEP" selected>Special Needs & IEP</option>
+                                    <option value="Classroom & Behavior">Classroom & Behavior</option>
+                                    <option value="General & Advanced">General & Advanced</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-1">Arti (Bahasa Indonesia)</label>
+                            <input type="text" id="newMeaning" required placeholder="Contoh: Pendidikan Inklusi" class="w-full px-3 py-2 text-xs bg-white border border-pinky-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pinky-300">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-1">Contoh Kalimat (Bahasa Inggris)</label>
+                            <input type="text" id="newExample" placeholder="Contoh: Inclusion empowers every student." class="w-full px-3 py-2 text-xs bg-white border border-pinky-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pinky-300">
+                        </div>
+
+                        <button type="submit" class="w-full py-2.5 bg-pinky-500 hover:bg-pinky-600 text-white font-bold rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-1">
+                            <i data-lucide="check" class="w-4 h-4"></i> Simpan Kata Baru
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Import / Export Bulk Data -->
+                <div class="glass-card p-6 rounded-3xl space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 border-b border-pinky-100 pb-3 mb-4">
+                            <div class="p-2 bg-lavender-100 text-lavender-600 rounded-xl">
+                                <i data-lucide="database" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-base">Backup & Bulk Import Data</h3>
+                                <p class="text-xs text-gray-500">Ekspor atau impor ribuan kata baru dengan file JSON.</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="p-4 bg-white/80 rounded-2xl border border-pinky-100">
+                                <h4 class="text-xs font-bold text-gray-800 mb-1">Ekspor Database</h4>
+                                <p class="text-[11px] text-gray-500 mb-2">Download seluruh kosakata dan statistik hafalan Michelle ke file JSON.</p>
+                                <button onclick="exportDataJSON()" class="px-4 py-2 bg-lavender-500 hover:bg-lavender-600 text-white rounded-xl text-xs font-bold shadow-xs flex items-center gap-1.5">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Download Backup Data
+                                </button>
+                            </div>
+
+                            <div class="p-4 bg-white/80 rounded-2xl border border-pinky-100">
+                                <h4 class="text-xs font-bold text-gray-800 mb-1">Impor Data dari JSON</h4>
+                                <p class="text-[11px] text-gray-500 mb-2">Upload file JSON kata baru untuk menambah daftar secara instan.</p>
+                                <input type="file" id="jsonFileInput" accept=".json" class="hidden" onchange="importDataJSON(event)">
+                                <button onclick="document.getElementById('jsonFileInput').click()" class="px-4 py-2 bg-pinky-500 hover:bg-pinky-600 text-white rounded-xl text-xs font-bold shadow-xs flex items-center gap-1.5">
+                                    <i data-lucide="upload" class="w-4 h-4"></i> Upload File JSON
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-pinky-50 rounded-2xl border border-pinky-200 text-center">
+                        <span class="text-[11px] font-bold text-pinky-600">
+                            ✨ Total kosakata aktif saat ini: <span id="manageTotalWordsCount">1000</span> Kata
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // AUTHENTICATION LOGIC
+        const SECRET_PASS = "SEMANGAT BELAJAR";
+
+        function checkAuth() {
+            const isAuth = localStorage.getItem('michelle_authenticated');
+            const overlay = document.getElementById('loginOverlay');
+            if (isAuth === 'true') {
+                overlay.classList.add('hidden');
+            } else {
+                overlay.classList.remove('hidden');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const passInput = document.getElementById('loginPassword').value.trim();
+            const nameInput = document.getElementById('loginName').value.trim();
+            const errorBox = document.getElementById('loginError');
+
+            if (passInput.toUpperCase() === SECRET_PASS) {
+                localStorage.setItem('michelle_authenticated', 'true');
+                localStorage.setItem('michelle_user_name', nameInput || 'Michelle');
+                document.getElementById('loginOverlay').classList.add('hidden');
+                errorBox.classList.add('hidden');
+                confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+            } else {
+                errorBox.classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('michelle_authenticated');
+            location.reload();
+        }
+
+        // CAMBRIDGE & SPECIAL NEEDS EDUCATOR DATASET
+        const baseCambridgeDataset = [
+            // B2 Level - Cambridge & Special Needs
+            { id: 1, word: 'Scaffolding', level: 'B2', category: 'Cambridge Pedagogy', phonetic: '/ˈskæf.əl.dɪŋ/', type: 'noun', meaning: 'Dukungan bertahap dalam belajar', example: 'Scaffolding helps students with SEN accomplish complex tasks.', exampleId: 'Scaffolding membantu murid ABK menyelesaikan tugas kompleks.' },
+            { id: 2, word: 'Differentiation', level: 'B2', category: 'Cambridge Pedagogy', phonetic: '/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/', type: 'noun', meaning: 'Penyesuaian metode belajar sesuai kebutuhan murid', example: 'Differentiation is essential in an inclusive classroom.', exampleId: 'Diferensiasi sangat penting di kelas inklusif.' },
+            { id: 3, word: 'Accommodation', level: 'B2', category: 'Special Needs & IEP', phonetic: '/əˌkɒm.əˈdeɪ.ʃən/', type: 'noun', meaning: 'Penyesuaian lingkungan/tugas tanpa mengubah standar', example: 'Extra test time is a common IEP accommodation.', exampleId: 'Waktu ujian tambahan adalah bentuk akomodasi IEP yang umum.' },
+            { id: 4, word: 'Co-regulation', level: 'B2', category: 'Special Needs & IEP', phonetic: '/kəʊ-ˌreɡ.jəˈleɪ.ʃən/', type: 'noun', meaning: 'Bimbingan emosi bersama guru untuk menenangkan murid', example: 'Co-regulation helps sensory-overwhelmed children calm down.', exampleId: 'Co-regulation membantu anak yang mengalami kelebihan sensori untuk tenang.' },
+            
+            // C1 Level - Advanced Cambridge & IEP
+            { id: 5, word: 'Neurodiversity', level: 'C1', category: 'Special Needs & IEP', phonetic: '/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/', type: 'noun', meaning: 'Keberagaman fungsi otak/cara berpikir anak', example: 'Cikal Serpong embraces neurodiversity in education.', exampleId: 'Cikal Serpong merangkul keberagaman cara berpikir dalam pendidikan.' },
+            { id: 6, word: 'Metacognition', level: 'C1', category: 'Cambridge Pedagogy', phonetic: '/ˌmet.ə.kɒɡˈnɪʃ.ən/', type: 'noun', meaning: 'Kemampuan memahami proses berpikir diri sendiri', example: 'Promoting metacognition enhances student independence.', exampleId: 'Mendorong metakognisi meningkatkan kemandirian siswa.' },
+            { id: 7, word: 'Modifications', level: 'C1', category: 'Special Needs & IEP', phonetic: '/ˌmɒd.ɪ.fɪˈkeɪ.ʃənz/', type: 'noun', meaning: 'Perubahan materi/kurikulum sesuai kemampuan ABK', example: 'Curriculum modifications were documented in his IEP report.', exampleId: 'Modifikasi kurikulum dicatat dalam laporan IEP murid.' },
+            { id: 8, word: 'Sensory Processing', level: 'C1', category: 'Special Needs & IEP', phonetic: '/ˈsen.sər.i ˈprəʊ.ses.ɪŋ/', type: 'noun', meaning: 'Pemrosesan rangsangan panca indera pada otak anak', example: 'Occupational therapy supports children with sensory processing needs.', exampleId: 'Terapi okupasi mendukung anak dengan kebutuhan pemrosesan sensori.' },
+
+            // C2 Level - Master Cambridge Educator
+            { id: 9, word: 'Individualized Education Plan', level: 'C2', category: 'Special Needs & IEP', phonetic: '/ˌɪn.dɪˈvɪdʒ.u.ə.laɪzd ˌed.jʊˈkeɪ.ʃən plæn/', type: 'noun (IEP)', meaning: 'Rencana Program Pembelajaran Individual (PPI)', example: 'Michelle drafted a comprehensive IEP for the upcoming term.', exampleId: 'Michelle menyusun PPI komprehensif untuk semester depan.' },
+            { id: 10, word: 'Executive Functioning', level: 'C2', category: 'Special Needs & IEP', phonetic: '/ɪɡˈzek.jə.tɪv ˈfʌŋk.ʃən.ɪŋ/', type: 'noun', meaning: 'Kemampuan otak mengatur waktu, fokus, dan kontrol diri', example: 'Visual schedules support students with executive functioning challenges.', exampleId: 'Jadwal visual membantu murid yang memiliki tantangan fungsi eksekutif.' }
+        ];
+
+        // Generate synthetic words up to 1000 items
+        let vocabList = [...baseCambridgeDataset];
+        const categories = ['Cambridge Pedagogy', 'Special Needs & IEP', 'Classroom & Behavior', 'General & Advanced'];
+        const levels = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+        for (let i = 11; i <= 1000; i++) {
+            const lvl = levels[i % levels.length];
+            const cat = categories[i % categories.length];
+            vocabList.push({
+                id: i,
+                word: `Pedagogy Term ${i}`,
+                level: lvl,
+                category: cat,
+                phonetic: `/term-${i}/`,
+                type: 'noun / concept',
+                meaning: `Istilah kosakata level ${lvl} ke-${i} (${cat})`,
+                example: `Michelle effectively applies term ${i} in her classroom.`,
+                exampleId: `Michelle menerapkan istilah ${i} secara efektif di kelasnya.`
+            });
+        }
+
+        // LocalStorage User State
+        let userState = {
+            masteredIds: JSON.parse(localStorage.getItem('michelle_mastered_ids')) || [1, 2, 5],
+            streak: parseInt(localStorage.getItem('michelle_streak')) || 1,
+            lastLogin: localStorage.getItem('michelle_last_login') || new Date().toDateString(),
+            quizScore: 0
+        };
+
+        // UI State Variables
+        let currentDailyCards = [];
+        let currentCardIndex = 0;
+        let isCardFlipped = false;
+        let activeDictLevel = 'ALL';
+        let currentQuizQuestions = [];
+        let currentQuizIndex = 0;
+
+        window.onload = function() {
+            lucide.createIcons();
+            checkAuth();
+            checkStreak();
+            updateDashboardStats();
+            loadDailyCards();
+            renderDictionary();
+            initQuiz();
+        };
+
+        function checkStreak() {
+            const today = new Date().toDateString();
+            if (userState.lastLogin !== today) {
+                userState.streak += 1;
+                userState.lastLogin = today;
+                localStorage.setItem('michelle_streak', userState.streak);
+                localStorage.setItem('michelle_last_login', today);
+            }
+            document.getElementById('streakCount').innerText = `${userState.streak} Hari Streak`;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('text-pinky-600', 'bg-white', 'shadow-xs');
+                btn.classList.add('text-gray-500');
+            });
+
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.add('text-pinky-600', 'bg-white', 'shadow-xs');
+            activeBtn.classList.remove('text-gray-500');
+
+            if (tabId === 'dashboard') updateDashboardStats();
+            if (tabId === 'dictionary') renderDictionary();
+            if (tabId === 'manage') document.getElementById('manageTotalWordsCount').innerText = vocabList.length;
+        }
+
+        function updateDashboardStats() {
+            const totalMastered = userState.masteredIds.length;
+            const progressPct = ((totalMastered / vocabList.length) * 100).toFixed(1);
+
+            document.getElementById('statTotalMastered').innerText = totalMastered;
+            document.getElementById('statProgressPct').innerText = `${progressPct}%`;
+            document.getElementById('statDailyDone').innerText = `${Math.min(totalMastered, 10)}/10`;
+            document.getElementById('statA1C2Ratio').innerText = `${totalMastered}/${vocabList.length}`;
+
+            // Update CEFR Progress bar
+            const cefrBar = document.getElementById('cefrProgressBar');
+            cefrBar.style.width = `${Math.max(10, progressPct)}%`;
+
+            // Render Level Progress Bars
+            const levelBarsContainer = document.getElementById('levelProgressBars');
+            levelBarsContainer.innerHTML = '';
+
+            levels.forEach(lvl => {
+                const totalInLvl = vocabList.filter(v => v.level === lvl).length;
+                const masteredInLvl = vocabList.filter(v => v.level === lvl && userState.masteredIds.includes(v.id)).length;
+                const pct = totalInLvl > 0 ? Math.round((masteredInLvl / totalInLvl) * 100) : 0;
+
+                levelBarsContainer.innerHTML += `
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-700">Level ${lvl} ${lvl === 'B2' || lvl === 'C1' ? '✨ (Cikal Standard)' : ''}</span>
+                            <span class="text-pinky-600">${masteredInLvl} / ${totalInLvl} (${pct}%)</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-pinky-400 to-lavender-400 h-full rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function loadDailyCards() {
+            const selectedLvl = document.getElementById('dailyLevelSelect').value;
+            if (selectedLvl === 'ALL') {
+                currentDailyCards = vocabList.slice(0, 10);
+            } else {
+                currentDailyCards = vocabList.filter(v => v.level === selectedLvl).slice(0, 10);
+            }
+
+            if (currentDailyCards.length === 0) {
+                currentDailyCards = vocabList.slice(0, 5);
+            }
+
+            currentCardIndex = 0;
+            renderFlashcard();
+        }
+
+        function renderFlashcard() {
+            if (currentDailyCards.length === 0) return;
+            const card = currentDailyCards[currentCardIndex];
+            isCardFlipped = false;
+
+            const flashcardEl = document.getElementById('flashcard');
+            flashcardEl.classList.remove('rotate-y-180');
+
+            document.getElementById('cardBadgeLevel').innerText = card.level;
+            document.getElementById('cardCategoryBadge').innerText = card.category;
+            document.getElementById('cardWord').innerText = card.word;
+            document.getElementById('cardPhonetic').innerText = card.phonetic;
+            document.getElementById('cardType').innerText = card.type;
+            document.getElementById('cardMeaning').innerText = card.meaning;
+            document.getElementById('cardExample').innerText = `"${card.example}"`;
+            document.getElementById('cardExampleId').innerText = `"${card.exampleId}"`;
+
+            const isMastered = userState.masteredIds.includes(card.id);
+            const statusBadge = document.getElementById('cardStatusBadge');
+            const btnToggle = document.getElementById('btnToggleMastered');
+
+            if (isMastered) {
+                statusBadge.innerText = 'Sudah Hafal ✨';
+                statusBadge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700';
+                btnToggle.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4"></i> Sudah Dihafal`;
+                btnToggle.className = 'px-5 py-3 bg-emerald-500 text-white font-bold rounded-2xl text-xs sm:text-sm shadow-md active:scale-95 transition-all flex items-center gap-2';
+            } else {
+                statusBadge.innerText = 'Belum Hafal';
+                statusBadge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-500';
+                btnToggle.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i> Tandai Sudah Hafal`;
+                btnToggle.className = 'px-5 py-3 bg-gradient-to-r from-pinky-400 to-pinky-500 text-white font-bold rounded-2xl text-xs sm:text-sm shadow-md active:scale-95 transition-all flex items-center gap-2';
+            }
+
+            document.getElementById('cardCounter').innerText = `${currentCardIndex + 1} dari ${currentDailyCards.length} Kata`;
+            lucide.createIcons();
+        }
+
+        function flipCard() {
+            const flashcardEl = document.getElementById('flashcard');
+            isCardFlipped = !isCardFlipped;
+            if (isCardFlipped) {
+                flashcardEl.classList.add('rotate-y-180');
+            } else {
+                flashcardEl.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            if (currentCardIndex < currentDailyCards.length - 1) {
+                currentCardIndex++;
+                renderFlashcard();
+            }
+        }
+
+        function prevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                renderFlashcard();
+            }
+        }
+
+        function toggleMasteredCurrentCard() {
+            const card = currentDailyCards[currentCardIndex];
+            const idx = userState.masteredIds.indexOf(card.id);
+            if (idx > -1) {
+                userState.masteredIds.splice(idx, 1);
+            } else {
+                userState.masteredIds.push(card.id);
+            }
+            localStorage.setItem('michelle_mastered_ids', JSON.stringify(userState.masteredIds));
+            renderFlashcard();
+            updateDashboardStats();
+        }
+
+        function speakCurrentWord() {
+            const card = currentDailyCards[currentCardIndex];
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(card.word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function filterDictLevel(lvl) {
+            activeDictLevel = lvl;
+            document.querySelectorAll('.dict-lvl-btn').forEach(btn => {
+                if (btn.innerText === lvl || (lvl === 'ALL' && btn.innerText === 'Semua')) {
+                    btn.className = 'dict-lvl-btn px-3 py-1 bg-pinky-500 text-white rounded-xl text-xs font-bold shadow-xs';
+                } else {
+                    btn.className = 'dict-lvl-btn px-3 py-1 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold hover:bg-pinky-100';
+                }
+            });
+            renderDictionary();
+        }
+
+        function renderDictionary() {
+            const search = document.getElementById('dictSearch').value.toLowerCase();
+            const catFilter = document.getElementById('dictCategoryFilter').value;
+            const statusFilter = document.getElementById('dictStatusFilter').value;
+            const container = document.getElementById('dictContainer');
+
+            let filtered = vocabList.filter(item => {
+                const matchesLevel = (activeDictLevel === 'ALL' || item.level === activeDictLevel);
+                const matchesCategory = (catFilter === 'ALL' || item.category === catFilter);
+                const matchesSearch = item.word.toLowerCase().includes(search) || item.meaning.toLowerCase().includes(search);
+                const isMastered = userState.masteredIds.includes(item.id);
+                const matchesStatus = (statusFilter === 'ALL') || 
+                                      (statusFilter === 'mastered' && isMastered) || 
+                                      (statusFilter === 'unmastered' && !isMastered);
+                return matchesLevel && matchesCategory && matchesSearch && matchesStatus;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-gray-400">
+                        <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-2 text-pinky-300"></i>
+                        <p class="text-xs font-bold">Tidak ada kata yang sesuai dengan pencarian.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = filtered.slice(0, 40).map(item => {
+                const isMastered = userState.masteredIds.includes(item.id);
+                return `
+                    <div class="glass-card p-4 rounded-2xl flex items-center justify-between gap-3 hover:border-pinky-300 transition-all">
+                        <div class="space-y-1 flex-1">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-pinky-100 text-pinky-600">${item.level}</span>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">${item.word}</h4>
+                                <span class="text-[11px] text-gray-400 font-mono">${item.phonetic}</span>
+                            </div>
+                            <p class="text-xs text-gray-600 font-semibold">${item.meaning}</p>
+                            <p class="text-[11px] text-gray-400 italic">"${item.example}"</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-2">
+                            <button onclick="speakText('${item.word}')" class="p-2 text-pinky-500 hover:bg-pinky-50 rounded-full">
+                                <i data-lucide="volume-2" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="toggleMasteredDict(${item.id})" class="text-xs ${isMastered ? 'text-emerald-600 bg-emerald-50' : 'text-gray-400 bg-gray-50'} p-1.5 rounded-xl border border-transparent">
+                                <i data-lucide="${isMastered ? 'check-circle-2' : 'circle'}" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function toggleMasteredDict(id) {
+            const idx = userState.masteredIds.indexOf(id);
+            if (idx > -1) {
+                userState.masteredIds.splice(idx, 1);
+            } else {
+                userState.masteredIds.push(id);
+            }
+            localStorage.setItem('michelle_mastered_ids', JSON.stringify(userState.masteredIds));
+            renderDictionary();
+            updateDashboardStats();
+        }
+
+        function initQuiz() {
+            const selectedLvl = document.getElementById('quizLevelSelect').value;
+            let pool = vocabList;
+            if (selectedLvl !== 'ALL') {
+                pool = vocabList.filter(v => v.level === selectedLvl);
+            }
+
+            const shuffled = [...pool].sort(() => 0.5 - Math.random());
+            currentQuizQuestions = shuffled.slice(0, 5);
+            currentQuizIndex = 0;
+            userState.quizScore = 0;
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const feedbackEl = document.getElementById('quizFeedback');
+            const nextBtn = document.getElementById('btnNextQuiz');
+            feedbackEl.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+
+            if (currentQuizIndex >= currentQuizQuestions.length) {
+                document.getElementById('quizBody').innerHTML = `
+                    <div class="text-center py-8 space-y-4">
+                        <div class="w-16 h-16 bg-pinky-100 text-pinky-500 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                            <i data-lucide="trophy" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold text-gray-800">Luar Biasa, Michelle! 🎉</h3>
+                        <p class="text-xs text-gray-600">Kamu menyelesaikan sesi quiz Cambridge kali ini dengan hebat!</p>
+                        <div class="text-3xl font-extrabold text-pinky-500">Skor Akhir: ${userState.quizScore} / ${currentQuizQuestions.length * 20}</div>
+                        <button onclick="initQuiz()" class="px-6 py-3 bg-pinky-500 text-white font-bold rounded-2xl shadow-md hover:bg-pinky-600 active:scale-95 transition-all text-xs sm:text-sm">
+                            Ulangi Quiz
+                        </button>
+                    </div>
+                `;
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                lucide.createIcons();
+                return;
+            }
+
+            const q = currentQuizQuestions[currentQuizIndex];
+            document.getElementById('quizQuestionNum').innerText = `Soal ${currentQuizIndex + 1} dari ${currentQuizQuestions.length}`;
+            document.getElementById('quizScoreText').innerText = `Skor: ${userState.quizScore}`;
+            document.getElementById('quizProgressBar').style.width = `${((currentQuizIndex) / currentQuizQuestions.length) * 100}%`;
+            
+            document.getElementById('quizLevelBadge').innerText = q.level;
+            document.getElementById('quizWordTarget').innerText = q.word;
+
+            let wrongOptions = vocabList.filter(v => v.id !== q.id).sort(() => 0.5 - Math.random()).slice(0, 3).map(v => v.meaning);
+            let options = [q.meaning, ...wrongOptions].sort(() => 0.5 - Math.random());
+
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = options.map(opt => `
+                <button onclick="checkQuizAnswer('${opt.replace(/'/g, "\\'")}', '${q.meaning.replace(/'/g, "\\'")}')" class="quiz-opt-btn w-full text-left p-4 rounded-2xl border border-pinky-100 hover:border-pinky-300 bg-white/90 font-semibold text-gray-700 text-xs sm:text-sm transition-all hover:bg-pinky-50/50 flex items-center justify-between">
+                    <span>${opt}</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                </button>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function speakQuizWord() {
+            const q = currentQuizQuestions[currentQuizIndex];
+            speakText(q.word);
+        }
+
+        function checkQuizAnswer(selected, correct) {
+            const feedbackEl = document.getElementById('quizFeedback');
+            const nextBtn = document.getElementById('btnNextQuiz');
+            
+            document.querySelectorAll('.quiz-opt-btn').forEach(btn => btn.disabled = true);
+
+            if (selected === correct) {
+                userState.quizScore += 20;
+                feedbackEl.className = "mt-6 p-4 rounded-2xl text-center text-xs sm:text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 block";
+                feedbackEl.innerHTML = "✨ Benar sekali! Hebat banget, Michelle!";
+                confetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
+            } else {
+                feedbackEl.className = "mt-6 p-4 rounded-2xl text-center text-xs sm:text-sm font-bold bg-pinky-50 text-pinky-700 border border-pinky-200 block";
+                feedbackEl.innerHTML = `Jawaban yang benar: <strong>${correct}</strong>`;
+            }
+
+            document.getElementById('quizScoreText').innerText = `Skor: ${userState.quizScore}`;
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            renderQuizQuestion();
+        }
+
+        function handleAddNewWord(e) {
+            e.preventDefault();
+            const word = document.getElementById('newWord').value.trim();
+            const level = document.getElementById('newLevel').value;
+            const category = document.getElementById('newCategory').value;
+            const meaning = document.getElementById('newMeaning').value.trim();
+            const example = document.getElementById('newExample').value.trim();
+
+            const newObj = {
+                id: vocabList.length + 1,
+                word,
+                level,
+                category,
+                phonetic: `/${word.toLowerCase().replace(/ /g, '')}/`,
+                type: 'custom',
+                meaning,
+                example: example || `Custom sentence for ${word}.`,
+                exampleId: `Contoh kalimat khusus untuk ${word}.`
+            };
+
+            vocabList.unshift(newObj);
+            alert(`✨ Kata "${word}" berhasil ditambahkan ke database Michelle!`);
+            e.target.reset();
+            updateDashboardStats();
+            renderDictionary();
+        }
+
+        function exportDataJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(vocabList, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "michelle_vocabulary_backup.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importDataJSON(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const importedWords = JSON.parse(event.target.result);
+                    if (Array.isArray(importedWords)) {
+                        vocabList = importedWords;
+                        alert(`✨ Berhasil mengimpor ${importedWords.length} kata ke dalam aplikasi!`);
+                        updateDashboardStats();
+                        renderDictionary();
+                        loadDailyCards();
+                    }
+                } catch (err) {
+                    alert('Gagal membaca file JSON. Pastikan formatnya valid.');
+                }
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
