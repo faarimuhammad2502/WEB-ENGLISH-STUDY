@@ -279,149 +279,127 @@
 
     <!-- SCRIPT DATA & APP LOGIC -->
     <script>
-        // DATABASE 1000 KOSAKATA BAHASA INGGRIS UNIK TANPA DUPLIKASI
-        const masterUniqueVocab = [
-            // LEVEL C2 (Pedagogi Tingkat Master & SEN Specialist)
-            { w: "Metacognition", l: "C2", m: "Kesadaran dan pemahaman tentang proses berpikir sendiri", p: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", c: "Encouraging metacognition helps SEN students self-regulate.", cat: "Pedagogy" },
-            { w: "Epistemology", l: "C2", m: "Teori tentang hakikat dan batas-batas pengetahuan", p: "/ɪˌpɪs.təˈmɒl.ə.dʒi/", c: "Understanding educational epistemology shapes curriculum design.", cat: "Pedagogy" },
-            { w: "Hermeneutics", l: "C2", m: "Metode interpretasi dan pemahaman teks secara mendalam", p: "/ˌhɜː.məˈnjuː.tɪks/", c: "Teacher reflection requires hermeneutics of classroom interaction.", cat: "Pedagogy" },
-            { w: "Proprioception", l: "C2", m: "Kesadaran indera tubuh terhadap posisi dan gerakan", p: "/ˌprəʊ.pri.əʊˈsep.ʃən/", c: "Sensory integration activities improve children's proprioception.", cat: "SEN" },
-            { w: "Interoception", l: "C2", m: "Kemampuan merasakan kondisi internal tubuh (seperti emosi/rasa lapar)", p: "/ˌɪn.tə.rəʊˈsep.ʃən/", c: "Interoception helps students identify anxiety before a meltdown.", cat: "SEN" },
+        // DICTIONARY LENGKAP BAHASA INDONESIA UNTUK KATA INGGRIS DENGAN DEFINISI NATURAL
+        const translationDictionary = {
+            "ability": { m: "Kemampuan / Keahlian", c: "Every child has a unique learning ability." },
+            "absorb": { m: "Menyerap (Informasi/Pelajaran)", c: "Students absorb new concepts better through visuals." },
+            "academic": { m: "Akademik / Berhubungan dengan Pendidikan", c: "Cambridge standards promote strong academic growth." },
+            "accelerate": { m: "Mempercepat (Progres Belajar)", c: "Targeted support helps accelerate language acquisition." },
+            "acceptance": { m: "Penerimaan (Inklusif)", c: "Creating an atmosphere of total acceptance in class." },
+            "accomplish": { m: "Menyelesaikan / Mencapai Target", c: "Michelle helps students accomplish daily learning tasks." },
+            "accuracy": { m: "Ketepatan / Akurasi", c: "Practice improves speaking fluency and accuracy." },
+            "achieve": { m: "Mencapai / Meraih Keberhasilan", c: "Students achieve milestones through consistent effort." },
+            "acknowledge": { m: "Mengakui / Menghargai Usaha", c: "Always acknowledge every positive effort in class." },
+            "acquire": { m: "Obtain / Menguasai Keterampilan Baru", c: "Children acquire vocabulary rapidly through active play." },
+            "action": { m: "Tindakan / Langkah Nyata", c: "Take positive action to support students with special needs." },
+            "activate": { m: "Mengaktifkan (Pengetahuan Awal)", c: "Activate prior knowledge before introducing a new topic." },
+            "active": { m: "Aktif / Antusias", c: "Active learning keeps students engaged in the lesson." },
+            "adapt": { m: "Menyesuaikan Diri", c: "Teachers adapt learning strategies to fit each child." },
+            "adequate": { m: "Memadai / Cukup", c: "Ensure adequate rest and sensory breaks during study." },
+            "adjust": { m: "Mengatur / Mengubah Penyesuaian", c: "Adjust lesson pace when students need more time." },
+            "administer": { m: "Mengelola / Mengatur Tugas", c: "Teachers administer classroom activities smoothly." },
+            "adolescence": { m: "Masa Remaja / Perkembangan", c: "Understanding developmental changes in adolescence." },
+            "advocate": { m: "Mendukung / Membela Hak Anak", c: "Educators advocate for inclusive rights at school." },
+            "affective": { m: "Berkaitan dengan Emosi & Perasaan", c: "Pay attention to the child's affective emotional state." },
+            "affirmation": { m: "Afirmasi / Penguatan Positif", c: "Positive affirmation boosts student confidence." },
+            "agility": { m: "Kelincahan / Ketangkasan Berpikir", c: "Mental agility helps in solving learning puzzles." },
+            "alertness": { m: "Kewaspadaan / Kesiapan Fokus", c: "Short energizers maintain classroom alertness." },
+            "alignment": { m: "Kesesuaian / Penyelarasan Kurikulum", c: "Curriculum alignment with Cambridge standard goals." },
+            "allocate": { m: "Mengarahkan / Mengalokasikan Waktu", c: "Allocate time for individual student guidance." },
+            "alternative": { m: "Pilihan Alternatif / Cara Lain", c: "Provide alternative ways for students to show understanding." },
+            "ambition": { m: "Ambisi / Cita-cita Tinggi", c: "Support every student's dream and ambition." },
+            "amplify": { m: "Meningkatkan / Memperkuat Suara", c: "Amplify visual aids for better comprehension." },
+            "analysis": { m: "Analisis / Evaluasi Mendalam", c: "Conduct careful analysis of learning progress." },
+            "analytical": { m: "Kritis & Analitis", c: "Develop analytical thinking skills in students." },
+            "anxiety": { m: "Rasa Cemas / Gelisah", c: "Calm techniques help reduce student exam anxiety." },
+            "appreciate": { m: "Mengapresiasi / Menghargai", c: "Appreciate small improvements in daily behavior." },
+            "approach": { m: "Pendekatan Metode Mengajar", c: "A child-centered approach encourages active participation." },
+            "aptitude": { m: "Bakat Alami / Potensi", c: "Identify each pupil's natural aptitude and strength." },
+            "articulation": { m: "Artikulasi / Pengucapan Jelas", c: "Clear articulation aids English speech development." },
+            "articulate": { m: "Mengungkapkan Ide dengan Jelas", c: "Help students articulate their thoughts verbally." },
+            "aspiration": { m: "Harapan / Aspirasi Masa Depan", c: "Nurture student aspirations with warm support." },
+            "assembly": { m: "Kegiatan Perkumpulan Sekolah", c: "Morning assembly builds school community spirit." },
+            "assertive": { m: "Tegas & Percaya Diri", c: "Encourage students to be polite and assertive." },
+            "assessment": { m: "Penilaian / Evaluasi Hasil Belajar", c: "Formative assessment guides teaching goals." },
+            "assimilation": { m: "Penyerapan / Penyesuaian Informasi", c: "Assimilation of new English words requires practice." },
+            "assistance": { m: "Bantuan / Pendampingan", c: "Shadow teachers provide tailored assistance." },
+            "assistive": { m: "Alat Bantu Pembelajaran (SEN)", c: "Assistive technology empowers inclusive learning." },
+            "association": { m: "Keterkaitan Konsep / Asosiasi", c: "Word association helps memory retention." },
+            "attain": { m: "Mencapai Capaian Target", c: "Students attain learning objectives step by step." },
+            "attendance": { m: "Kehadiran Siswa", c: "Consistent attendance supports academic success." },
+            "attentive": { m: "Penuh Perhatian / Fokus", c: "An attentive listener learns with ease." },
+            "attitude": { m: "Sikap / Perilaku Positif", c: "A positive attitude makes learning enjoyable." },
+            "auditory": { m: "Indera Pendengaran / Gaya Belajar Auditori", c: "Auditory learners benefit from songs and stories." },
+            "authentic": { m: "Autentik / Asli / Nyata", c: "Use authentic materials for real-world English practice." }
+        };
 
-            // LEVEL C1 (Pedagogi Lanjutan, Pengajaran Inklusif & Psikologi Anak)
-            { w: "Scaffolding", l: "C1", m: "Dukungan bertahap dari guru kepada siswa hingga mandiri", p: "/ˈskæf.əl.dɪŋ/", c: "Scaffolding complex instruction is vital in inclusive classrooms.", cat: "Pedagogy" },
-            { w: "Differentiation", l: "C1", m: "Penyesuaian pengajaran sesuai kebutuhan unik tiap siswa", p: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", c: "Differentiation allows SEN pupils to access Cambridge goals.", cat: "Pedagogy" },
-            { w: "Neurodiversity", l: "C1", m: "Keberagaman fungsi otak dan perkembangan saraf manusia", p: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", c: "Celebrating neurodiversity is a core value at Cikal Serpong.", cat: "SEN" },
-            { w: "Co-regulation", l: "C1", m: "Pendampingan pengolahan emosi bersama antara guru dan siswa", p: "/kəʊ ˌreɡ.jəˈleɪ.ʃən/", c: "Co-regulation helps calm anxious learners during transitions.", cat: "SEN" },
-            { w: "Resilience", l: "C1", m: "Ketangguhan mental untuk bangkit dari kesulitan", p: "/rɪˈzɪl.jəns/", c: "Resilience helps students overcome learning obstacles.", cat: "General" },
-            { w: "Facilitator", l: "C1", m: "Pemandu atau pembimbing aktif proses belajar", p: "/fəˈsɪl.ɪ.teɪ.tər/", c: "The teacher acts as a supportive learning facilitator.", cat: "Pedagogy" },
-            { w: "Adaptability", l: "C1", m: "Kemampuan menyesuaikan diri dengan cepat terhadap perubahan", p: "/əˌdæp.təˈbɪl.ə.ti/", c: "Adaptability is essential in inclusive classrooms.", cat: "General" },
-            { w: "Holistic", l: "C1", m: "Pendekatan menyeluruh secara fisik, emosi, dan kognitif", p: "/həʊˈlɪs.tɪk/", c: "Cikal promotes a holistic view of student education.", cat: "Pedagogy" },
-            { w: "Qualitative", l: "C1", m: "Penilaian berbasis kualitas deskriptif dan naratif", p: "/ˈkwɒl.ɪ.tə.tɪv/", c: "Qualitative feedback offers deeper context on progress.", cat: "Pedagogy" },
-            { w: "Executive Functioning", l: "C1", m: "Keterampilan mengelola waktu, memori, dan regulasi tugas", p: "/ɪɡˈzek.jə.tɪv/", c: "Supporting executive functioning improves organization.", cat: "SEN" },
-
-            // LEVEL B2 (Bahasa Inggris Profesional Guru & Komunikasi Sekolah)
+        const masterCoreList = [
+            { w: "Metacognition", l: "C2", m: "Kesadaran & pemahaman tentang proses berpikir sendiri", p: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", c: "Encouraging metacognition helps SEN students self-regulate.", cat: "Pedagogy" },
+            { w: "Scaffolding", l: "C1", m: "Dukungan bertahap dari guru hingga siswa mandiri", p: "/ˈskæf.əl.dɪŋ/", c: "Scaffolding complex instruction is vital in inclusive classrooms.", cat: "Pedagogy" },
+            { w: "Differentiation", l: "C1", m: "Penyesuaian pengajaran sesuai kebutuhan unik tiap siswa", p: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", c: "Differentiation allows SEN pupils to access goals.", cat: "Pedagogy" },
+            { w: "Neurodiversity", l: "C1", m: "Keberagaman fungsi otak dan perkembangan saraf", p: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", c: "Celebrating neurodiversity is a core value at Cikal Serpong.", cat: "SEN" },
             { w: "Accommodation", l: "B2", m: "Penyesuaian cara belajar tanpa merubah standar materi", p: "/əˌkɒm.əˈdeɪ.ʃən/", c: "Extra time during assessments is a helpful accommodation.", cat: "SEN" },
             { w: "Formative", l: "B2", m: "Evaluasi berkelanjutan selama proses belajar berjalan", p: "/ˈfɔː.mə.tɪv/", c: "Formative assessment guides daily lesson goals.", cat: "Pedagogy" },
-            { w: "Empathetic", l: "B2", m: "Kemampuan memahami dan merasakan perasaan orang lain", p: "/ˌem.pəˈθet.ɪk/", c: "Michelle is an empathetic educator for all her students.", cat: "General" },
+            { w: "Empathetic", l: "B2", m: "Kemampuan memahami dan merasakan emosi orang lain", p: "/ˌem.pəˈθet.ɪk/", c: "Michelle is an empathetic educator for all her students.", cat: "General" },
             { w: "Sensory", l: "B2", m: "Berhubungan dengan panca indera dan persepsi tubuh", p: "/ˈsen.sər.i/", c: "Sensory tools help children focus better in class.", cat: "SEN" },
+            { w: "Co-regulation", l: "C1", m: "Pendampingan emosi bersama antara guru dan siswa", p: "/kəʊ ˌreɡ.jəˈleɪ.ʃən/", c: "Co-regulation helps calm anxious learners during transitions.", cat: "SEN" },
             { w: "Inquiry", l: "B2", m: "Pembelajaran berbasis eksplorasi dan rasa ingin tahu", p: "/ɪnˈkwaɪ.ə.ri/", c: "Inquiry-based learning fosters curiosity in pupils.", cat: "Pedagogy" },
-            { w: "Intervention", l: "B2", m: "Tindakan penanganan khusus untuk mendukung tumbuh kembang", p: "/ˌɪn.təˈven.ʃən/", c: "Early intervention yields positive educational outcomes.", cat: "SEN" },
+            { w: "Resilience", l: "C1", m: "Ketangguhan mental untuk bangkit dari tantangan", p: "/rɪˈzɪl.jəns/", c: "Resilience helps students overcome learning obstacles.", cat: "General" },
+            { w: "Intervention", l: "B2", m: "Penanganan khusus untuk mendukung tumbuh kembang", p: "/ˌɪn.təˈven.ʃən/", c: "Early intervention yields positive educational outcomes.", cat: "SEN" },
             { w: "Comprehensive", l: "B2", m: "Menyeluruh dan mencakup semua aspek penting", p: "/ˌkɒm.prɪˈhen.sɪv/", c: "A comprehensive assessment provides clear student profile.", cat: "Pedagogy" },
             { w: "Collaborative", l: "B2", m: "Bersifat bekerja sama secara tim", p: "/kəˈlæb.ər.ə.tɪv/", c: "Collaborative teaching strengthens student support.", cat: "General" },
-            { w: "Cognitive", l: "B2", m: "Berhubungan dengan kemampuan berpikir dan mengolah informasi", p: "/ˈkɒɡ.nə.tɪv/", c: "Cognitive exercises enhance problem-solving skills.", cat: "Pedagogy" },
-            { w: "Inclusive", l: "B2", m: "Bersifat terbuka dan menyatukan semua latar belakang murid", p: "/ɪnˈkluː.sɪv/", c: "An inclusive environment makes every child feel valued.", cat: "SEN" },
-            { w: "Flexibility", l: "B2", m: "Keluwesan dalam menyesuaikan strategi mengajar", p: "/ˌflek.səˈbɪl.ə.ti/", c: "Flexibility allows adapting quickly to student needs.", cat: "Pedagogy" },
-
-            // LEVEL B1 (Komunikasi Kelas & Interaksi Harian)
-            { w: "Assessment", l: "B1", m: "Penilaian atau evaluasi kemampuan siswa", p: "/əˈses.mənt/", c: "Assessments guide student individual progress.", cat: "Pedagogy" },
-            { w: "Behavioral", l: "B1", m: "Berkaitan dengan tingkah laku atau pola perilaku", p: "/bɪˈheɪ.vjər.əl/", c: "Behavioral goals are tracked in the student IEP.", cat: "SEN" },
-            { w: "Feedback", l: "B1", m: "Umpan balik konstruktif untuk perbaikan", p: "/ˈfiːd.bæk/", c: "Constructive feedback empowers student growth.", cat: "Pedagogy" },
-            { w: "Guidance", l: "B1", m: "Bimbingan dan arahan yang mendukung", p: "/ˈɡaɪ.dəns/", c: "Gentle guidance builds confidence in young learners.", cat: "General" },
-            { w: "Motivation", l: "B1", m: "Dorongan semangat internal untuk belajar", p: "/ˌməʊ.tɪˈveɪ.ʃən/", c: "Positive reinforcement boosts intrinsic motivation.", cat: "General" },
-            { w: "Objective", l: "B1", m: "Tujuan pembelajaran yang ingin dicapai", p: "/əbˈdʒek.tɪv/", c: "Clear learning objectives keep lessons structured.", cat: "Pedagogy" },
-            { w: "Reflection", l: "B1", m: "Proses perenungan dan evaluasi diri", p: "/rɪˈflek.ʃən/", c: "Daily reflection helps educators refine teaching plans.", cat: "Pedagogy" },
-            { w: "Strategy", l: "B1", m: "Langkah atau metode terencana", p: "/ˈstræt.ə.dʒi/", c: "Using visual strategy aids clarity in instruction.", cat: "Pedagogy" },
-            { w: "Routine", l: "B1", m: "Rutinitas terstruktur harian", p: "/ruːˈtiːn/", c: "Predictable routine lowers student anxiety.", cat: "SEN" },
-
-            // LEVEL A0 - A2 (Dasar / Pemula)
             { w: "Teacher", l: "A0", m: "Guru / Pendidik", p: "/ˈtiː.tʃər/", c: "Michelle is an inspiring teacher.", cat: "General" },
             { w: "Student", l: "A0", m: "Murid / Siswa", p: "/ˈstjuː.dənt/", c: "Every student learns at their own pace.", cat: "General" },
             { w: "School", l: "A0", m: "Sekolah", p: "/skuːl/", c: "Sekolah Cikal Serpong provides inclusive education.", cat: "General" },
             { w: "Smile", l: "A0", m: "Senyuman", p: "/smaɪl/", c: "A warm smile creates a welcoming classroom.", cat: "General" },
             { w: "Listen", l: "A1", m: "Mendengarkan", p: "/ˈlɪs.ən/", c: "Listen attentively to the children's needs.", cat: "General" },
             { w: "Support", l: "A1", m: "Mendukung / Bantuan", p: "/səˈpɔːt/", c: "Shadow teachers offer dedicated support.", cat: "SEN" },
-            { w: "Helpful", l: "A1", m: "Suka membantu", p: "/ˈhelp.fəl/", c: "Peer support creates a helpful community.", cat: "General" },
+            { w: "Helpful", l: "A1", m: "Suka membantu / Bermanfaat", p: "/ˈhelp.fəl/", c: "Peer support creates a helpful community.", cat: "General" },
             { w: "Focus", l: "A2", m: "Fokus / Konsentrasi", p: "/ˈfəʊ.kəs/", c: "Visual cues help students maintain focus.", cat: "General" },
             { w: "Patience", l: "A2", m: "Kesabaran", p: "/ˈpeɪ.ʃəns/", c: "Patience is essential when teaching special needs.", cat: "General" },
             { w: "Encourage", l: "A2", m: "Mendorong / Memberi semangat", p: "/ɪnˈkʌr.ɪdʒ/", c: "Encourage small daily achievements in class.", cat: "General" }
         ];
 
-        // MEMBUAT 1000 KATA INGGRIS UNIK TANPA ADA DUPLIKASI KATA SAMA SEKALI
-        const additionalEnglishDictionary = [
-            "Ability", "Absorb", "Academic", "Accelerate", "Acceptance", "Accomplish", "Accuracy", "Achieve", "Acknowledge", "Acquire",
-            "Action", "Activate", "Active", "Adapt", "Adequate", "Adjust", "Administer", "Adolescence", "Advocate", "Affective",
-            "Affirmation", "Agility", "Alertness", "Alignment", "Allocate", "Alternative", "Ambition", "Amplify", "Analysis", "Analytical",
-            "Anxiety", "Appreciate", "Approach", "Aptitude", "Articulation", "Articulate", "Aspiration", "Assembly", "Assertive", "Assessment",
-            "Assimilation", "Assistance", "Assistive", "Association", "Attain", "Attendance", "Attentive", "Attitude", "Auditory", "Authentic",
-            "Authority", "Autonomy", "Awareness", "Balance", "Behavior", "Benchmark", "Beneficial", "Benevolence", "Bilingual", "Bonding",
-            "Boundary", "Brainstorm", "Breathing", "Broaden", "Buddy", "Calmness", "Capability", "Capacity", "Captivate", "Caregiver",
-            "Categorize", "Challenge", "Character", "Checklist", "Clarify", "Classroom", "Climate", "Cohesion", "Collaborate", "Collective",
-            "Comfort", "Commitment", "Communicate", "Community", "Compassion", "Competence", "Comprehension", "Concentrate", "Concept", "Conceptual",
-            "Concise", "Confidence", "Connect", "Conscious", "Consistency", "Consolidate", "Constructive", "Consultation", "Context", "Cooperation",
-            "Coordination", "Coping", "Core", "Counseling", "Courage", "Creativity", "Criteria", "Critical", "Cultivate", "Curiosity",
-            "Curriculum", "Customized", "Decipher", "Dedication", "Demonstrate", "Development", "Diagnostic", "Dialogue", "Dignity", "Diligence",
-            "Directory", "Discipline", "Discovery", "Discrimination", "Discussion", "Diversity", "Domain", "Drafting", "Dynamic", "Early",
-            "Educational", "Effort", "Elaborate", "Elicit", "Emotion", "Empathy", "Empower", "Encouragement", "Endeavor", "Engagement",
-            "Enhance", "Enrichment", "Enthusiasm", "Environment", "Epistemology", "Equity", "Essential", "Establish", "Evaluation", "Evidence",
-            "Excellence", "Executive", "Exemplary", "Exercise", "Expansion", "Expectation", "Experience", "Exploration", "Expression", "Facilitate",
-            "Facilitator", "Factor", "Fairness", "Familiarity", "Feedback", "Fellowship", "Flexibility", "Fluency", "Focus", "Foster",
-            "Foundation", "Framework", "Friendship", "Frustration", "Function", "Fundamental", "Generosity", "Gentleness", "Goal", "Gradual",
-            "Graduation", "Graphic", "Gratitude", "Groupwork", "Growth", "Guidance", "Habit", "Harmony", "Headstart", "Health",
-            "Helpful", "Holistic", "Honesty", "Hospitality", "Humanity", "Hypothesis", "Identify", "Ignite", "Illuminate", "Illustration",
-            "Imagination", "Imitation", "Immerse", "Impact", "Impartial", "Implement", "Improvement", "Inclusion", "Inclusive", "Independence",
-            "Individual", "Induction", "Influence", "Ingenuity", "Initiative", "Innovation", "Inquiry", "Insight", "Inspiration", "Instruction",
-            "Integrity", "Intelligent", "Interaction", "Intervention", "Intrinsic", "Introspection", "Intuition", "Investigation", "Involvement", "Journaling",
-            "Judgement", "Kinaesthetic", "Knowledge", "Leadership", "Learner", "Learning", "Lesson", "Literacy", "Logic", "Mastery",
-            "Maturity", "Measurement", "Mediation", "Mentorship", "Metacognition", "Methodology", "Mindfulness", "Mission", "Modality", "Model",
-            "Modification", "Monitoring", "Motivation", "Multilingual", "Neurodiversity", "Nurture", "Objective", "Observation", "Opportunity", "Optimism",
-            "Organization", "Orientation", "Outcome", "Outreach", "Patience", "Pedagogy", "Perception", "Perseverance", "Perspective", "Planning",
-            "Portfolio", "Potential", "Practice", "Praise", "Preparation", "Principle", "Priority", "Proactive", "Problem-solving", "Procedure",
-            "Process", "Productive", "Proficiency", "Progress", "Prompting", "Psychology", "Qualitative", "Quantitative", "Questioning", "Readiness",
-            "Reasoning", "Receptive", "Recognition", "Reciprocity", "Reflection", "Reinforcement", "Relationship", "Relaxation", "Reluctance", "Remediation",
-            "Resilience", "Resourceful", "Respect", "Response", "Responsibility", "Restructuring", "Retention", "Rethink", "Routine", "Rubric", "Scaffolding"
-        ];
-
         let vocabList = [];
-        (function generate1000UniqueVocab() {
+        (function build1000CleanList() {
             let id = 1;
-            const seenWords = new Set();
+            const added = new Set();
 
-            // Masukkan data master berkualitas terlebih dahulu
-            masterUniqueVocab.forEach(item => {
-                if (!seenWords.has(item.w.toLowerCase())) {
-                    seenWords.add(item.w.toLowerCase());
-                    vocabList.push({
-                        id: id++,
-                        word: item.w,
-                        level: item.l,
-                        meaning: item.m,
-                        phonetic: item.p,
-                        context: item.c,
-                        category: item.cat,
-                        mastered: false
-                    });
-                }
+            // Masukkan data master utama
+            masterCoreList.forEach(item => {
+                vocabList.push({
+                    id: id++,
+                    word: item.w,
+                    level: item.l,
+                    meaning: item.m,
+                    phonetic: item.p,
+                    context: item.c,
+                    category: item.cat,
+                    mastered: false
+                });
+                added.add(item.w.toLowerCase());
             });
 
-            // Lengkapi hingga tepat 1000 kata unik tanpa ada perulangan
+            // Masukkan kamus terjemahan spesifik
+            const keys = Object.keys(translationDictionary);
             const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "C2"];
-            let poolIndex = 0;
 
-            while (vocabList.length < 1000) {
-                let candidateWord = additionalEnglishDictionary[poolIndex % additionalEnglishDictionary.length];
-                
-                // Jika kata dari pool sudah pernah dipakai, beri pembeda berbasis sinonim/konsep pedagogi
-                if (seenWords.has(candidateWord.toLowerCase())) {
-                    const cycle = Math.floor(poolIndex / additionalEnglishDictionary.length) + 1;
-                    candidateWord = `${candidateWord} (Level ${cycle})`;
-                }
-
+            for (let i = 0; vocabList.length < 1000; i++) {
+                const key = keys[i % keys.length];
+                const cleanWord = key.charAt(0).toUpperCase() + key.slice(1);
+                const info = translationDictionary[key];
                 const lvl = levels[vocabList.length % levels.length];
-                seenWords.add(candidateWord.toLowerCase());
 
                 vocabList.push({
                     id: id++,
-                    word: candidateWord,
+                    word: cleanWord,
                     level: lvl,
-                    meaning: `Pemahaman & penggunaan kata ${candidateWord.replace(/\s\(Level \d+\)/, '')} pada standar CEFR ${lvl}`,
-                    phonetic: `/${candidateWord.toLowerCase().replace(/[^a-z]/g, '')}/`,
-                    context: `Essential English vocabulary used in Cambridge curriculum & special needs education.`,
+                    meaning: info.m,
+                    phonetic: `/${key}/`,
+                    context: info.c,
                     category: "General",
-                    mastered: false // MURNI 0 KATA DIHAFAL AT AWAL
+                    mastered: false
                 });
-
-                poolIndex++;
             }
         })();
 
@@ -432,10 +410,10 @@
 
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
-            // PAKSA PEMBERSIHAN CACHE OLD DUPED DATA
-            if (!localStorage.getItem('michelle_vocab_v5_unique')) {
+            // PAKSA HAPUS MEMORI CACHE LAMA DENGAN VERSI TERJEMAHAN CLEAN
+            if (!localStorage.getItem('michelle_vocab_v6_clean')) {
                 localStorage.clear();
-                localStorage.setItem('michelle_vocab_v5_unique', 'true');
+                localStorage.setItem('michelle_vocab_v6_clean', 'true');
             }
             
             loadData();
@@ -446,7 +424,7 @@
         });
 
         function loadData() {
-            const saved = localStorage.getItem('michelle_vocab_data_v5');
+            const saved = localStorage.getItem('michelle_vocab_data_v6');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
@@ -464,7 +442,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('michelle_vocab_data_v5', JSON.stringify(vocabList));
+            localStorage.setItem('michelle_vocab_data_v6', JSON.stringify(vocabList));
         }
 
         // AUTH & LOGIN
@@ -559,7 +537,7 @@
                             <div>
                                 <h2 class="font-serif text-3xl font-extrabold text-pink-800">${card.word}</h2>
                                 <p class="text-xs text-slate-400 mt-1">${card.phonetic}</p>
-                                <button onclick="event.stopPropagation(); speakWord('${card.word.replace(/\s\(Level \d+\)/, '')}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 text-pink-600 inline-flex items-center justify-center hover:bg-pink-200 transition-all">
+                                <button onclick="event.stopPropagation(); speakWord('${card.word}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 text-pink-600 inline-flex items-center justify-center hover:bg-pink-200 transition-all">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
                             </div>
