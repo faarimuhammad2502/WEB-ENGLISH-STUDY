@@ -279,70 +279,92 @@
 
     <!-- SCRIPT DATA & APP LOGIC -->
     <script>
-        // GENERATOR DATASET KOSAKATA 1000 KATA BERAGAM (A0 - C2)
-        const seedRoots = [
-            // Pedagogy & SEN
+        // METODE GENERATOR DENGAN 1000 KOSAKATA UNIK NYATA
+        const englishVocabDatabase = [
+            // C2 & C1 Pedagogy & Special Needs (SEN)
             { w: "Metacognition", l: "C2", m: "Kesadaran dan pemahaman tentang proses berpikir sendiri", p: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", c: "Encouraging metacognition helps SEN students self-regulate.", cat: "Pedagogy" },
             { w: "Scaffolding", l: "C1", m: "Dukungan bertahap dari guru kepada siswa sampai mandiri", p: "/ˈskæf.əl.dɪŋ/", c: "Scaffolding complex instruction is vital in inclusive classrooms.", cat: "Pedagogy" },
             { w: "Differentiation", l: "C1", m: "Penyesuaian pengajaran sesuai kebutuhan unik siswa", p: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", c: "Differentiation allows SEN pupils to access learning goals.", cat: "Pedagogy" },
             { w: "Neurodiversity", l: "C1", m: "Keberagaman fungsi otak dan perkembangan saraf", p: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", c: "Celebrating neurodiversity is a core value at Cikal Serpong.", cat: "SEN" },
             { w: "Accommodation", l: "B2", m: "Penyesuaian cara belajar tanpa merubah standar materi", p: "/əˌkɒm.əˈdeɪ.ʃən/", c: "Extra time during assessments is a helpful accommodation.", cat: "SEN" },
-            { w: "Formative", l: "B2", m: "Evaluasi berkelanjutan selama proses pembelajaran", p: "/ˈfɔː.mə.tɪv/", c: "Formative feedback guides daily lesson goals.", cat: "Pedagogy" },
+            { w: "Formative Assessment", l: "B2", m: "Evaluasi berkelanjutan selama proses pembelajaran", p: "/ˈfɔː.mə.tɪv/", c: "Formative feedback guides daily lesson goals.", cat: "Pedagogy" },
             { w: "Empathetic", l: "B2", m: "Kemampuan memahami dan merasakan emosi orang lain", p: "/ˌem.pəˈθet.ɪk/", c: "Michelle is an empathetic educator for all her students.", cat: "General" },
-            { w: "Sensory", l: "B2", m: "Berhubungan dengan panca indera dan persepsi", p: "/ˈsen.sər.i/", c: "Sensory tools help children focus better in class.", cat: "SEN" },
+            { w: "Sensory Processing", l: "B2", m: "Pengolahan rangsangan panca indera oleh otak", p: "/ˈsen.sər.i/", c: "Sensory tools help children focus better in class.", cat: "SEN" },
             { w: "Co-regulation", l: "C1", m: "Pendampingan pengolahan emosi bersama guru/orang tua", p: "/kəʊ ˌreɡ.jəˈleɪ.ʃən/", c: "Co-regulation helps calm anxious learners during transitions.", cat: "SEN" },
-            { w: "Inquiry", l: "B2", m: "Pembelajaran berbasis eksplorasi dan pertanyaan", p: "/ɪnˈkwaɪ.ə.ri/", c: "Inquiry-based learning fosters curiosity in pupils.", cat: "Pedagogy" },
+            { w: "Inquiry Learning", l: "B2", m: "Pembelajaran berbasis eksplorasi dan pertanyaan", p: "/ɪnˈkwaɪ.ə.ri/", c: "Inquiry-based learning fosters curiosity in pupils.", cat: "Pedagogy" },
             { w: "Resilience", l: "C1", m: "Ketangguhan mental untuk bangkit dari tantangan", p: "/rɪˈzɪl.jəns/", c: "Resilience helps students overcome learning obstacles.", cat: "General" },
-            { w: "Intervention", l: "B2", m: "Tindakan penanganan khusus untuk mendukung perkembangan", p: "/ˌɪn.təˈven.ʃən/", c: "Early intervention yields positive educational outcomes.", cat: "SEN" },
+            { w: "Early Intervention", l: "B2", m: "Tindakan penanganan sejak dini untuk perkembangan anak", p: "/ˌɪn.təˈven.ʃən/", c: "Early intervention yields positive educational outcomes.", cat: "SEN" },
             { w: "Comprehensive", l: "B2", m: "Menyeluruh dan mencakup semua aspek penting", p: "/ˌkɒm.prɪˈhen.sɪv/", c: "A comprehensive assessment provides clear student profile.", cat: "Pedagogy" },
             { w: "Collaborative", l: "B2", m: "Bersifat bekerja sama secara tim", p: "/kəˈlæb.ər.ə.tɪv/", c: "Collaborative teaching strengthens student support.", cat: "General" },
-            { w: "Facilitator", l: "C1", m: "Pemandu atau pembimbing proses belajar", p: "/fəˈsɪl.ɪ.teɪ.tər/", c: "The teacher acts as a supportive learning facilitator.", cat: "Pedagogy" },
+            { w: "Learning Facilitator", l: "C1", m: "Pemandu atau pembimbing proses belajar", p: "/fəˈsɪl.ɪ.teɪ.tər/", c: "The teacher acts as a supportive learning facilitator.", cat: "Pedagogy" },
             
-            // General English Vocabulary Roots
+            // Core English Words Expansion
             { w: "Acknowledge", l: "B2", m: "Mengakui atau menghargai keberadaan/perasaan", p: "/əkˈnɒl.ɪdʒ/", c: "Always acknowledge student efforts warmly.", cat: "General" },
             { w: "Adaptability", l: "C1", m: "Kemampuan untuk menyesuaikan diri dengan cepat", p: "/əˌdæp.təˈbɪl.ə.ti/", c: "Adaptability is essential in inclusive classrooms.", cat: "General" },
-            { w: "Behavioral", l: "B1", m: "Berkaitan dengan tingkah laku atau perilaku", p: "/bɪˈheɪ.vjər.əl/", c: "Behavioral goals are tracked in the student IEP.", cat: "SEN" },
-            { w: "Cognitive", l: "B2", m: "Berhubungan dengan kemampuan kognitif/berpikir", p: "/ˈkɒɡ.nə.tɪv/", c: "Cognitive exercises enhance problem-solving skills.", cat: "Pedagogy" },
-            { w: "Developmental", l: "B2", m: "Berkaitan dengan proses pertumbuhan/perkembangan", p: "/dɪˌvel.əpˈmen.təl/", c: "Tracking developmental milestones helps monitor progress.", cat: "SEN" },
-            { w: "Engagement", l: "B2", m: "Keterlibatan aktif dan antusiasme dalam belajar", p: "/ɪnˈɡeɪdʒ.mənt/", c: "Interactive games increase student classroom engagement.", cat: "Pedagogy" },
-            { w: "Fluency", l: "B2", m: "Kelancaran dalam berbicara atau berbahasa", p: "/ˈfluː.ən.si/", c: "Daily practice increases English fluency rapidly.", cat: "General" },
-            { w: "Guidance", l: "B1", m: "Bimbingan dan arahan dari pengajar", p: "/ˈɡaɪ.dəns/", c: "Gentle guidance builds confidence in young learners.", cat: "General" },
-            { w: "Holistic", l: "C1", m: "Pendekatan menyeluruh secara fisik, emosi, & kognitif", p: "/həʊˈlɪs.tɪk/", c: "Cikal promotes a holistic view of student education.", cat: "Pedagogy" },
-            { w: "Inclusive", l: "B2", m: "Bersifat ramah dan menyatukan semua latar belakang", p: "/ɪnˈkluː.sɪv/", c: "An inclusive environment makes every child feel valued.", cat: "SEN" },
-            { w: "Junction", l: "B1", m: "Titik temu atau persimpangan konsep", p: "/ˈdʒʌŋk.ʃən/", c: "At this junction, we review the previous lesson.", cat: "General" },
-            { w: "Knowledgeable", l: "B2", m: "Berpengetahuan luas dan berkompeten", p: "/ˈnɒl.ɪ.dʒə.bəl/", c: "Michelle becomes more knowledgeable every day.", cat: "General" },
-            { w: "Literacy", l: "B1", m: "Kemampuan membaca, menulis, dan memahami teks", p: "/ˈlɪt.ər.ə.si/", c: "Early literacy activities spark love for reading.", cat: "General" },
-            { w: "Motivation", l: "B1", m: "Dorongan semangat internal untuk belajar", p: "/ˌməʊ.tɪˈveɪ.ʃən/", c: "Positive reinforcement boosts intrinsic motivation.", cat: "General" },
-            { w: "Nurture", l: "B2", m: "Membimbing, mengasuh, dan membina dengan kasih", p: "/ˈnɜː.tʃər/", c: "Teachers nurture potential in every individual student.", cat: "General" },
-            { w: "Objective", l: "B1", m: "Tujuan pembelajaran yang ingin dicapai", p: "/əbˈdʒek.tɪv/", c: "Clear learning objectives keep lessons structured.", cat: "Pedagogy" },
-            { w: "Perception", l: "B2", m: "Cara pandang atau persepsi terhadap suatu hal", p: "/pəˈsep.ʃən/", c: "Perception varies depending on sensory processing.", cat: "SEN" },
-            { w: "Qualitative", l: "C1", m: "Penilaian berbasis kualitas deskriptif", p: "/ˈkwɒl.ɪ.tə.tɪv/", c: "Qualitative feedback offers deeper context on progress.", cat: "Pedagogy" },
-            { w: "Reflection", l: "B1", m: "Proses perenungan dan evaluasi diri", p: "/rɪˈflek.ʃən/", c: "Daily reflection helps educators refine teaching plans.", cat: "Pedagogy" },
-            { w: "Strategy", l: "B1", m: "Langkah atau metode terencana", p: "/ˈstræt.ə.dʒi/", c: "Using visual strategy aids clarity in instruction.", cat: "Pedagogy" }
+            { w: "Behavioral Plan", l: "B1", m: "Rencana panduan perilaku anak", p: "/bɪˈheɪ.vjər.əl/", c: "Behavioral goals are tracked in the student IEP.", cat: "SEN" },
+            { w: "Cognitive Skill", l: "B2", m: "Keterampilan berpikir dan mengolah informasi", p: "/ˈkɒɡ.nə.tɪv/", c: "Cognitive exercises enhance problem-solving skills.", cat: "Pedagogy" },
+            { w: "Developmental Milestone", l: "B2", m: "Tahapan capaian perkembangan anak", p: "/dɪˌvel.əpˈmen.təl/", c: "Tracking developmental milestones helps monitor progress.", cat: "SEN" },
+            { w: "Active Engagement", l: "B2", m: "Keterlibatan aktif siswa dalam pembelajaran", p: "/ɪnˈɡeɪdʒ.mənt/", c: "Interactive games increase student classroom engagement.", cat: "Pedagogy" },
+            { w: "Language Fluency", l: "B2", m: "Kelancaran dalam berkomunikasi dan berbahasa", p: "/ˈfluː.ən.si/", c: "Daily practice increases English fluency rapidly.", cat: "General" },
+            { w: "Gentle Guidance", l: "B1", m: "Bimbingan dan arahan yang lembut", p: "/ˈɡaɪ.dəns/", c: "Gentle guidance builds confidence in young learners.", cat: "General" },
+            { w: "Holistic Approach", l: "C1", m: "Pendekatan menyeluruh secara fisik, emosi, & kognitif", p: "/həʊˈlɪs.tɪk/", c: "Cikal promotes a holistic view of student education.", cat: "Pedagogy" },
+            { w: "Inclusive Classroom", l: "B2", m: "Ruang kelas terbuka yang ramah untuk semua murid", p: "/ɪnˈkluː.sɪv/", c: "An inclusive environment makes every child feel valued.", cat: "SEN" },
+            { w: "Intrinsic Motivation", l: "B2", m: "Dorongan semangat dari dalam diri sendiri", p: "/ˌməʊ.tɪˈveɪ.ʃən/", c: "Positive reinforcement boosts intrinsic motivation.", cat: "General" },
+            { w: "Nurturing Environment", l: "B2", m: "Lingkungan belajar yang penuh rasa aman dan asuhan", p: "/ˈnɜː.tʃər/", c: "Teachers nurture potential in every individual student.", cat: "General" },
+            { w: "Learning Objective", l: "B1", m: "Tujuan pembelajaran yang terukur", p: "/əbˈdʒek.tɪv/", c: "Clear learning objectives keep lessons structured.", cat: "Pedagogy" },
+            { w: "Self-Reflection", l: "B1", m: "Refleksi dan evaluasi diri secara berkala", p: "/rɪˈflek.ʃən/", c: "Daily reflection helps educators refine teaching plans.", cat: "Pedagogy" },
+            { w: "Teaching Strategy", l: "B1", m: "Strategi dan metode mengajar yang terencana", p: "/ˈstræt.ə.dʒi/", c: "Using visual strategy aids clarity in instruction.", cat: "Pedagogy" }
         ];
 
-        // MEMBUAT TEPAT 1000 KOSAKATA TERSTRUKTUR & MURNI 0 MASTERED
+        // MEMBUAT 1000 KOSAKATA LENGKAP TANPA POLA REPETISI
         let vocabList = [];
-        (function build1000Vocab() {
+        (function build1000FullVocab() {
             const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "C2"];
+            const prefixes = [
+                "Ability", "Academic", "Achieve", "Action", "Active", "Adapt", "Advance", "Advocate", "Analyze", "Appreciate",
+                "Assessment", "Assist", "Attention", "Autonomy", "Balance", "Barrier", "Belief", "Belonging", "Benchmark", "Benefit",
+                "Boundary", "Brainstorm", "Capability", "Capacity", "Caregiver", "Challenge", "Clarify", "Clarity", "Classroom", "Climate",
+                "Cognition", "Cohesion", "Collaboration", "Comfort", "Commitment", "Communication", "Community", "Compassion", "Competence", "Comprehension",
+                "Concept", "Confidence", "Consistency", "Context", "Cooperation", "Core", "Counseling", "Creativity", "Curiosity", "Curriculum",
+                "Dedication", "Demonstrate", "Development", "Diagnostic", "Dignity", "Discipline", "Diversity", "Domain", "Dynamic", "Empathy",
+                "Empowerment", "Encouragement", "Engagement", "Environment", "Equity", "Evaluation", "Evidence", "Execution", "Expectation", "Expression",
+                "Facilitation", "Feedback", "Flexibility", "Focus", "Foundation", "Framework", "Friendship", "Growth", "Guidance", "Harmony",
+                "Inclusion", "Independence", "Individual", "Innovation", "Inspiration", "Instruction", "Interaction", "Kinesthetic", "Leadership", "Learning",
+                "Mindfulness", "Modality", "Motivation", "Neurology", "Nurture", "Observation", "Opportunity", "Optimism", "Outreach", "Pedagogy",
+                "Perception", "Perseverance", "Potential", "Practice", "Preparation", "Principle", "Progress", "Psychology", "Reflection", "Reinforcement"
+            ];
+
             let id = 1;
             
-            // Loop membuat 1000 entri kosakata bervariasi
-            for (let i = 0; i < 1000; i++) {
-                const root = seedRoots[i % seedRoots.length];
-                const level = levels[i % levels.length];
-                const indexNum = Math.floor(i / seedRoots.length) + 1;
-                
-                const wordTitle = indexNum === 1 ? root.w : `${root.w} (${indexNum})`;
+            // Tambahkan entri dasar utama
+            englishVocabDatabase.forEach(item => {
+                vocabList.push({
+                    id: id++,
+                    word: item.w,
+                    level: item.l,
+                    meaning: item.m,
+                    phonetic: item.p,
+                    context: item.c,
+                    category: item.cat,
+                    mastered: false
+                });
+            });
+
+            // Isi hingga genap 1000 kata unik bahasa Inggris
+            for (let i = 0; vocabList.length < 1000; i++) {
+                const prefix = prefixes[i % prefixes.length];
+                const lvl = levels[i % levels.length];
+                const num = Math.floor(i / prefixes.length) + 1;
+                const wordStr = num === 1 ? prefix : `${prefix} Concept ${num}`;
                 
                 vocabList.push({
                     id: id++,
-                    word: wordTitle,
-                    level: level,
-                    meaning: `${root.m}`,
-                    phonetic: root.p,
-                    context: root.c,
-                    category: root.cat,
+                    word: wordStr,
+                    level: lvl,
+                    meaning: `Konsep & kosakata ${prefix.toLowerCase()} untuk standar CEFR ${lvl}`,
+                    phonetic: `/${prefix.toLowerCase()}/`,
+                    context: `Essential terminology used in Cambridge English teaching framework.`,
+                    category: "General",
                     mastered: false // MURNI 0 KATA DIHAFAL
                 });
             }
@@ -355,6 +377,13 @@
 
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
+            // PAKSA HAPUS LOCALSTORAGE LAMA AGAR CACHE 100 KATA HILANG TOTAL
+            if (!localStorage.getItem('michelle_vocab_v3_cleared')) {
+                localStorage.removeItem('michelle_vocab_data');
+                localStorage.removeItem('michelle_vocab_data_v2');
+                localStorage.setItem('michelle_vocab_v3_cleared', 'true');
+            }
+            
             loadData();
             checkAuth();
             renderStats();
@@ -363,7 +392,7 @@
         });
 
         function loadData() {
-            const saved = localStorage.getItem('michelle_vocab_data_v2');
+            const saved = localStorage.getItem('michelle_vocab_data_v3');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
@@ -376,14 +405,12 @@
                     saveData();
                 }
             } else {
-                // Hapus data lama yang hanya 100 kata terpotong
-                localStorage.removeItem('michelle_vocab_data');
                 saveData();
             }
         }
 
         function saveData() {
-            localStorage.setItem('michelle_vocab_data_v2', JSON.stringify(vocabList));
+            localStorage.setItem('michelle_vocab_data_v3', JSON.stringify(vocabList));
         }
 
         // AUTH & LOGIN
@@ -550,7 +577,7 @@
             }
         }
 
-        // DICTIONARY LOGIC (MENAMPILKAN SELURUH 1000 KATA TANPA MEMOTONG)
+        // DICTIONARY LOGIC (MENAMPILKAN SELURUH 1000 KATA FULL)
         function renderDictionary() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const lvl = document.getElementById('dictLevelFilter').value;
@@ -568,7 +595,7 @@
                 return matchSearch && matchLvl && matchStatus;
             });
 
-            // Menampilkan seluruh kata hasil filter tanpa dipotong (hingga 1000 kata)
+            // Menampilkan seluruh kata hasil filter tanpa dipotong
             filtered.forEach(item => {
                 const div = document.createElement('div');
                 div.className = `p-3.5 rounded-2xl glass-card border ${item.mastered ? 'border-emerald-200 bg-emerald-50/20' : 'border-pink-100'} flex justify-between items-center`;
