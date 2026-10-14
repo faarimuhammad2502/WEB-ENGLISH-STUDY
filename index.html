@@ -138,11 +138,31 @@
     <!-- CONTENT CONTAINER -->
     <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
 
-        <!-- FITUR BARU POIN 4: CIKAL ACADEMIC CALENDAR & DAILY STUDY GOAL WIDGET -->
+        <!-- FITUR BARU POIN 5: ENCOURAGEMENT BOARD (PESAN SEMANGAT HARIAN) -->
+        <section class="glass-card rounded-3xl p-5 border-2 border-rose-200/80 bg-gradient-to-r from-rose-100/60 via-pink-50/80 to-purple-100/60 shadow-md relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-500 text-white flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 text-pink-800 uppercase tracking-wider">Love & Support Board 🌸</span>
+                        </div>
+                        <p id="loveNoteDisplay" class="font-serif italic text-sm text-pink-900 font-semibold mt-1">
+                            "Semangat terus belajar Bahasa Inggrisnya yaa Michelle sayang! Kamu guru yang luar biasa dan hebat di Sekolah Cikal Serpong! 💖"
+                        </p>
+                    </div>
+                </div>
+                <button onclick="openEditLoveNoteModal()" class="text-xs bg-white/80 hover:bg-white text-pink-700 font-bold px-3 py-2 rounded-xl border border-pink-200 shadow-sm flex-shrink-0 transition-all">
+                    <i class="fa-solid fa-pen-heart text-pink-500 mr-1"></i> Ubah Pesan
+                </button>
+            </div>
+        </section>
+
+        <!-- CIKAL ACADEMIC CALENDAR & DAILY STUDY GOAL WIDGET -->
         <section class="glass-card rounded-3xl p-5 border-2 border-pink-200/60 bg-gradient-to-r from-pink-50/80 via-purple-50/50 to-pink-50/80">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                
-                <!-- SUB-WIDGET 1: CIKAL CALENDAR INFO -->
                 <div class="flex items-center gap-3 border-b md:border-b-0 md:border-r border-pink-200/80 pb-3 md:pb-0 md:pr-4">
                     <div class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
                         <i class="fa-regular fa-calendar-days"></i>
@@ -154,7 +174,6 @@
                     </div>
                 </div>
 
-                <!-- SUB-WIDGET 2: DAILY GOAL SETTER & PROGRESS -->
                 <div class="md:col-span-2 space-y-2">
                     <div class="flex justify-between items-center text-xs">
                         <div class="flex items-center gap-2">
@@ -169,12 +188,10 @@
                         <span id="dailyGoalProgressText" class="font-extrabold text-pink-600">0 / 10 Kata</span>
                     </div>
 
-                    <!-- PROGRESS BAR -->
                     <div class="w-full bg-pink-100 h-3 rounded-full overflow-hidden p-0.5 border border-pink-200">
                         <div id="dailyGoalProgressBar" class="bg-gradient-to-r from-pink-400 to-purple-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -203,7 +220,6 @@
                 </div>
             </div>
 
-            <!-- HEATMAP AKTIVITAS BELAJAR -->
             <div class="mt-6 pt-4 border-t border-pink-100/80">
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-bold text-pink-700"><i class="fa-regular fa-calendar-check mr-1"></i> Aktivitas Belajar Harian Michelle</span>
@@ -211,9 +227,7 @@
                         <button onclick="exportDataJSON()" class="text-[10px] font-bold text-purple-600 hover:underline"><i class="fa-solid fa-download mr-1"></i> Backup Data</button>
                     </div>
                 </div>
-                <div class="flex items-center gap-1 overflow-x-auto py-1" id="activityHeatmap">
-                    <!-- Heatmap tiles dynamically injected -->
-                </div>
+                <div class="flex items-center gap-1 overflow-x-auto py-1" id="activityHeatmap"></div>
             </div>
         </section>
 
@@ -260,10 +274,7 @@
                 </div>
             </div>
 
-            <!-- FLASHCARD ITEM -->
-            <div id="flashcardContainer" class="relative min-h-[360px] flex items-center justify-center">
-                <!-- Card content dynamically injected here -->
-            </div>
+            <div id="flashcardContainer" class="relative min-h-[360px] flex items-center justify-center"></div>
 
             <div class="flex justify-center items-center gap-3 pt-2">
                 <button onclick="prevCard()" class="w-12 h-12 rounded-full glass-card border border-pink-200 text-pink-600 flex items-center justify-center shadow-md hover:bg-pink-50 transition-all">
@@ -387,9 +398,7 @@
                 </div>
             </div>
 
-            <div id="dictList" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1">
-                <!-- Dictionary items dynamically injected here -->
-            </div>
+            <div id="dictList" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1"></div>
         </section>
 
         <!-- TAB FRASA GURU ABK -->
@@ -445,6 +454,23 @@
         </section>
 
     </main>
+
+    <!-- MODAL EDIT PESAN SEMANGAT -->
+    <div id="editLoveNoteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 relative">
+            <button onclick="closeEditLoveNoteModal()" class="absolute right-4 top-4 text-pink-400 hover:text-pink-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-pen-heart text-pink-500 mr-1.5"></i> Ubah Pesan Semangat</h3>
+            <form onsubmit="handleSaveLoveNote(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-pink-700 mb-1">Pesan Motivasi untuk Michelle:</label>
+                    <textarea id="loveNoteInput" rows="3" required class="w-full p-3 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300 font-sans"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md">
+                    Simpan Pesan Baru <i class="fa-solid fa-heart ml-1"></i>
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- MODAL TAMBAH KOSAKATA MANDIRI -->
     <div id="addVocabModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
@@ -567,6 +593,7 @@
             loadTeacherNote();
             renderNoteVocabChips();
             initCikalCalendarWidget();
+            loadLoveNote();
         });
 
         function loadData() {
@@ -639,7 +666,35 @@
             document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[80px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md';
         }
 
-        // FITUR BARU POIN 4 LOGIC: CIKAL CALENDAR & GOAL
+        // FITUR BARU POIN 5 LOGIC: LOVE & ENCOURAGEMENT NOTE
+        function loadLoveNote() {
+            const defaultNote = "Semangat terus belajar Bahasa Inggrisnya yaa Michelle sayang! Kamu guru yang luar biasa dan hebat di Sekolah Cikal Serpong! 💖";
+            const savedNote = localStorage.getItem('michelle_love_note');
+            document.getElementById('loveNoteDisplay').innerText = `"${savedNote || defaultNote}"`;
+        }
+
+        function openEditLoveNoteModal() {
+            const current = document.getElementById('loveNoteDisplay').innerText.replace(/^"|"$/g, '');
+            document.getElementById('loveNoteInput').value = current;
+            document.getElementById('editLoveNoteModal').classList.remove('hidden');
+        }
+
+        function closeEditLoveNoteModal() {
+            document.getElementById('editLoveNoteModal').classList.add('hidden');
+        }
+
+        function handleSaveLoveNote(e) {
+            e.preventDefault();
+            const text = document.getElementById('loveNoteInput').value.trim();
+            if (text) {
+                localStorage.setItem('michelle_love_note', text);
+                loadLoveNote();
+                closeEditLoveNoteModal();
+                confetti({ particleCount: 40, spread: 50 });
+            }
+        }
+
+        // CIKAL CALENDAR & GOAL
         function initCikalCalendarWidget() {
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
