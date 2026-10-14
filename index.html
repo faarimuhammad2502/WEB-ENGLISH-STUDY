@@ -237,6 +237,10 @@
             <button onclick="switchTab('learn')" id="tabBtn-learn" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md">
                 <i class="fa-solid fa-book-open mr-1"></i> Belajar
             </button>
+            <!-- TAB BARU: SEN CASE STUDIES -->
+            <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+                <i class="fa-solid fa-hands-holding-child mr-1"></i> Skenario ABK
+            </button>
             <button onclick="switchTab('srs')" id="tabBtn-srs" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
                 <i class="fa-solid fa-rotate mr-1"></i> Ulang (SRS)
             </button>
@@ -265,7 +269,6 @@
             <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
                 <h3 class="font-serif font-bold text-lg text-pink-800">Flashcard Belajar Harian ✨</h3>
                 
-                <!-- PENGATURAN AKSEN & KECEPATAN SUARA -->
                 <div class="flex flex-wrap items-center gap-2">
                     <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-pink-200 shadow-sm text-xs">
                         <i class="fa-solid fa-sliders text-pink-500"></i>
@@ -314,10 +317,24 @@
                 </button>
             </div>
             
-            <!-- SPEECH FEEDBACK BOX REAL-TIME -->
             <div id="speechFeedbackBox" class="max-w-md mx-auto p-4 rounded-2xl glass-card border-2 border-purple-200 text-center text-xs font-bold transition-all hidden">
                 <div id="speechFeedbackStatus" class="text-purple-600">🎤 Mendengarkan... Ucapkan kata di atas!</div>
             </div>
+        </section>
+
+        <!-- TAB BARU: SEN CASE STUDY CARDS -->
+        <section id="tab-sencases" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-hands-holding-child text-pink-500 mr-2"></i> Studi Kasus & Skenario ABK Real-Life</h3>
+                    <p class="text-xs text-slate-500">Kumpulan tantangan situasi murid ABK di kelas beserta solusi strategi pedagogi pendampingan Bahasa Inggris.</p>
+                </div>
+                <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-purple-100 text-purple-700 border border-purple-200">
+                    Cikal Inclusive Pedagogy
+                </span>
+            </div>
+
+            <div id="senCasesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
         <!-- TAB SRS (SPACED REPETITION SYSTEM) -->
@@ -549,10 +566,45 @@
         </div>
     </div>
 
-    <!-- SCRIPT GENERATOR 1000 KOSAKATA REAL BERBEDA -->
+    <!-- SCRIPT DATA & LOGIC LENGKAP -->
     <script>
+        // DATA SEN CASE STUDIES (SKENARIO KELAS ABK)
+        const senCaseStudiesData = [
+            {
+                id: 1,
+                title: "Sensory Overload During Class Transition",
+                topic: "Autism / Sensory Needs",
+                scenario: "Murid merasa cemas, menutupi telinga, dan menolak berpindah dari ruang kelas ke perpustakaan karena suasana bising.",
+                strategy: "Use visual schedule countdowns, offer noise-cancelling headphones, and prepare a designated quiet corridor transition.",
+                keyTerms: ["Sensory Overload", "Visual Schedule", "Transitioning"]
+            },
+            {
+                id: 2,
+                title: "Difficulty Focusing on Long Reading Tasks",
+                topic: "ADHD / Executive Functioning",
+                scenario: "Siswa mudah terdistraksi dan tidak bisa menyelesaikan lembar bacaan panjang lebih dari 5 menit.",
+                strategy: "Break the reading task into smaller chunks using a timer and implement high-contrast visual pointers.",
+                keyTerms: ["Task Chunking", "Executive Functioning", "Visual Anchor"]
+            },
+            {
+                id: 3,
+                title: "Emotional Meltdown During Group Work",
+                topic: "Emotional Regulation",
+                scenario: "Anak merasa kewalahan saat kerja kelompok dan tiba-tiba menangis atau diam membisu.",
+                strategy: "Apply co-regulation: approach with a low, calm voice, validate feelings, and transition to a sensory calm corner.",
+                keyTerms: ["Co-regulation", "Calm Corner", "Validation"]
+            },
+            {
+                id: 4,
+                title: "Frustration in Fine Motor Writing Tasks",
+                topic: "Dysgraphia / Fine Motor Support",
+                scenario: "Murid mengalami kesulitan menulis tangan secara rapi dan cepat lelah saat menyalin instruksi.",
+                strategy: "Provide adaptive pencil grips, offer speech-to-text options, or allow modified fill-in-the-blank worksheets.",
+                keyTerms: ["Accommodation", "Adaptive Tools", "Differentiation"]
+            }
+        ];
+
         const baseVocabBank = [
-            // PEDAGOGY & SEN MASTER LIST
             { word: "Classroom", level: "A2", meaning: "Ruang kelas tempat belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive tools.", category: "General" },
             { word: "Whiteboard", level: "A2", meaning: "Papan tulis putih", phonetic: "/ˈwaɪt.bɔːd/", context: "Ms. Michelle wrote the agenda on the whiteboard.", category: "General" },
             { word: "Lesson Plan", level: "A2", meaning: "Rencana pelaksanaan pembelajaran", phonetic: "/ˈles.ən plæn/", context: "Preparing a clear lesson plan structures teaching.", category: "Pedagogy" },
@@ -582,7 +634,6 @@
             { word: "Meticulous", level: "C2", meaning: "Sangat teliti, cermat, dan detail", phonetic: "/məˈtɪk.jə.ləs/", context: "Ms. Michelle is meticulous in tracking student progress.", category: "General" }
         ];
 
-        // AKADEMIK & CAMBRIDGE NOUNS, ADJECTIVES, VERBS
         const academicPrefixes = [
             { w: "Cognitive", m: "Terkait proses kognitif berpikir", l: "B2" },
             { w: "Systematic", m: "Secara terstruktur & sistematis", l: "B2" },
@@ -616,7 +667,6 @@
                 vocabList.push({ ...item, id: id++, mastered: false, srsBox: 1 });
             });
 
-            // Kombinasi istilah akademis nyata & bervariasi tanpa angka
             let pIdx = 0, nIdx = 0;
             while (vocabList.length < 1000) {
                 const pref = academicPrefixes[pIdx % academicPrefixes.length];
@@ -657,6 +707,7 @@
             renderStats();
             renderHeatmap();
             filterFlashcards();
+            renderSenCases();
             renderDictionary();
             renderEmailTemplates();
             renderSrsView();
@@ -734,12 +785,50 @@
 
         function switchTab(tab) {
             if (isAutoplayActive && tab !== 'autoplay') stopAutoplay();
-            ['learn', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'testcefr', 'quiz'].forEach(t => {
+            ['learn', 'sencases', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'testcefr', 'quiz'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 document.getElementById(`tabBtn-${t}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all';
             });
             document.getElementById(`tab-${tab}`).classList.remove('hidden');
             document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md';
+        }
+
+        // RENDER SKENARIO SEN CASE STUDIES
+        function renderSenCases() {
+            const container = document.getElementById('senCasesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            senCaseStudiesData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "p-5 rounded-3xl glass-card border border-pink-200 space-y-3 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="px-2.5 py-1 rounded-full bg-pink-100 text-pink-700 font-extrabold">${item.topic}</span>
+                            <span class="text-slate-400 font-semibold">Case #${item.id}</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-base text-pink-900">${item.title}</h4>
+                        <div class="p-3 rounded-2xl bg-rose-50/60 border border-rose-100 text-xs text-slate-700 leading-relaxed">
+                            <span class="font-bold text-pink-600 block mb-0.5">Skenario Lapangan:</span>
+                            "${item.scenario}"
+                        </div>
+                        <div class="p-3 rounded-2xl bg-purple-50/60 border border-purple-100 text-xs text-purple-900 leading-relaxed">
+                            <span class="font-bold text-purple-700 block mb-0.5">Strategi Pendampingan Guru (English):</span>
+                            "${item.strategy}"
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-pink-100 flex items-center justify-between">
+                        <div class="flex flex-wrap gap-1">
+                            ${item.keyTerms.map(t => `<span class="text-[9px] font-bold px-2 py-0.5 rounded-md bg-white text-pink-600 border border-pink-200">+ ${t}</span>`).join('')}
+                        </div>
+                        <button onclick="speakWord('${item.strategy.replace(/'/g, "\\'")}')" class="text-xs bg-pink-100 text-pink-700 font-bold px-3 py-1.5 rounded-xl hover:bg-pink-200 transition-all flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high text-pink-500"></i> Dengarkan
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         function loadLoveNote() {
