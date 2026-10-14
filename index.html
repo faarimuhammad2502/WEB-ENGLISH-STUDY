@@ -100,6 +100,25 @@
         .flashcard-back {
             transform: rotateY(180deg);
         }
+
+        /* PRINT MEDIA STYLES FOR CERTIFICATE */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificatePrintArea, #certificatePrintArea * {
+                visibility: visible;
+            }
+            #certificatePrintArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: white !important;
+                color: black !important;
+            }
+        }
     </style>
 </head>
 <body class="text-slate-700 dark:text-purple-100 font-sans pb-12">
@@ -252,6 +271,7 @@
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-bold text-pink-700 dark:text-purple-300"><i class="fa-regular fa-calendar-check mr-1"></i> Aktivitas Belajar Harian Michelle</span>
                     <div class="flex gap-2">
+                        <button onclick="openCertificateModal()" class="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline"><i class="fa-solid fa-certificate mr-1"></i> Cetak Sertifikat</button>
                         <button onclick="openResetModal()" class="text-[10px] font-bold text-rose-500 dark:text-rose-400 hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Reset Progres Belajar</button>
                         <button onclick="exportDataJSON()" class="text-[10px] font-bold text-purple-600 dark:text-purple-400 hover:underline"><i class="fa-solid fa-download mr-1"></i> Backup Data</button>
                     </div>
@@ -268,7 +288,6 @@
             <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-hands-holding-child mr-1"></i> Skenario ABK
             </button>
-            <!-- TAB BARU: BADGES PRESTASI -->
             <button onclick="switchTab('badges')" id="tabBtn-badges" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-award mr-1"></i> Lencana (<span id="unlockedBadgesCount">0</span>/6)
             </button>
@@ -371,7 +390,7 @@
             <div id="senCasesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- TAB BARU: BADGES PRESTASI (GAMIFICATION) -->
+        <!-- TAB BADGES PRESTASI (GAMIFICATION) -->
         <section id="tab-badges" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 space-y-4">
                 <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
@@ -569,6 +588,68 @@
 
     </main>
 
+    <!-- MODAL CERTIFICATE GENERATOR -->
+    <div id="certificateModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+        <div class="glass-card max-w-2xl w-full rounded-3xl p-6 space-y-4 border-2 border-amber-300 dark:border-amber-600 relative">
+            <button onclick="closeCertificateModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+            <!-- TAMPILAN SERTIFIKAT YANG BISA DICETAK -->
+            <div id="certificatePrintArea" class="bg-gradient-to-b from-rose-50 via-white to-purple-50 p-8 rounded-2xl border-8 border-pink-200 text-center space-y-4 relative overflow-hidden shadow-inner">
+                <div class="flex justify-between items-center text-xs text-pink-700 font-bold border-b-2 border-pink-200 pb-3">
+                    <span>SEKOLAH CIKAL SERPONG</span>
+                    <span>CAMBRIDGE ENGLISH PORTAL</span>
+                </div>
+
+                <div class="py-4 space-y-2">
+                    <i class="fa-solid fa-award text-4xl text-amber-500"></i>
+                    <h2 class="font-serif text-2xl font-black text-pink-900 uppercase tracking-widest">Sertifikat Capaian Belajar</h2>
+                    <p class="text-xs text-slate-500 font-medium italic">Certificate of Academic & Pedagogical Achievement</p>
+                </div>
+
+                <div class="space-y-1">
+                    <p class="text-xs text-slate-600">Diberikan dengan bangga kepada:</p>
+                    <h3 id="certTeacherName" class="font-serif text-2xl font-bold text-purple-900 underline decoration-pink-400">Ms. Michelle</h3>
+                </div>
+
+                <p id="certDescription" class="text-xs text-slate-700 max-w-lg mx-auto leading-relaxed pt-2">
+                    Atas dedikasi dan pencapaian luar biasa dalam menguasai kosakata Cambridge English, pedagogi pendampingan anak berkebutuhan khusus (SEN), dan penulisan laporan IEP profesional di Sekolah Cikal Serpong.
+                </p>
+
+                <div class="grid grid-cols-3 gap-2 py-3 border-y border-pink-200 text-xs">
+                    <div>
+                        <span class="text-[10px] text-slate-400 block">Total Kosakata</span>
+                        <b id="certVocabCount" class="text-pink-700 font-bold">0 Kata</b>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-slate-400 block">Poin Pengalaman</span>
+                        <b id="certXPCount" class="text-purple-700 font-bold">⭐ 0 XP</b>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-slate-400 block">Tanggal Cetak</span>
+                        <b id="certDateStr" class="text-slate-700 font-bold">...</b>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-end pt-4 text-[10px] text-slate-500">
+                    <div>
+                        <p class="font-bold text-pink-800">Sekolah Cikal Serpong</p>
+                        <p>SEN Pedagogy Team</p>
+                    </div>
+                    <div class="w-16 h-16 rounded-full border-2 border-dashed border-pink-300 flex items-center justify-center text-[8px] font-black text-pink-400 uppercase rotate-12">
+                        Official Verified
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeCertificateModal()" class="flex-1 py-3 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-purple-200 font-bold rounded-xl text-xs">Tutup</button>
+                <button onclick="printCertificate()" class="flex-1 py-3 pink-gradient-btn text-white font-bold rounded-xl text-xs shadow-md flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> Cetak / Simpan PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL RESET PROGRES DENGAN SIMPAN ARSIP -->
     <div id="resetModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm hidden">
         <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-rose-300 dark:border-rose-700 relative text-center">
@@ -695,7 +776,6 @@
 
     <!-- SCRIPT DATA & LOGIC LENGKAP -->
     <script>
-        // MASTER GAMIFICATION BADGES DEFINITIONS
         const badgesMaster = [
             { id: 'first_step', title: 'First Step Journey', icon: 'fa-seedling', color: 'from-amber-400 to-orange-500', reqText: 'Hafal minimal 1 kata', check: (m, xp, cases) => m >= 1 },
             { id: 'vocab_50', title: 'Vocab Enthusiast', icon: 'fa-book-bookmark', color: 'from-pink-400 to-rose-500', reqText: 'Hafal 50 kosakata', check: (m, xp, cases) => m >= 50 },
@@ -928,6 +1008,27 @@
             localStorage.setItem('michelle_history_logs', JSON.stringify(historyLogs));
             localStorage.setItem('michelle_xp', userXP);
             renderBadges();
+        }
+
+        // FUNGI SERTIFIKAT DIGITAL
+        function openCertificateModal() {
+            const masteredCount = vocabList.filter(v => v.mastered).length;
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            document.getElementById('certVocabCount').innerText = `${masteredCount} Kata`;
+            document.getElementById('certXPCount').innerText = `⭐ ${userXP} XP`;
+            document.getElementById('certDateStr').innerText = dateStr;
+
+            document.getElementById('certificateModal').classList.remove('hidden');
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificateModal').classList.add('hidden');
+        }
+
+        function printCertificate() {
+            window.print();
         }
 
         function renderBadges() {
