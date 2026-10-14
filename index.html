@@ -520,18 +520,60 @@
             </div>
         </section>
 
-        <!-- TAB SRS (SPACED REPETITION SYSTEM) -->
+        <!-- TAB SRS (SPACED REPETITION SYSTEM - TAHAP 3) -->
         <section id="tab-srs" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 text-center max-w-xl mx-auto space-y-4">
-                <div class="w-14 h-14 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-2xl shadow-inner">
-                    <i class="fa-solid fa-rotate"></i>
+            <div class="glass-card rounded-3xl p-6 space-y-5">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-rotate text-pink-500 dark:text-purple-400 mr-2"></i> Spaced Repetition System (Leitner 5 Box System) 🧠</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Metode pengulangan bertahap: Kata yang sulit diulang lebih sering, kata yang lancar akan dijadwalkan lebih jarang.</p>
+                    </div>
+                    <button onclick="startSrsReviewSession()" class="px-4 py-2 pink-gradient-btn text-white text-xs font-bold rounded-xl shadow-md flex items-center gap-1.5">
+                        <i class="fa-solid fa-play"></i> Mulai Sesi Ulang SRS
+                    </button>
                 </div>
-                <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Spaced Repetition System (SRS) 🧠</h3>
-                <p class="text-xs text-slate-500 dark:text-purple-300/70 leading-relaxed">
-                    Sistem pengulangan cerdas: Kata yang sulit akan lebih sering diulang, sedangkan kata yang sudah lancar akan dijadwalkan lebih jarang.
-                </p>
 
-                <div id="srsDashboardView" class="space-y-4 pt-2"></div>
+                <!-- DASHBOARD LEITNER BOXES -->
+                <div id="srsDashboardView" class="space-y-4"></div>
+
+                <!-- ACTIVE SRS REVIEW CARD SESSION AREA -->
+                <div id="srsReviewSessionArea" class="hidden max-w-lg mx-auto p-6 rounded-3xl glass-card border-2 border-purple-300 dark:border-purple-700 text-center space-y-4 relative">
+                    <div class="flex justify-between items-center text-xs font-bold text-purple-700 dark:text-purple-300">
+                        <span id="srsSessionProgress">Sesi SRS #1</span>
+                        <span id="srsCurrentBoxBadge" class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900 text-pink-700 dark:text-purple-200 uppercase">Box 1</span>
+                    </div>
+
+                    <div id="srsInteractiveCard" class="flashcard w-full h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-inner relative w-full h-full duration-500">
+                            <div class="flashcard-front absolute inset-0 p-5 rounded-2xl bg-gradient-to-tr from-pink-50 to-purple-50 dark:from-purple-950 dark:to-slate-900 border border-pink-200 dark:border-purple-800 flex flex-col justify-between text-center shadow-md">
+                                <span id="srsCardLevel" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase self-center">LEVEL B2</span>
+                                <div>
+                                    <h3 id="srsCardWord" class="font-serif text-3xl font-extrabold text-pink-900 dark:text-purple-100">...</h3>
+                                    <p id="srsCardPhonetic" class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">/.../</p>
+                                </div>
+                                <p class="text-[10px] text-pink-500 dark:text-purple-300 font-bold">Klik untuk balikkan & lihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
+                            </div>
+
+                            <div class="flashcard-back absolute inset-0 p-5 rounded-2xl bg-purple-100/80 dark:bg-purple-900/80 border border-purple-300 dark:border-purple-700 flex flex-col justify-between text-center shadow-md">
+                                <span class="text-[10px] font-bold text-purple-700 dark:text-purple-300 uppercase">Arti & Konteks</span>
+                                <div>
+                                    <h4 id="srsCardMeaning" class="font-bold text-base text-purple-900 dark:text-purple-100">...</h4>
+                                    <p id="srsCardContext" class="text-xs italic text-slate-600 dark:text-purple-200 mt-2">"..."</p>
+                                </div>
+                                <p class="text-[10px] text-purple-600 dark:text-purple-300 font-bold">Pilih evaluasi daya ingat di bawah 👇</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center items-center gap-3 pt-2">
+                        <button onclick="handleSrsAnswer(false)" class="flex-1 py-3 bg-rose-100 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 font-extrabold rounded-xl text-xs hover:bg-rose-200 transition-all flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-xmark"></i> Lupa (Turun Box 1)
+                        </button>
+                        <button onclick="handleSrsAnswer(true)" class="flex-1 py-3 bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-extrabold rounded-xl text-xs hover:bg-emerald-200 transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-check"></i> Ingat (Naik Box +1)
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -976,6 +1018,10 @@
         let currentDictationItem = null;
         let lastGeneratedIEPText = "";
 
+        // TAHAP 3: SRS STATE VARIABLES
+        let srsQueue = [];
+        let srsCurrentIndex = 0;
+
         const baseVocabBank = [
             { word: "Classroom", level: "A2", meaning: "Ruang kelas tempat belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive tools.", category: "General" },
             { word: "Whiteboard", level: "A2", meaning: "Papan tulis putih", phonetic: "/ˈwaɪt.bɔːd/", context: "Ms. Michelle wrote the agenda on the whiteboard.", category: "General" },
@@ -1163,6 +1209,88 @@
             localStorage.setItem('michelle_history_logs', JSON.stringify(historyLogs));
             localStorage.setItem('michelle_xp', userXP);
             renderBadges();
+        }
+
+        // TAHAP 3: SRS LEITNER SYSTEM RENDER & INTERACTIVE LOGIC
+        const leitnerIntervals = { 1: "Review Setiap Hari", 2: "Review Tiap 3 Hari", 3: "Review Tiap 7 Hari", 4: "Review Tiap 14 Hari", 5: "Review Tiap 30 Hari (Mastered)" };
+
+        function renderSrsView() {
+            const container = document.getElementById('srsDashboardView');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const grid = document.createElement('div');
+            grid.className = "grid grid-cols-2 md:grid-cols-5 gap-3 my-2";
+
+            for (let b = 1; b <= 5; b++) {
+                const count = vocabList.filter(v => (v.srsBox || 1) === b).length;
+                const boxDiv = document.createElement('div');
+                boxDiv.className = `p-4 rounded-2xl glass-card border ${b === 5 ? 'border-emerald-300 dark:border-emerald-700 bg-emerald-50/30' : 'border-pink-200 dark:border-purple-800'} text-center space-y-1`;
+                boxDiv.innerHTML = `
+                    <div class="text-xs font-extrabold uppercase text-pink-700 dark:text-purple-200">Box ${b}</div>
+                    <div class="text-3xl font-black text-pink-600 dark:text-purple-300 font-fredoka">${count}</div>
+                    <div class="text-[9px] text-slate-500 dark:text-purple-300/60 font-semibold">${leitnerIntervals[b]}</div>
+                `;
+                grid.appendChild(boxDiv);
+            }
+
+            container.appendChild(grid);
+        }
+
+        function startSrsReviewSession() {
+            // Ambil kandidat kosakata dari Box 1 - 4
+            srsQueue = vocabList.filter(v => (v.srsBox || 1) < 5).sort(() => 0.5 - Math.random()).slice(0, 5);
+            if (srsQueue.length === 0) {
+                alert("Luar biasa! Semua kosakata sudah berada di Box 5 (Sangat Dihafal)! 🎉");
+                return;
+            }
+            srsCurrentIndex = 0;
+            document.getElementById('srsReviewSessionArea').classList.remove('hidden');
+            renderSrsCurrentCard();
+        }
+
+        function renderSrsCurrentCard() {
+            if (srsCurrentIndex >= srsQueue.length) {
+                document.getElementById('srsReviewSessionArea').classList.add('hidden');
+                addXP(25);
+                confetti({ particleCount: 80, spread: 70 });
+                alert("Sesi Ulang SRS selesai! Kamu berhasil melatih daya ingat 5 kata! +25 XP Reward ⭐");
+                renderSrsView();
+                return;
+            }
+
+            const item = srsQueue[srsCurrentIndex];
+            const cardObj = document.getElementById('srsInteractiveCard');
+            if (cardObj) cardObj.classList.remove('flipped');
+
+            document.getElementById('srsSessionProgress').innerText = `Sesi SRS ${srsCurrentIndex + 1} / ${srsQueue.length}`;
+            document.getElementById('srsCurrentBoxBadge').innerText = `Box ${item.srsBox || 1}`;
+            document.getElementById('srsCardLevel').innerText = `LEVEL ${item.level}`;
+            document.getElementById('srsCardWord').innerText = item.word;
+            document.getElementById('srsCardPhonetic').innerText = item.phonetic || '/.../';
+            document.getElementById('srsCardMeaning').innerText = item.meaning;
+            document.getElementById('srsCardContext').innerText = `"${item.context}"`;
+        }
+
+        function handleSrsAnswer(isRemembered) {
+            const item = srsQueue[srsCurrentIndex];
+            const target = vocabList.find(v => v.id === item.id);
+
+            if (target) {
+                if (isRemembered) {
+                    target.srsBox = Math.min(5, (target.srsBox || 1) + 1);
+                    if (target.srsBox === 5) target.mastered = true;
+                    addXP(10);
+                } else {
+                    target.srsBox = 1;
+                    target.mastered = false;
+                }
+                saveData();
+                renderStats();
+            }
+
+            srsCurrentIndex++;
+            renderSrsCurrentCard();
         }
 
         // TAHAP 2: BEHAVIORAL MATRIX RENDER FUNCTION
@@ -1784,28 +1912,6 @@
             }
         }
 
-        function renderSrsView() {
-            const container = document.getElementById('srsDashboardView');
-            container.innerHTML = '';
-            
-            const boxes = [1, 2, 3, 4, 5];
-            const grid = document.createElement('div');
-            grid.className = "grid grid-cols-5 gap-2 my-4";
-
-            boxes.forEach(b => {
-                const count = vocabList.filter(v => (v.srsBox || 1) === b).length;
-                const boxDiv = document.createElement('div');
-                boxDiv.className = "p-3 rounded-2xl glass-card border border-pink-200 dark:border-purple-800 text-center";
-                boxDiv.innerHTML = `
-                    <div class="text-lg font-black text-pink-600 dark:text-purple-300 font-fredoka">${count}</div>
-                    <div class="text-[9px] text-slate-500 dark:text-purple-300/60 font-bold uppercase mt-1">Kotak ${b}</div>
-                `;
-                grid.appendChild(boxDiv);
-            });
-
-            container.appendChild(grid);
-        }
-
         function toggleAutoplay() {
             if (isAutoplayActive) stopAutoplay();
             else startAutoplay();
@@ -2005,127 +2111,3 @@
 
             const list = document.getElementById('dictList');
             list.innerHTML = '';
-
-            const filtered = vocabList.filter(v => {
-                const matchSearch = v.word.toLowerCase().includes(search) || v.meaning.toLowerCase().includes(search);
-                const matchLvl = (lvl === 'ALL') || (v.level === lvl);
-                const matchStatus = (status === 'ALL') || 
-                                    (status === 'MASTERED' && v.mastered) || 
-                                    (status === 'UNMASTERED' && !v.mastered);
-                return matchSearch && matchLvl && matchStatus;
-            });
-
-            filtered.forEach(item => {
-                const div = document.createElement('div');
-                div.className = `p-3.5 rounded-2xl glass-card border ${item.mastered ? 'border-emerald-200 bg-emerald-50/20 dark:border-emerald-800 dark:bg-emerald-950/20' : 'border-pink-100 dark:border-purple-800'} flex justify-between items-center`;
-                div.innerHTML = `
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-pink-800 dark:text-purple-200">${item.word}</span>
-                            <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300">${item.level}</span>
-                        </div>
-                        <p class="text-xs text-slate-600 dark:text-purple-300/80 mt-0.5">${item.meaning}</p>
-                    </div>
-                    <button onclick="toggleDictMastered(${item.id})" class="text-lg ${item.mastered ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-700 hover:text-pink-400'}">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </button>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function toggleDictMastered(id) {
-            const target = vocabList.find(v => v.id === id);
-            if (target) {
-                target.mastered = !target.mastered;
-                saveData();
-                renderStats();
-                renderDictionary();
-                renderCurrentCard();
-            }
-        }
-
-        function openAddVocabModal() { document.getElementById('addVocabModal').classList.remove('hidden'); }
-        function closeAddVocabModal() { document.getElementById('addVocabModal').classList.add('hidden'); }
-
-        function handleAddVocabSubmit(e) {
-            e.preventDefault();
-            const word = document.getElementById('newWord').value.trim();
-            const level = document.getElementById('newLevel').value;
-            const category = document.getElementById('newCategory').value;
-            const meaning = document.getElementById('newMeaning').value.trim();
-            const context = document.getElementById('newContext').value.trim() || `Example context for ${word}.`;
-
-            vocabList.unshift({ id: vocabList.length + 1, word, level, meaning, phonetic: `/${word.toLowerCase()}/`, context, category, mastered: false, srsBox: 1 });
-            saveData();
-            renderStats();
-            filterFlashcards();
-            renderDictionary();
-            closeAddVocabModal();
-            alert(`Kosakata "${word}" berhasil ditambahkan! ✨`);
-        }
-
-        function exportDataJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(vocabList, null, 2));
-            const dlAnchor = document.createElement('a');
-            dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", "Michelle_Cambridge_Vocab_Backup.json");
-            document.body.appendChild(dlAnchor);
-            dlAnchor.click();
-            dlAnchor.remove();
-        }
-
-        function startQuiz() {
-            document.getElementById('quizStartScreen').classList.add('hidden');
-            document.getElementById('quizResultScreen').classList.add('hidden');
-            document.getElementById('quizPlayScreen').classList.remove('hidden');
-
-            const shuffled = [...vocabList].sort(() => 0.5 - Math.random());
-            quizState = { current: 0, score: 0, questions: shuffled.slice(0, 5) };
-            renderQuizQuestion();
-        }
-
-        function renderQuizQuestion() {
-            const q = quizState.questions[quizState.current];
-            document.getElementById('quizProgress').innerText = `Pertanyaan ${quizState.current + 1} / 5`;
-            document.getElementById('quizScore').innerText = `Skor: ${quizState.score}`;
-            document.getElementById('quizLevelBadge').innerText = `Level ${q.level}`;
-            document.getElementById('quizQuestion').innerText = `Apa arti dari kosakata "${q.word}"?`;
-
-            const options = [q.meaning];
-            while (options.length < 4 && vocabList.length > 1) {
-                const rand = vocabList[Math.floor(Math.random() * vocabList.length)].meaning;
-                if (!options.includes(rand)) options.push(rand);
-            }
-            options.sort(() => 0.5 - Math.random());
-
-            const container = document.getElementById('quizOptions');
-            container.innerHTML = '';
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "w-full p-3 rounded-xl border border-pink-200 dark:border-purple-800 bg-white/80 dark:bg-slate-900/80 text-xs font-semibold text-slate-700 dark:text-purple-200 hover:bg-pink-50 transition-all text-left";
-                btn.innerText = opt;
-                btn.onclick = () => answerQuiz(opt === q.meaning);
-                container.appendChild(btn);
-            });
-        }
-
-        function answerQuiz(isCorrect) {
-            if (isCorrect) {
-                quizState.score += 20;
-                addXP(5);
-            }
-            quizState.current++;
-            if (quizState.current < 5) renderQuizQuestion();
-            else showQuizResults();
-        }
-
-        function showQuizResults() {
-            document.getElementById('quizPlayScreen').classList.add('hidden');
-            document.getElementById('quizResultScreen').classList.remove('hidden');
-            document.getElementById('quizResultText').innerText = `Skor Akhir Michelle: ${quizState.score} / 100`;
-            if (quizState.score >= 80) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        }
-    </script>
-</body>
-</html>
