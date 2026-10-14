@@ -260,12 +260,31 @@
             </button>
         </div>
 
-        <!-- TAB 1: FLASHCARD BELAJAR HARIAN -->
+        <!-- TAB 1: FLASHCARD BELAJAR HARIAN WITH AUDIO CUSTOMIZATION -->
         <section id="tab-learn" class="space-y-4">
-            <div class="flex justify-between items-center">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
                 <h3 class="font-serif font-bold text-lg text-pink-800">Flashcard Belajar Harian ✨</h3>
-                <div class="flex gap-2">
-                    <select id="levelFilter" onchange="filterFlashcards()" class="px-3 py-1.5 rounded-xl border border-pink-200 text-xs font-semibold bg-white text-pink-700 focus:outline-none">
+                
+                <!-- PENGATURAN AKSEN & KECEPATAN SUARA BARU -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-pink-200 shadow-sm text-xs">
+                        <i class="fa-solid fa-sliders text-pink-500"></i>
+                        <select id="cardVoiceAccent" class="bg-transparent font-bold text-pink-700 focus:outline-none cursor-pointer">
+                            <option value="en-GB">🇬🇧 UK British</option>
+                            <option value="en-US">🇺🇸 US English</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-pink-200 shadow-sm text-xs">
+                        <i class="fa-solid fa-gauge-high text-pink-500"></i>
+                        <select id="cardVoiceSpeed" class="bg-transparent font-bold text-pink-700 focus:outline-none cursor-pointer">
+                            <option value="0.75">Speed: 0.75x</option>
+                            <option value="1.0" selected>Speed: 1.0x</option>
+                            <option value="1.25">Speed: 1.25x</option>
+                        </select>
+                    </div>
+
+                    <select id="levelFilter" onchange="filterFlashcards()" class="px-3 py-1.5 rounded-xl border border-pink-200 text-xs font-semibold bg-white text-pink-700 focus:outline-none shadow-sm">
                         <option value="ALL">Semua Level (A2-C2)</option>
                         <option value="A2">Level A2 (Elementary)</option>
                         <option value="B1">Level B1 (Intermediate)</option>
@@ -532,9 +551,7 @@
 
     <!-- SCRIPT DATA & REAL VOCABULARY LOGIC -->
     <script>
-        // DAFTAR KOSAKATA REAL DAN BERGUNA UNTUK PENDIDIKAN & CAMBRIDGE
         const rawRealVocab = [
-            // LEVEL A2
             { word: "Classroom", level: "A2", meaning: "Ruang kelas tempat proses belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive learning tools.", category: "General" },
             { word: "Whiteboard", level: "A2", meaning: "Papan tulis putih", phonetic: "/ˈwaɪt.bɔːd/", context: "Ms. Michelle wrote the daily agenda on the whiteboard.", category: "General" },
             { word: "Lesson Plan", level: "A2", meaning: "Rencana pelaksanaan pembelajaran (RPP)", phonetic: "/ˈles.ən plæn/", context: "Preparing a clear lesson plan helps structure the teaching session.", category: "Pedagogy" },
@@ -543,7 +560,6 @@
             { word: "Assignment", level: "A2", meaning: "Tugas sekolah", phonetic: "/əˈsaɪn.mənt/", context: "Students submitted their daily reading assignment.", category: "General" },
             { word: "Feedback", level: "A2", meaning: "Umpan balik / tanggapan", phonetic: "/ˈfiːd.bæk/", context: "Positive feedback builds student confidence.", category: "Pedagogy" },
 
-            // LEVEL B1
             { word: "Curriculum", level: "B1", meaning: "Kurikulum atau rancangan mata pelajaran", phonetic: "/kəˈrɪk.jə.ləm/", context: "Sekolah Cikal implements a learner-centered curriculum.", category: "Pedagogy" },
             { word: "Collaboration", level: "B1", meaning: "Kerja sama antar siswa atau guru", phonetic: "/kəˌlæb.əˈreɪ.ʃən/", context: "Group work fosters strong collaboration skills.", category: "General" },
             { word: "Inquiry", level: "B1", meaning: "Penyelidikan / Pembelajaran berbasis rasa ingin tahu", phonetic: "/ɪnˈkwaɪ.ə.ri/", context: "Inquiry-based learning encourages critical thinking.", category: "Pedagogy" },
@@ -551,7 +567,6 @@
             { word: "Objective", level: "B1", meaning: "Tujuan pembelajaran", phonetic: "/əbˈdʒek.tɪv/", context: "Today's learning objective is to understand reading context.", category: "Pedagogy" },
             { word: "Intervention", level: "B1", meaning: "Tindakan intervensi khusus untuk siswa", phonetic: "/ˌɪn.təˈven.ʃən/", context: "Early intervention supports children with learning difficulties.", category: "SEN" },
 
-            // LEVEL B2
             { word: "Accommodation", level: "B2", meaning: "Penyesuaian cara belajar tanpa merubah standar materi", phonetic: "/əˌkɒm.əˈdeɪ.ʃən/", context: "Providing extra time is a helpful accommodation during tests.", category: "SEN" },
             { word: "Formative", level: "B2", meaning: "Evaluasi berkelanjutan selama proses belajar", phonetic: "/ˈfɔː.mə.tɪv/", context: "Formative assessment guides daily teaching strategies.", category: "Pedagogy" },
             { word: "Individualised Education Plan", level: "B2", meaning: "Rencana Pendidikan Individual (IEP) untuk siswa ABK", phonetic: "/ˌɪn.dɪˈvɪdʒ.u.ə.laɪzd/", context: "We review each Individualised Education Plan every term.", category: "SEN" },
@@ -560,13 +575,11 @@
             { word: "Syllabus", level: "B2", meaning: "Silabus topik dan alur pembelajaran", phonetic: "/ˈsɪl.ə.bəs/", context: "The Cambridge syllabus provides a global education framework.", category: "Pedagogy" },
             { word: "Scaffolding", level: "B2", meaning: "Dukungan bertahap dari guru hingga siswa mandiri", phonetic: "/ˈskæf.əl.dɪŋ/", context: "Scaffolding helps students master complex concepts step-by-step.", category: "Pedagogy" },
 
-            // LEVEL C1
             { word: "Differentiation", level: "C1", meaning: "Penyesuaian pengajaran sesuai kebutuhan unik tiap siswa", phonetic: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", context: "Differentiation ensures every student can access learning goals.", category: "Pedagogy" },
             { word: "Neurodiversity", level: "C1", meaning: "Keberagaman fungsi otak dan perkembangan saraf", phonetic: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", context: "Embracing neurodiversity creates an inclusive community.", category: "SEN" },
             { word: "Facilitate", level: "C1", meaning: "Memfasilitasi atau mempermudah proses belajar", phonetic: "/fəˈsɪl.ɪ.teɪt/", context: "Teachers facilitate meaningful discussion in class.", category: "Pedagogy" },
             { word: "Self-Regulation", level: "C1", meaning: "Kemampuan mengatur emosi & fokus mandiri", phonetic: "/ˌself.reɡ.jəˈleɪ.ʃən/", context: "Self-regulation is a crucial life skill for all learners.", category: "SEN" },
 
-            // LEVEL C2
             { word: "Metacognition", level: "C2", meaning: "Kesadaran & pemahaman tentang proses berpikir sendiri", phonetic: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", context: "Encouraging metacognition helps SEN students self-reflect.", category: "Pedagogy" },
             { word: "Pedagogy", level: "C2", meaning: "Ilmu dan metode strategi pengajaran", phonetic: "/ˈped.ə.ɡɒdʒ.i/", context: "Modern pedagogy emphasizes active learning and empathy.", category: "Pedagogy" },
             { word: "Meticulous", level: "C2", meaning: "Sangat teliti, cermat, dan detail", phonetic: "/məˈtɪk.jə.ləs/", context: "Ms. Michelle is meticulous in tracking student progress.", category: "General" }
@@ -580,7 +593,6 @@
             });
         })();
 
-        // APP STATE
         let filteredCards = [];
         let currentCardIndex = 0;
         let userXP = 0;
@@ -589,7 +601,6 @@
         let autoplayTimeout = null;
         let dailyGoalTarget = 10;
 
-        // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
             loadData();
             checkAuth();
@@ -607,7 +618,7 @@
         });
 
         function loadData() {
-            const saved = localStorage.getItem('michelle_vocab_data_v10');
+            const saved = localStorage.getItem('michelle_vocab_data_v11');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
@@ -627,7 +638,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('michelle_vocab_data_v10', JSON.stringify(vocabList));
+            localStorage.setItem('michelle_vocab_data_v11', JSON.stringify(vocabList));
             localStorage.setItem('michelle_xp', userXP);
         }
 
@@ -637,7 +648,6 @@
             renderStats();
         }
 
-        // AUTH & LOGIN
         function checkAuth() {
             if (localStorage.getItem('michelle_auth') === 'true') {
                 document.getElementById('loginOverlay').classList.add('hidden');
@@ -672,7 +682,6 @@
             }
         }
 
-        // NAVIGATION TABS
         function switchTab(tab) {
             if (isAutoplayActive && tab !== 'autoplay') stopAutoplay();
             ['learn', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'testcefr', 'quiz'].forEach(t => {
@@ -683,7 +692,6 @@
             document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md';
         }
 
-        // LOVE NOTE
         function loadLoveNote() {
             const defaultNote = "Semangat terus belajar Bahasa Inggrisnya yaa Michelle sayang! Kamu guru yang luar biasa dan hebat di Sekolah Cikal Serpong! 💖";
             const savedNote = localStorage.getItem('michelle_love_note');
@@ -711,7 +719,6 @@
             }
         }
 
-        // CIKAL CALENDAR & GOAL
         function initCikalCalendarWidget() {
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -729,7 +736,6 @@
             renderStats();
         }
 
-        // RENDER STATS & HEATMAP
         function renderStats() {
             const masteredCount = vocabList.filter(v => v.mastered).length;
             const total = vocabList.length;
@@ -759,7 +765,6 @@
             }
         }
 
-        // FLASHCARD LOGIC
         function filterFlashcards() {
             const lvl = document.getElementById('levelFilter').value;
             if (lvl === 'ALL') filteredCards = [...vocabList];
@@ -787,7 +792,7 @@
                             <div>
                                 <h2 class="font-serif text-3xl font-extrabold text-pink-800">${card.word}</h2>
                                 <p class="text-xs text-slate-400 mt-1">${card.phonetic}</p>
-                                <button onclick="event.stopPropagation(); speakWord('${card.word}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 text-pink-600 inline-flex items-center justify-center hover:bg-pink-200 transition-all">
+                                <button onclick="event.stopPropagation(); speakWord('${card.word}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 text-pink-600 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
                             </div>
@@ -815,9 +820,17 @@
             if (feedbackBox) feedbackBox.classList.add('hidden');
         }
 
+        // FUNGSI AUDIO DENGAN AKSEN & KECEPATAN CUSTOM
         function speakWord(word) {
             const utterance = new SpeechSynthesisUtterance(word);
-            utterance.lang = 'en-US';
+            
+            const accent = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
+            const speed = document.getElementById('cardVoiceSpeed') ? parseFloat(document.getElementById('cardVoiceSpeed').value) : 1.0;
+
+            utterance.lang = accent;
+            utterance.rate = speed;
+            
+            window.speechSynthesis.cancel(); // Reset audio sebelumnya
             window.speechSynthesis.speak(utterance);
         }
 
@@ -830,7 +843,7 @@
             }
 
             const recognition = new SpeechRecognition();
-            recognition.lang = 'en-US';
+            recognition.lang = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
             recognition.interimResults = false;
             recognition.maxAlternatives = 1;
 
@@ -907,7 +920,6 @@
             }
         }
 
-        // SRS LOGIC
         function renderSrsView() {
             const container = document.getElementById('srsDashboardView');
             container.innerHTML = '';
@@ -930,7 +942,6 @@
             container.appendChild(grid);
         }
 
-        // AUTOPLAY LOGIC
         function toggleAutoplay() {
             if (isAutoplayActive) stopAutoplay();
             else startAutoplay();
@@ -968,11 +979,11 @@
             const speed = parseFloat(document.getElementById('autoSpeedSelect').value) || 1.0;
 
             const uttWord = new SpeechSynthesisUtterance(item.word);
-            uttWord.lang = 'en-US';
+            uttWord.lang = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
             uttWord.rate = speed;
 
             const uttContext = new SpeechSynthesisUtterance(item.context);
-            uttContext.lang = 'en-US';
+            uttContext.lang = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
             uttContext.rate = speed;
 
             window.speechSynthesis.speak(uttWord);
@@ -993,7 +1004,6 @@
             };
         }
 
-        // CATATAN PRIBADI LOGIC
         function renderNoteVocabChips() {
             const container = document.getElementById('noteVocabChips');
             container.innerHTML = '';
@@ -1039,7 +1049,6 @@
             dlAnchor.remove();
         }
 
-        // EMAIL TEMPLATES LOGIC
         const emailTemplatesData = [
             { title: "Kabar Baik Perkembangan Murid", level: "B2", subject: "{student}'s progress this term", body: "Dear {parent},\n\nI hope you are well. I am writing to share positive news about {student}. Over the past few weeks, {student} has shown great progress in class activities.\n\nKind regards,\n{teacher}" },
             { title: "Undangan Pertemuan Orang Tua", level: "B2", subject: "Parent-Teacher Meeting Invitation", body: "Dear {parent},\n\nI would like to invite you to a parent-teacher meeting to discuss {student}'s development on {date}.\n\nKind regards,\n{teacher}" }
@@ -1080,7 +1089,6 @@
             alert('Pesan berhasil disalin ke papan klip! ✨');
         }
 
-        // TES LEVEL CEFR LOGIC
         function renderTestCefrHome() {
             const container = document.getElementById('testCefrContainer');
             container.innerHTML = `
@@ -1126,7 +1134,6 @@
             confetti({ particleCount: 80, spread: 60 });
         }
 
-        // DICTIONARY LOGIC
         function renderDictionary() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const lvl = document.getElementById('dictLevelFilter').value;
@@ -1174,7 +1181,6 @@
             }
         }
 
-        // MODAL ADD VOCAB
         function openAddVocabModal() { document.getElementById('addVocabModal').classList.remove('hidden'); }
         function closeAddVocabModal() { document.getElementById('addVocabModal').classList.add('hidden'); }
 
@@ -1205,7 +1211,6 @@
             dlAnchor.remove();
         }
 
-        // QUIZ LOGIC
         function startQuiz() {
             document.getElementById('quizStartScreen').classList.add('hidden');
             document.getElementById('quizResultScreen').classList.add('hidden');
