@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="id">
+\<!DOCTYPE html>
+<html lang="id" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -9,12 +9,9 @@
     
     <!-- Tailwind CSS & FontAwesome & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -41,6 +38,10 @@
             }
         }
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         body {
             background-color: #fff5f7;
@@ -49,13 +50,31 @@
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' opacity='0.12'%3E%3Cg fill='%23e11d48'%3E%3Cpath d='M15,20 L35,20 L35,35 L15,35 Z M20,15 L30,15 L30,20 L20,20 Z'/%3E%3Cpath d='M80,25 L95,10 L100,15 L85,30 Z M95,10 L100,5 L105,10 L100,15 Z'/%3E%3Cpath d='M25,80 L28,60 L35,60 L38,80 L31.5,88 Z'/%3E%3Crect x='75' y='75' width='25' height='15' rx='3'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 24px 24px, 120px 120px;
             min-height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
+
+        /* DARK MODE (SOFT LAVENDER NIGHT) STYLES */
+        html.dark body {
+            background-color: #120e1b;
+            background-image: 
+                radial-gradient(#6b21a8 0.75px, transparent 0.75px);
+            color: #f3e8ff;
+        }
+        
         .glass-card {
             background: rgba(255, 255, 255, 0.90);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 200, 220, 0.6);
             box-shadow: 0 8px 32px 0 rgba(244, 63, 94, 0.08);
+            transition: all 0.3s ease;
         }
+
+        html.dark .glass-card {
+            background: rgba(30, 23, 42, 0.85);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
         .pink-gradient-btn {
             background: linear-gradient(135deg, #ff6b8b 0%, #d864d8 100%);
             transition: all 0.3s ease;
@@ -64,6 +83,11 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 107, 139, 0.4);
         }
+
+        html.dark .pink-gradient-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+        }
+
         .flashcard-inner {
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
@@ -79,27 +103,27 @@
         }
     </style>
 </head>
-<body class="text-slate-700 font-sans pb-12">
+<body class="text-slate-700 dark:text-purple-100 font-sans pb-12">
 
     <!-- LOGIN OVERLAY -->
-    <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-pink-900/30 backdrop-blur-md">
-        <div class="glass-card max-w-md w-full rounded-3xl p-8 text-center shadow-2xl relative overflow-hidden border-2 border-pink-200">
-            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-tr from-pink-400 to-rose-300 flex items-center justify-center text-white text-3xl font-extrabold shadow-lg">
+    <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-pink-900/30 dark:bg-purple-950/60 backdrop-blur-md">
+        <div class="glass-card max-w-md w-full rounded-3xl p-8 text-center shadow-2xl relative overflow-hidden border-2 border-pink-200 dark:border-purple-500/30">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-tr from-pink-400 to-rose-300 dark:from-purple-500 dark:to-pink-500 flex items-center justify-center text-white text-3xl font-extrabold shadow-lg">
                 M
             </div>
-            <h2 class="font-serif text-2xl font-bold text-pink-700 mb-1">Welcome, Michelle! 🌸</h2>
-            <p class="text-xs text-slate-500 mb-6">Cambridge English Portal • Sekolah Cikal Serpong</p>
+            <h2 class="font-serif text-2xl font-bold text-pink-700 dark:text-pink-300 mb-1">Welcome, Michelle! 🌸</h2>
+            <p class="text-xs text-slate-500 dark:text-purple-300/70 mb-6">Cambridge English Portal • Sekolah Cikal Serpong</p>
             
             <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-left text-xs font-semibold text-pink-600 mb-1 ml-1">Nama</label>
-                    <input type="text" id="loginName" value="Michelle" required class="w-full px-4 py-3 rounded-2xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80 text-slate-700 font-medium">
+                    <label class="block text-left text-xs font-semibold text-pink-600 dark:text-purple-300 mb-1 ml-1">Nama</label>
+                    <input type="text" id="loginName" value="Michelle" required class="w-full px-4 py-3 rounded-2xl border border-pink-200 dark:border-purple-800 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-purple-100 font-medium">
                 </div>
                 <div>
-                    <label class="block text-left text-xs font-semibold text-pink-600 mb-1 ml-1">Password Masuk</label>
+                    <label class="block text-left text-xs font-semibold text-pink-600 dark:text-purple-300 mb-1 ml-1">Password Masuk</label>
                     <div class="relative">
-                        <input type="password" id="loginPass" placeholder="Masukkan password..." required class="w-full px-4 py-3 pr-12 rounded-2xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80 text-slate-700 font-medium">
-                        <button type="button" onclick="togglePassVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-pink-400 hover:text-pink-600 focus:outline-none">
+                        <input type="password" id="loginPass" placeholder="Masukkan password..." required class="w-full px-4 py-3 pr-12 rounded-2xl border border-pink-200 dark:border-purple-800 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-purple-100 font-medium">
+                        <button type="button" onclick="togglePassVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-pink-400 dark:text-purple-400 hover:text-pink-600 focus:outline-none">
                             <i id="passEyeIcon" class="fa-solid fa-eye"></i>
                         </button>
                     </div>
@@ -113,25 +137,30 @@
     </div>
 
     <!-- MAIN NAVBAR -->
-    <nav class="sticky top-0 z-40 glass-card border-b border-pink-100">
+    <nav class="sticky top-0 z-40 glass-card border-b border-pink-100 dark:border-purple-800/40">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 flex items-center justify-center text-white font-black text-xl shadow-md">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 dark:from-purple-600 dark:to-pink-500 flex items-center justify-center text-white font-black text-xl shadow-md">
                     M
                 </div>
                 <div>
-                    <h1 class="font-serif font-bold text-pink-800 text-base leading-tight">Michelle's Cambridge Journey</h1>
-                    <p class="text-[10px] text-pink-500 font-medium">Cikal Serpong SEN Pedagogy (A2 - C2 Level)</p>
+                    <h1 class="font-serif font-bold text-pink-800 dark:text-purple-200 text-base leading-tight">Michelle's Cambridge Journey</h1>
+                    <p class="text-[10px] text-pink-500 dark:text-pink-400 font-medium">Cikal Serpong SEN Pedagogy (A2 - C2 Level)</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="openAddVocabModal()" class="text-xs bg-pink-100 text-pink-700 px-3 py-1.5 rounded-full font-bold hover:bg-pink-200 transition-all">
+                <!-- DARK MODE TOGGLE BUTTON -->
+                <button onclick="toggleDarkMode()" class="text-xs bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 px-3 py-1.5 rounded-full font-bold hover:bg-purple-200 transition-all flex items-center gap-1">
+                    <i id="darkModeIcon" class="fa-solid fa-moon"></i> <span id="darkModeText">Night</span>
+                </button>
+
+                <button onclick="openAddVocabModal()" class="text-xs bg-pink-100 dark:bg-pink-900/40 text-pink-700 dark:text-pink-300 px-3 py-1.5 rounded-full font-bold hover:bg-pink-200 transition-all">
                     <i class="fa-solid fa-plus mr-1"></i> Tambah Kata
                 </button>
-                <span id="streakBadge" class="bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-amber-200 shadow-sm">
+                <span id="streakBadge" class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-amber-200 dark:border-amber-800/50 shadow-sm">
                     <i class="fa-solid fa-fire text-amber-500"></i> <span id="streakCountText">1</span> Hari Streak
                 </span>
-                <button onclick="logout()" class="text-xs text-pink-400 hover:text-pink-600 p-2"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                <button onclick="logout()" class="text-xs text-pink-400 dark:text-purple-400 hover:text-pink-600 p-2"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
             </div>
         </div>
     </nav>
@@ -140,57 +169,57 @@
     <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
 
         <!-- LOVE & SUPPORT ENCOURAGEMENT BOARD -->
-        <section class="glass-card rounded-3xl p-5 border-2 border-rose-200/80 bg-gradient-to-r from-rose-100/60 via-pink-50/80 to-purple-100/60 shadow-md relative overflow-hidden">
+        <section class="glass-card rounded-3xl p-5 border-2 border-rose-200/80 dark:border-purple-800/50 bg-gradient-to-r from-rose-100/60 via-pink-50/80 to-purple-100/60 dark:from-purple-950/40 dark:via-purple-900/20 dark:to-pink-950/40 shadow-md relative overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-3.5">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-500 text-white flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-500 dark:bg-purple-600 text-white flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
                         <i class="fa-solid fa-heart"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 text-pink-800 uppercase tracking-wider">Love & Support Board 🌸</span>
+                            <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 dark:bg-purple-900 text-pink-800 dark:text-purple-200 uppercase tracking-wider">Love & Support Board 🌸</span>
                         </div>
-                        <p id="loveNoteDisplay" class="font-serif italic text-sm text-pink-900 font-semibold mt-1">
+                        <p id="loveNoteDisplay" class="font-serif italic text-sm text-pink-900 dark:text-purple-100 font-semibold mt-1">
                             "Semangat terus belajar Bahasa Inggrisnya yaa Michelle sayang! Kamu guru yang luar biasa dan hebat di Sekolah Cikal Serpong! 💖"
                         </p>
                     </div>
                 </div>
-                <button onclick="openEditLoveNoteModal()" class="text-xs bg-white/80 hover:bg-white text-pink-700 font-bold px-3 py-2 rounded-xl border border-pink-200 shadow-sm flex-shrink-0 transition-all">
-                    <i class="fa-solid fa-pen-heart text-pink-500 mr-1"></i> Ubah Pesan
+                <button onclick="openEditLoveNoteModal()" class="text-xs bg-white/80 dark:bg-purple-900/60 hover:bg-white text-pink-700 dark:text-purple-200 font-bold px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-700 shadow-sm flex-shrink-0 transition-all">
+                    <i class="fa-solid fa-pen-heart text-pink-500 dark:text-pink-400 mr-1"></i> Ubah Pesan
                 </button>
             </div>
         </section>
 
         <!-- CIKAL ACADEMIC CALENDAR & DAILY STUDY GOAL WIDGET -->
-        <section class="glass-card rounded-3xl p-5 border-2 border-pink-200/60 bg-gradient-to-r from-pink-50/80 via-purple-50/50 to-pink-50/80">
+        <section class="glass-card rounded-3xl p-5 border-2 border-pink-200/60 dark:border-purple-800/40 bg-gradient-to-r from-pink-50/80 via-purple-50/50 to-pink-50/80 dark:from-purple-950/30 dark:via-purple-900/20 dark:to-purple-950/30">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                <div class="flex items-center gap-3 border-b md:border-b-0 md:border-r border-pink-200/80 pb-3 md:pb-0 md:pr-4">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+                <div class="flex items-center gap-3 border-b md:border-b-0 md:border-r border-pink-200/80 dark:border-purple-800/50 pb-3 md:pb-0 md:pr-4">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
                         <i class="fa-regular fa-calendar-days"></i>
                     </div>
                     <div>
-                        <span class="text-[10px] font-bold text-pink-500 uppercase tracking-wider">Cikal Academic Calendar</span>
-                        <h4 id="todayDateDisplay" class="font-bold text-xs text-slate-800">Hari ini: ...</h4>
-                        <p id="cikalPeriodDisplay" class="text-[11px] text-purple-700 font-semibold mt-0.5"><i class="fa-solid fa-bullseye mr-1"></i> Target: Mid-Term Pedagogy Review</p>
+                        <span class="text-[10px] font-bold text-pink-500 dark:text-purple-400 uppercase tracking-wider">Cikal Academic Calendar</span>
+                        <h4 id="todayDateDisplay" class="font-bold text-xs text-slate-800 dark:text-purple-100">Hari ini: ...</h4>
+                        <p id="cikalPeriodDisplay" class="text-[11px] text-purple-700 dark:text-purple-300 font-semibold mt-0.5"><i class="fa-solid fa-bullseye mr-1"></i> Target: Mid-Term Pedagogy Review</p>
                     </div>
                 </div>
 
                 <div class="md:col-span-2 space-y-2">
                     <div class="flex justify-between items-center text-xs">
                         <div class="flex items-center gap-2">
-                            <span class="font-bold text-pink-800"><i class="fa-solid fa-crosshair text-pink-500 mr-1"></i> Target Harian Michelle:</span>
-                            <select id="dailyGoalSelect" onchange="updateDailyGoalTarget()" class="px-2 py-0.5 rounded-lg border border-pink-200 text-xs font-bold text-pink-700 bg-white focus:outline-none">
+                            <span class="font-bold text-pink-800 dark:text-purple-200"><i class="fa-solid fa-crosshair text-pink-500 dark:text-purple-400 mr-1"></i> Target Harian Michelle:</span>
+                            <select id="dailyGoalSelect" onchange="updateDailyGoalTarget()" class="px-2 py-0.5 rounded-lg border border-pink-200 dark:border-purple-800 text-xs font-bold text-pink-700 dark:text-purple-200 bg-white dark:bg-slate-900 focus:outline-none">
                                 <option value="5">5 Kata / hari</option>
                                 <option value="10" selected>10 Kata / hari</option>
                                 <option value="15">15 Kata / hari</option>
                                 <option value="20">20 Kata / hari</option>
                             </select>
                         </div>
-                        <span id="dailyGoalProgressText" class="font-extrabold text-pink-600">0 / 10 Kata</span>
+                        <span id="dailyGoalProgressText" class="font-extrabold text-pink-600 dark:text-pink-400">0 / 10 Kata</span>
                     </div>
 
-                    <div class="w-full bg-pink-100 h-3 rounded-full overflow-hidden p-0.5 border border-pink-200">
-                        <div id="dailyGoalProgressBar" class="bg-gradient-to-r from-pink-400 to-purple-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div class="w-full bg-pink-100 dark:bg-purple-950 h-3 rounded-full overflow-hidden p-0.5 border border-pink-200 dark:border-purple-800">
+                        <div id="dailyGoalProgressBar" class="bg-gradient-to-r from-pink-400 to-purple-500 dark:from-purple-500 dark:to-pink-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
@@ -199,33 +228,35 @@
         <!-- STATS & PROGRESS DASHBOARD -->
         <section class="glass-card rounded-3xl p-6 relative overflow-hidden">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div class="p-4 rounded-2xl bg-pink-50/60 border border-pink-100">
-                    <span class="text-xs text-pink-500 font-semibold uppercase tracking-wider">Kata Dihafal</span>
-                    <div id="statMastered" class="text-3xl font-extrabold text-pink-600 mt-1">0</div>
-                    <span id="statTotalSub" class="text-[10px] text-slate-400">Target 1000 Kosakata</span>
+                <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-purple-900/30 border border-pink-100 dark:border-purple-800/40">
+                    <span class="text-xs text-pink-500 dark:text-purple-300 font-semibold uppercase tracking-wider">Kata Dihafal</span>
+                    <div id="statMastered" class="text-3xl font-extrabold text-pink-600 dark:text-pink-400 mt-1">0</div>
+                    <span id="statTotalSub" class="text-[10px] text-slate-400 dark:text-purple-300/60">Target 1000 Kosakata</span>
                 </div>
-                <div class="p-4 rounded-2xl bg-purple-50/60 border border-purple-100">
-                    <span class="text-xs text-purple-600 font-semibold uppercase tracking-wider">Progres Total</span>
-                    <div id="statPercent" class="text-3xl font-extrabold text-purple-600 mt-1">0%</div>
-                    <span class="text-[10px] text-slate-400">Menuju C1/C2 Mastery</span>
+                <div class="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/40">
+                    <span class="text-xs text-purple-600 dark:text-purple-300 font-semibold uppercase tracking-wider">Progres Total</span>
+                    <div id="statPercent" class="text-3xl font-extrabold text-purple-600 dark:text-purple-400 mt-1">0%</div>
+                    <span class="text-[10px] text-slate-400 dark:text-purple-300/60">Menuju C1/C2 Mastery</span>
                 </div>
-                <div class="p-4 rounded-2xl bg-rose-50/60 border border-rose-100">
-                    <span class="text-xs text-rose-500 font-semibold uppercase tracking-wider">Poin Pengalaman</span>
-                    <div id="statXP" class="text-3xl font-extrabold text-rose-500 mt-1">⭐ 0</div>
-                    <span class="text-[10px] text-slate-400">XP Terkumpul</span>
+                <div class="p-4 rounded-2xl bg-rose-50/60 dark:bg-purple-900/30 border border-rose-100 dark:border-purple-800/40">
+                    <span class="text-xs text-rose-500 dark:text-pink-400 font-semibold uppercase tracking-wider">Poin Pengalaman</span>
+                    <div id="statXP" class="text-3xl font-extrabold text-rose-500 dark:text-pink-400 mt-1">⭐ 0</div>
+                    <span class="text-[10px] text-slate-400 dark:text-purple-300/60">XP Terkumpul</span>
                 </div>
-                <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-100">
-                    <span class="text-xs text-amber-600 font-semibold uppercase tracking-wider">CEFR Standard</span>
-                    <div class="text-xl font-extrabold text-amber-600 mt-2">A2 - C2</div>
-                    <span class="text-[10px] text-amber-600 font-medium">Cambridge & Cikal</span>
+                <div class="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-800/40">
+                    <span class="text-xs text-amber-600 dark:text-amber-400 font-semibold uppercase tracking-wider">CEFR Standard</span>
+                    <div class="text-xl font-extrabold text-amber-600 dark:text-amber-400 mt-2">A2 - C2</div>
+                    <span class="text-[10px] text-amber-600 dark:text-amber-400/80 font-medium">Cambridge & Cikal</span>
                 </div>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-pink-100/80">
+            <div class="mt-6 pt-4 border-t border-pink-100/80 dark:border-purple-800/40">
                 <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs font-bold text-pink-700"><i class="fa-regular fa-calendar-check mr-1"></i> Aktivitas Belajar Harian Michelle</span>
+                    <span class="text-xs font-bold text-pink-700 dark:text-purple-300"><i class="fa-regular fa-calendar-check mr-1"></i> Aktivitas Belajar Harian Michelle</span>
                     <div class="flex gap-2">
-                        <button onclick="exportDataJSON()" class="text-[10px] font-bold text-purple-600 hover:underline"><i class="fa-solid fa-download mr-1"></i> Backup Data</button>
+                        <!-- TOMBOL RESET PROGRES DENGAN SAVED HISTORY -->
+                        <button onclick="openResetModal()" class="text-[10px] font-bold text-rose-500 dark:text-rose-400 hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Reset Progres Belajar</button>
+                        <button onclick="exportDataJSON()" class="text-[10px] font-bold text-purple-600 dark:text-purple-400 hover:underline"><i class="fa-solid fa-download mr-1"></i> Backup Data</button>
                     </div>
                 </div>
                 <div class="flex items-center gap-1 overflow-x-auto py-1" id="activityHeatmap"></div>
@@ -234,31 +265,34 @@
 
         <!-- NAVIGATION TABS -->
         <div class="flex flex-wrap justify-center gap-1.5 p-1.5 glass-card rounded-2xl max-w-5xl mx-auto">
-            <button onclick="switchTab('learn')" id="tabBtn-learn" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md">
+            <button onclick="switchTab('learn')" id="tabBtn-learn" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 dark:bg-purple-600 text-white shadow-md">
                 <i class="fa-solid fa-book-open mr-1"></i> Belajar
             </button>
-            <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-hands-holding-child mr-1"></i> Skenario ABK
             </button>
-            <button onclick="switchTab('srs')" id="tabBtn-srs" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('srs')" id="tabBtn-srs" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-rotate mr-1"></i> Ulang (SRS)
             </button>
-            <button onclick="switchTab('autoplay')" id="tabBtn-autoplay" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('autoplay')" id="tabBtn-autoplay" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-headphones mr-1"></i> Hands-Free
             </button>
-            <button onclick="switchTab('notes')" id="tabBtn-notes" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('notes')" id="tabBtn-notes" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-pen-to-square mr-1"></i> IEP Notes
             </button>
-            <button onclick="switchTab('dict')" id="tabBtn-dict" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('dict')" id="tabBtn-dict" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-book mr-1"></i> Kamus (<span id="tabDictCount">1000</span>)
             </button>
-            <button onclick="switchTab('templates')" id="tabBtn-templates" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('templates')" id="tabBtn-templates" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-envelope mr-1"></i> Template Email
             </button>
-            <button onclick="switchTab('testcefr')" id="tabBtn-testcefr" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('history')" id="tabBtn-history" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
+                <i class="fa-solid fa-box-archive mr-1"></i> Arsip Belajar
+            </button>
+            <button onclick="switchTab('testcefr')" id="tabBtn-testcefr" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-vial mr-1"></i> Tes Level
             </button>
-            <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-puzzle-piece mr-1"></i> Quiz
             </button>
         </div>
@@ -266,27 +300,27 @@
         <!-- TAB 1: FLASHCARD BELAJAR HARIAN -->
         <section id="tab-learn" class="space-y-4">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
-                <h3 class="font-serif font-bold text-lg text-pink-800">Flashcard Belajar Harian ✨</h3>
+                <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200">Flashcard Belajar Harian ✨</h3>
                 
                 <div class="flex flex-wrap items-center gap-2">
-                    <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-pink-200 shadow-sm text-xs">
-                        <i class="fa-solid fa-sliders text-pink-500"></i>
-                        <select id="cardVoiceAccent" class="bg-transparent font-bold text-pink-700 focus:outline-none cursor-pointer">
+                    <div class="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-pink-200 dark:border-purple-800 shadow-sm text-xs">
+                        <i class="fa-solid fa-sliders text-pink-500 dark:text-purple-400"></i>
+                        <select id="cardVoiceAccent" class="bg-transparent font-bold text-pink-700 dark:text-purple-200 focus:outline-none cursor-pointer">
                             <option value="en-GB">🇬🇧 UK British</option>
                             <option value="en-US">🇺🇸 US English</option>
                         </select>
                     </div>
 
-                    <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-pink-200 shadow-sm text-xs">
-                        <i class="fa-solid fa-gauge-high text-pink-500"></i>
-                        <select id="cardVoiceSpeed" class="bg-transparent font-bold text-pink-700 focus:outline-none cursor-pointer">
+                    <div class="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-pink-200 dark:border-purple-800 shadow-sm text-xs">
+                        <i class="fa-solid fa-gauge-high text-pink-500 dark:text-purple-400"></i>
+                        <select id="cardVoiceSpeed" class="bg-transparent font-bold text-pink-700 dark:text-purple-200 focus:outline-none cursor-pointer">
                             <option value="0.75">Speed: 0.75x</option>
                             <option value="1.0" selected>Speed: 1.0x</option>
                             <option value="1.25">Speed: 1.25x</option>
                         </select>
                     </div>
 
-                    <select id="levelFilter" onchange="filterFlashcards()" class="px-3 py-1.5 rounded-xl border border-pink-200 text-xs font-semibold bg-white text-pink-700 focus:outline-none shadow-sm">
+                    <select id="levelFilter" onchange="filterFlashcards()" class="px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-semibold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none shadow-sm">
                         <option value="ALL">Semua Level (A2-C2)</option>
                         <option value="A2">Level A2 (Elementary)</option>
                         <option value="B1">Level B1 (Intermediate)</option>
@@ -300,15 +334,15 @@
             <div id="flashcardContainer" class="relative min-h-[360px] flex items-center justify-center"></div>
 
             <div class="flex justify-center items-center gap-3 pt-2">
-                <button onclick="prevCard()" class="w-12 h-12 rounded-full glass-card border border-pink-200 text-pink-600 flex items-center justify-center shadow-md hover:bg-pink-50 transition-all">
+                <button onclick="prevCard()" class="w-12 h-12 rounded-full glass-card border border-pink-200 dark:border-purple-800 text-pink-600 dark:text-purple-300 flex items-center justify-center shadow-md hover:bg-pink-50 dark:hover:bg-purple-900/40 transition-all">
                     <i class="fa-solid fa-chevron-left text-lg"></i>
                 </button>
 
-                <button onclick="testPronunciation()" class="px-4 py-3 rounded-full text-xs font-bold bg-purple-100 text-purple-700 hover:bg-purple-200 transition-all flex items-center gap-1.5 border border-purple-200 shadow-sm">
-                    <i class="fa-solid fa-microphone text-purple-600"></i> Tes Pelafalan
+                <button onclick="testPronunciation()" class="px-4 py-3 rounded-full text-xs font-bold bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 hover:bg-purple-200 transition-all flex items-center gap-1.5 border border-purple-200 dark:border-purple-700 shadow-sm">
+                    <i class="fa-solid fa-microphone text-purple-600 dark:text-purple-300"></i> Tes Pelafalan
                 </button>
 
-                <button onclick="toggleMasteredCurrent()" id="masteredBtn" class="px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 text-pink-600 bg-white hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm">
+                <button onclick="toggleMasteredCurrent()" id="masteredBtn" class="px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 dark:border-purple-500 text-pink-600 dark:text-purple-200 bg-white dark:bg-slate-900 hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm">
                     <i class="fa-regular fa-circle-check text-base"></i> Tandai Dihafal
                 </button>
                 <button onclick="nextCard()" class="w-12 h-12 rounded-full pink-gradient-btn text-white flex items-center justify-center shadow-md">
@@ -316,17 +350,17 @@
                 </button>
             </div>
             
-            <div id="speechFeedbackBox" class="max-w-md mx-auto p-4 rounded-2xl glass-card border-2 border-purple-200 text-center text-xs font-bold transition-all hidden">
-                <div id="speechFeedbackStatus" class="text-purple-600">🎤 Mendengarkan... Ucapkan kata di atas!</div>
+            <div id="speechFeedbackBox" class="max-w-md mx-auto p-4 rounded-2xl glass-card border-2 border-purple-200 dark:border-purple-700 text-center text-xs font-bold transition-all hidden">
+                <div id="speechFeedbackStatus" class="text-purple-600 dark:text-purple-300">🎤 Mendengarkan... Ucapkan kata di atas!</div>
             </div>
         </section>
 
-        <!-- TAB SEN CASE STUDY CARDS + FITUR INPUT MANDIRI -->
+        <!-- TAB SEN CASE STUDY CARDS -->
         <section id="tab-sencases" class="hidden space-y-4">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div>
-                    <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-hands-holding-child text-pink-500 mr-2"></i> Studi Kasus & Skenario ABK Real-Life</h3>
-                    <p class="text-xs text-slate-500">Kumpulan tantangan situasi murid ABK di kelas beserta solusi strategi pedagogi pendampingan Bahasa Inggris.</p>
+                    <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-hands-holding-child text-pink-500 dark:text-purple-400 mr-2"></i> Studi Kasus & Skenario ABK Real-Life</h3>
+                    <p class="text-xs text-slate-500 dark:text-purple-300/70">Kumpulan tantangan situasi murid ABK di kelas beserta solusi strategi pedagogi pendampingan Bahasa Inggris.</p>
                 </div>
                 <button onclick="openAddCaseModal()" class="text-xs pink-gradient-btn text-white font-bold px-4 py-2 rounded-xl shadow-md flex items-center gap-1.5">
                     <i class="fa-solid fa-plus"></i> Tambah Kasus Baru
@@ -339,11 +373,11 @@
         <!-- TAB SRS (SPACED REPETITION SYSTEM) -->
         <section id="tab-srs" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 text-center max-w-xl mx-auto space-y-4">
-                <div class="w-14 h-14 mx-auto rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-2xl shadow-inner">
+                <div class="w-14 h-14 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-2xl shadow-inner">
                     <i class="fa-solid fa-rotate"></i>
                 </div>
-                <h3 class="font-serif font-bold text-xl text-pink-800">Spaced Repetition System (SRS) 🧠</h3>
-                <p class="text-xs text-slate-500 leading-relaxed">
+                <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Spaced Repetition System (SRS) 🧠</h3>
+                <p class="text-xs text-slate-500 dark:text-purple-300/70 leading-relaxed">
                     Sistem pengulangan cerdas: Kata yang sulit akan lebih sering diulang, sedangkan kata yang sudah lancar akan dijadwalkan lebih jarang.
                 </p>
 
@@ -354,23 +388,23 @@
         <!-- MODE AUTOPLAY HANDS-FREE AUDIO -->
         <section id="tab-autoplay" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 max-w-xl mx-auto text-center space-y-5">
-                <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-2xl shadow-inner">
+                <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 dark:bg-purple-900/60 flex items-center justify-center text-purple-600 dark:text-purple-300 text-2xl shadow-inner">
                     <i class="fa-solid fa-headphones"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800">Mode Belajar Audio Hands-Free 🎧</h3>
-                    <p class="text-xs text-slate-500 mt-1">Dengarkan pelafalan kosakata, arti, dan contoh kalimat secara otomatis tanpa perlu menekan tombol.</p>
+                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Mode Belajar Audio Hands-Free 🎧</h3>
+                    <p class="text-xs text-slate-500 dark:text-purple-300/70 mt-1">Dengarkan pelafalan kosakata, arti, dan contoh kalimat secara otomatis tanpa perlu menekan tombol.</p>
                 </div>
 
-                <div class="p-6 rounded-2xl bg-pink-50/80 border border-pink-200 space-y-3">
-                    <span id="autoLevelBadge" class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-pink-200 text-pink-800 uppercase">Level B2</span>
-                    <h2 id="autoWordDisplay" class="font-serif text-3xl font-extrabold text-pink-800">Ready?</h2>
-                    <p id="autoMeaningDisplay" class="text-sm font-bold text-purple-700">Klik 'Mulai Autoplay' di bawah</p>
-                    <p id="autoContextDisplay" class="text-xs text-slate-500 italic mt-2">"..."</p>
+                <div class="p-6 rounded-2xl bg-pink-50/80 dark:bg-purple-900/30 border border-pink-200 dark:border-purple-800 space-y-3">
+                    <span id="autoLevelBadge" class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase">Level B2</span>
+                    <h2 id="autoWordDisplay" class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-200">Ready?</h2>
+                    <p id="autoMeaningDisplay" class="text-sm font-bold text-purple-700 dark:text-purple-300">Klik 'Mulai Autoplay' di bawah</p>
+                    <p id="autoContextDisplay" class="text-xs text-slate-500 dark:text-purple-300/60 italic mt-2">"..."</p>
                 </div>
 
                 <div class="flex justify-center items-center gap-3">
-                    <select id="autoSpeedSelect" class="px-3 py-2 rounded-xl border border-pink-200 text-xs font-bold bg-white text-pink-700 focus:outline-none">
+                    <select id="autoSpeedSelect" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none">
                         <option value="0.75">Speed: 0.75x (Pelan)</option>
                         <option value="1.0" selected>Speed: 1.0x (Normal)</option>
                         <option value="1.25">Speed: 1.25x (Cepat)</option>
@@ -386,28 +420,28 @@
         <!-- TAB CATATAN IEP & LESSON PLANNER -->
         <section id="tab-notes" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex justify-between items-center border-b border-pink-100 pb-3">
+                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
                     <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-pen-to-square text-pink-500 mr-2"></i> Asisten Catatan IEP & Lesson Plan Pribadi</h3>
-                        <p class="text-xs text-slate-500">Ruang latihan mandiri Michelle menyusun catatan pengajaran dalam Bahasa Inggris profesional.</p>
+                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-pen-to-square text-pink-500 dark:text-purple-400 mr-2"></i> Asisten Catatan IEP & Lesson Plan Pribadi</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Ruang latihan mandiri Michelle menyusun catatan pengajaran dalam Bahasa Inggris profesional.</p>
                     </div>
-                    <button onclick="downloadTeacherNote()" class="text-xs bg-purple-100 text-purple-700 font-bold px-3 py-1.5 rounded-xl hover:bg-purple-200 transition-all">
+                    <button onclick="downloadTeacherNote()" class="text-xs bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-bold px-3 py-1.5 rounded-xl hover:bg-purple-200 transition-all">
                         <i class="fa-solid fa-file-arrow-down mr-1"></i> Simpan File Teks
                     </button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="p-4 rounded-2xl bg-pink-50/60 border border-pink-100 space-y-3">
-                        <h4 class="text-xs font-bold text-pink-700 uppercase tracking-wider"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Klik Kata Cikal/Cambridge</h4>
-                        <p class="text-[11px] text-slate-500">Klik kata di bawah ini untuk menyelipkannya ke dalam draf catatanmu:</p>
+                    <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-purple-900/30 border border-pink-100 dark:border-purple-800/40 space-y-3">
+                        <h4 class="text-xs font-bold text-pink-700 dark:text-purple-300 uppercase tracking-wider"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Klik Kata Cikal/Cambridge</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-purple-300/60">Klik kata di bawah ini untuk menyelipkannya ke dalam draf catatanmu:</p>
                         <div class="flex flex-wrap gap-1.5" id="noteVocabChips"></div>
                     </div>
                     <div class="md:col-span-2 space-y-3">
                         <div class="flex justify-between items-center">
-                            <label class="text-xs font-bold text-pink-800">Draf Catatan Pengajaran Pribadi Michelle:</label>
-                            <span id="noteSavedStatus" class="text-[10px] text-emerald-600 font-semibold hidden"><i class="fa-solid fa-check mr-1"></i> Tersimpan Otomatis</span>
+                            <label class="text-xs font-bold text-pink-800 dark:text-purple-200">Draf Catatan Pengajaran Pribadi Michelle:</label>
+                            <span id="noteSavedStatus" class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold hidden"><i class="fa-solid fa-check mr-1"></i> Tersimpan Otomatis</span>
                         </div>
-                        <textarea id="teacherNoteInput" oninput="autoSaveNote()" rows="10" placeholder="Ketik draf catatan perkembangan murid atau rencana pengajaran harian di sini..." class="w-full p-4 rounded-2xl border-2 border-pink-200 focus:outline-none focus:border-pink-400 bg-white/90 text-xs text-slate-700 leading-relaxed font-sans"></textarea>
+                        <textarea id="teacherNoteInput" oninput="autoSaveNote()" rows="10" placeholder="Ketik draf catatan perkembangan murid atau rencana pengajaran harian di sini..." class="w-full p-4 rounded-2xl border-2 border-pink-200 dark:border-purple-800 focus:outline-none focus:border-pink-400 bg-white/90 dark:bg-slate-900/90 text-xs text-slate-700 dark:text-purple-100 leading-relaxed font-sans"></textarea>
                     </div>
                 </div>
             </div>
@@ -417,16 +451,16 @@
         <section id="tab-dict" class="hidden space-y-4">
             <div class="glass-card rounded-2xl p-4 flex flex-col md:flex-row gap-3 justify-between items-center">
                 <div class="relative w-full md:w-80">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 text-xs"></i>
-                    <input type="text" id="searchInput" oninput="renderDictionary()" placeholder="Cari kosakata / arti..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-pink-200 text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 dark:text-purple-400 text-xs"></i>
+                    <input type="text" id="searchInput" oninput="renderDictionary()" placeholder="Cari kosakata / arti..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100">
                 </div>
                 <div class="flex gap-2 w-full md:w-auto">
-                    <select id="dictLevelFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 text-xs bg-white text-pink-700 font-medium focus:outline-none">
+                    <select id="dictLevelFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 font-medium focus:outline-none">
                         <option value="ALL">Semua Level</option>
                         <option value="A2">A2</option>
                         <option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option>
                     </select>
-                    <select id="dictStatusFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 text-xs bg-white text-pink-700 font-medium focus:outline-none">
+                    <select id="dictStatusFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 font-medium focus:outline-none">
                         <option value="ALL">Semua Status</option>
                         <option value="MASTERED">Sudah Dihafal</option>
                         <option value="UNMASTERED">Belum Dihafal</option>
@@ -440,21 +474,35 @@
         <!-- TAB TEMPLATE EMAIL GURU PIC -->
         <section id="tab-templates" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex justify-between items-center border-b border-pink-100 pb-3">
+                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
                     <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-envelope-open-text text-pink-500 mr-2"></i> Template Email & Komunikasi Guru Cikal</h3>
-                        <p class="text-xs text-slate-500">Pilih template, isi data variabel, dan langsung salin pesan Bahasa Inggris resmi.</p>
+                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-envelope-open-text text-pink-500 dark:text-purple-400 mr-2"></i> Template Email & Komunikasi Guru Cikal</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Pilih template, isi data variabel, dan langsung salin pesan Bahasa Inggris resmi.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-bold">
-                    <input type="text" id="tplParentInput" oninput="renderEmailTemplates()" placeholder="Nama Orang Tua" class="p-2.5 rounded-xl border border-pink-200 bg-white focus:outline-none">
-                    <input type="text" id="tplStudentInput" oninput="renderEmailTemplates()" placeholder="Nama Murid" class="p-2.5 rounded-xl border border-pink-200 bg-white focus:outline-none">
-                    <input type="text" id="tplTeacherInput" oninput="renderEmailTemplates()" value="Ms. Michelle" placeholder="Nama Guru" class="p-2.5 rounded-xl border border-pink-200 bg-white focus:outline-none">
-                    <input type="text" id="tplDateInput" oninput="renderEmailTemplates()" placeholder="Tanggal/Waktu" class="p-2.5 rounded-xl border border-pink-200 bg-white focus:outline-none">
+                    <input type="text" id="tplParentInput" oninput="renderEmailTemplates()" placeholder="Nama Orang Tua" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                    <input type="text" id="tplStudentInput" oninput="renderEmailTemplates()" placeholder="Nama Murid" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                    <input type="text" id="tplTeacherInput" oninput="renderEmailTemplates()" value="Ms. Michelle" placeholder="Nama Guru" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                    <input type="text" id="tplDateInput" oninput="renderEmailTemplates()" placeholder="Tanggal/Waktu" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
                 </div>
 
                 <div id="emailTemplatesList" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2"></div>
+            </div>
+        </section>
+
+        <!-- TAB ARSIP HISTORY BELAJAR SEBELUMNYA -->
+        <section id="tab-history" class="hidden space-y-4">
+            <div class="glass-card rounded-3xl p-6 space-y-4">
+                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-box-archive text-pink-500 dark:text-purple-400 mr-2"></i> Arsip Capaian Belajar Sebelumnya</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Catatan riwayat pembelajaran yang pernah diselesaikan Michelle sebelum di-reset ke awal.</p>
+                    </div>
+                </div>
+
+                <div id="historyLogContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </section>
 
@@ -467,11 +515,11 @@
         <section id="tab-quiz" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 text-center max-w-2xl mx-auto space-y-6">
                 <div id="quizStartScreen" class="space-y-4">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-pink-100 flex items-center justify-center text-pink-500 text-2xl">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 flex items-center justify-center text-pink-500 dark:text-purple-300 text-2xl">
                         <i class="fa-solid fa-graduation-cap"></i>
                     </div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800">Quiz Latihan Cambridge Pedagogy 🎯</h3>
-                    <p class="text-xs text-slate-500 leading-relaxed max-w-md mx-auto">
+                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Quiz Latihan Cambridge Pedagogy 🎯</h3>
+                    <p class="text-xs text-slate-500 dark:text-purple-300/70 leading-relaxed max-w-md mx-auto">
                         Uji pemahaman kosakata Cambridge & ABK Special Education untuk Michelle. Siap memulai 5 pertanyaan acak?
                     </p>
                     <button onclick="startQuiz()" class="px-8 py-3 pink-gradient-btn text-white font-bold rounded-2xl shadow-lg text-xs tracking-wide">
@@ -480,23 +528,23 @@
                 </div>
 
                 <div id="quizPlayScreen" class="hidden space-y-6 text-left">
-                    <div class="flex justify-between items-center text-xs text-pink-600 font-bold">
+                    <div class="flex justify-between items-center text-xs text-pink-600 dark:text-purple-300 font-bold">
                         <span id="quizProgress">Pertanyaan 1 / 5</span>
                         <span id="quizScore">Skor: 0</span>
                     </div>
-                    <div class="p-4 rounded-2xl bg-pink-50/80 border border-pink-200">
-                        <span id="quizLevelBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-pink-200 text-pink-800 uppercase">Level B2</span>
-                        <h4 id="quizQuestion" class="font-bold text-base text-slate-800 mt-2">...</h4>
+                    <div class="p-4 rounded-2xl bg-pink-50/80 dark:bg-purple-900/30 border border-pink-200 dark:border-purple-800">
+                        <span id="quizLevelBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase">Level B2</span>
+                        <h4 id="quizQuestion" class="font-bold text-base text-slate-800 dark:text-purple-100 mt-2">...</h4>
                     </div>
                     <div id="quizOptions" class="grid grid-cols-1 gap-2.5"></div>
                 </div>
 
                 <div id="quizResultScreen" class="hidden space-y-4">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 flex items-center justify-center text-emerald-500 text-2xl">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-500 dark:text-emerald-300 text-2xl">
                         <i class="fa-solid fa-trophy"></i>
                     </div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800">Hebat Sekali, Michelle! 🌟</h3>
-                    <p id="quizResultText" class="text-xs text-slate-600">Kamu berhasil menyelesaikan quiz!</p>
+                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Hebat Sekali, Michelle! 🌟</h3>
+                    <p id="quizResultText" class="text-xs text-slate-600 dark:text-purple-300/80">Kamu berhasil menyelesaikan quiz!</p>
                     <button onclick="startQuiz()" class="px-6 py-2.5 pink-gradient-btn text-white font-bold rounded-xl text-xs">
                         Coba Quiz Lagi
                     </button>
@@ -506,15 +554,42 @@
 
     </main>
 
+    <!-- MODAL RESET PROGRES DENGAN SIMPAN ARSIP -->
+    <div id="resetModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm hidden">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-rose-300 dark:border-rose-700 relative text-center">
+            <button onclick="closeResetModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            
+            <div class="w-14 h-14 mx-auto rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-500 flex items-center justify-center text-2xl">
+                <i class="fa-solid fa-rotate-left"></i>
+            </div>
+
+            <h3 class="font-serif font-bold text-lg text-rose-800 dark:text-rose-300">Reset Progres & Arsipkan Capaian?</h3>
+            <p class="text-xs text-slate-500 dark:text-purple-300/70 leading-relaxed">
+                Semua hafalan dan poin XP saat ini akan **direset ke 0** agar Michelle bisa belajar ulang dari awal. <br><br>
+                <span class="font-bold text-purple-700 dark:text-purple-300">Capaian saat ini akan otomatis tersimpan dalam menu 'Arsip Belajar' sebagai riwayat prestasi!</span>
+            </p>
+
+            <div class="p-3 rounded-2xl bg-pink-50 dark:bg-purple-900/30 text-xs text-left text-pink-800 dark:text-purple-200 space-y-1 border border-pink-200 dark:border-purple-800">
+                <div>• Kata Dihafal Disimpan: <b id="resetPreviewMastered">0 Kata</b></div>
+                <div>• Poin XP Disimpan: <b id="resetPreviewXP">⭐ 0</b></div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeResetModal()" class="flex-1 py-3 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-purple-200 font-bold rounded-xl text-xs">Batal</button>
+                <button onclick="confirmResetProgress()" class="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-xl text-xs shadow-md">Ya, Simpan & Reset</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL EDIT PESAN SEMANGAT -->
     <div id="editLoveNoteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
-        <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 relative">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 dark:border-purple-800 relative">
             <button onclick="closeEditLoveNoteModal()" class="absolute right-4 top-4 text-pink-400 hover:text-pink-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-pen-heart text-pink-500 mr-1.5"></i> Ubah Pesan Semangat</h3>
+            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-pen-heart text-pink-500 mr-1.5"></i> Ubah Pesan Semangat</h3>
             <form onsubmit="handleSaveLoveNote(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Pesan Motivasi untuk Michelle:</label>
-                    <textarea id="loveNoteInput" rows="3" required class="w-full p-3 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300 font-sans"></textarea>
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Pesan Motivasi untuk Michelle:</label>
+                    <textarea id="loveNoteInput" rows="3" required class="w-full p-3 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300 font-sans"></textarea>
                 </div>
                 <button type="submit" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md">
                     Simpan Pesan Baru <i class="fa-solid fa-heart ml-1"></i>
@@ -525,34 +600,34 @@
 
     <!-- MODAL TAMBAH SKENARIO KASUS ABK BARU -->
     <div id="addCaseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
-        <div class="glass-card max-w-lg w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 relative">
+        <div class="glass-card max-w-lg w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 dark:border-purple-800 relative">
             <button onclick="closeAddCaseModal()" class="absolute right-4 top-4 text-pink-400 hover:text-pink-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-file-circle-plus text-pink-500 mr-1.5"></i> Tambah Skenario ABK Lapangan Baru</h3>
+            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-file-circle-plus text-pink-500 mr-1.5"></i> Tambah Skenario ABK Lapangan Baru</h3>
             <form onsubmit="handleCaseSubmit(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Judul Kasus (English)</label>
-                    <input type="text" id="caseTitleInput" placeholder="Contoh: Sudden Refusal to Complete Homework" required class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300">
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Judul Kasus (English)</label>
+                    <input type="text" id="caseTitleInput" placeholder="Contoh: Sudden Refusal to Complete Homework" required class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300">
                 </div>
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Topik Kategori</label>
-                    <input type="text" id="caseTopicInput" placeholder="Contoh: Focus / Anxiety / Social Skills" required class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300">
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Topik Kategori</label>
+                    <input type="text" id="caseTopicInput" placeholder="Contoh: Focus / Anxiety / Social Skills" required class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300">
                 </div>
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Deskripsi Skenario (Apa yang terjadi pada murid)</label>
-                    <textarea id="caseScenarioInput" rows="2" placeholder="Ceritakan situasi tantangan murid..." required class="w-full p-3 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Deskripsi Skenario (Apa yang terjadi pada murid)</label>
+                    <textarea id="caseScenarioInput" rows="2" placeholder="Ceritakan situasi tantangan murid..." required class="w-full p-3 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
                 </div>
                 <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label class="font-bold text-pink-700">Strategi Pendampingan Guru (English)</label>
-                        <button type="button" onclick="autoFillStrategyTemplate()" class="text-[10px] text-purple-600 font-extrabold hover:underline">
+                        <label class="font-bold text-pink-700 dark:text-purple-300">Strategi Pendampingan Guru (English)</label>
+                        <button type="button" onclick="autoFillStrategyTemplate()" class="text-[10px] text-purple-600 dark:text-purple-300 font-extrabold hover:underline">
                             ✨ Isikan Draf Template Staf
                         </button>
                     </div>
-                    <textarea id="caseStrategyInput" rows="3" placeholder="Tuliskan solusi langkah pendampingannya..." required class="w-full p-3 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
+                    <textarea id="caseStrategyInput" rows="3" placeholder="Tuliskan solusi langkah pendampingannya..." required class="w-full p-3 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
                 </div>
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Kata Kunci Pedagogi (Pisahkan koma)</label>
-                    <input type="text" id="caseTermsInput" placeholder="Contoh: Co-regulation, Sensory Break, Positive Reinforcement" class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none">
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Kata Kunci Pedagogi (Pisahkan koma)</label>
+                    <input type="text" id="caseTermsInput" placeholder="Contoh: Co-regulation, Sensory Break, Positive Reinforcement" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
                 </div>
                 <button type="submit" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md">
                     Simpan Skenario Kasus <i class="fa-solid fa-heart ml-1"></i>
@@ -563,25 +638,25 @@
 
     <!-- MODAL TAMBAH KOSAKATA MANDIRI -->
     <div id="addVocabModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
-        <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 relative">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 dark:border-purple-800 relative">
             <button onclick="closeAddVocabModal()" class="absolute right-4 top-4 text-pink-400 hover:text-pink-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-circle-plus text-pink-500 mr-1.5"></i> Tambah Kosakata Baru</h3>
+            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-circle-plus text-pink-500 mr-1.5"></i> Tambah Kosakata Baru</h3>
             <form onsubmit="handleAddVocabSubmit(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Kata Inggris</label>
-                    <input type="text" id="newWord" required class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300">
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Kata Inggris</label>
+                    <input type="text" id="newWord" required class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="block font-bold text-pink-700 mb-1">Level CEFR</label>
-                        <select id="newLevel" class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none">
+                        <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Level CEFR</label>
+                        <select id="newLevel" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
                             <option value="A2">A2</option>
                             <option value="B1">B1</option><option value="B2" selected>B2</option><option value="C1">C1</option><option value="C2">C2</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block font-bold text-pink-700 mb-1">Kategori</label>
-                        <select id="newCategory" class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none">
+                        <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Kategori</label>
+                        <select id="newCategory" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
                             <option value="General">General</option>
                             <option value="Pedagogy">Pedagogy</option>
                             <option value="SEN">SEN / ABK</option>
@@ -589,12 +664,12 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Arti (Bahasa Indonesia)</label>
-                    <input type="text" id="newMeaning" required class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300">
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Arti (Bahasa Indonesia)</label>
+                    <input type="text" id="newMeaning" required class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300">
                 </div>
                 <div>
-                    <label class="block font-bold text-pink-700 mb-1">Contoh Kalimat</label>
-                    <textarea id="newContext" rows="2" class="w-full px-3 py-2 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
+                    <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Contoh Kalimat</label>
+                    <textarea id="newContext" rows="2" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
                 </div>
                 <button type="submit" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md">
                     Simpan Ke Database <i class="fa-solid fa-heart ml-1"></i>
@@ -642,6 +717,7 @@
         ];
 
         let senCasesList = [...initialSenCases];
+        let historyLogs = [];
 
         const baseVocabBank = [
             { word: "Classroom", level: "A2", meaning: "Ruang kelas tempat belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive tools.", category: "General" },
@@ -741,12 +817,14 @@
         let dailyGoalTarget = 10;
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadDarkMode();
             loadData();
             checkAuth();
             renderStats();
             renderHeatmap();
             filterFlashcards();
             renderSenCases();
+            renderHistoryLogs();
             renderDictionary();
             renderEmailTemplates();
             renderSrsView();
@@ -756,6 +834,36 @@
             initCikalCalendarWidget();
             loadLoveNote();
         });
+
+        // DARK MODE TOGGLE & PERSISTENCE
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('darkModeIcon');
+            const text = document.getElementById('darkModeText');
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('michelle_theme', 'light');
+                icon.className = 'fa-solid fa-moon';
+                text.innerText = 'Night';
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('michelle_theme', 'dark');
+                icon.className = 'fa-solid fa-sun';
+                text.innerText = 'Day';
+            }
+        }
+
+        function loadDarkMode() {
+            const saved = localStorage.getItem('michelle_theme');
+            const icon = document.getElementById('darkModeIcon');
+            const text = document.getElementById('darkModeText');
+            if (saved === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (icon) icon.className = 'fa-solid fa-sun';
+                if (text) text.innerText = 'Day';
+            }
+        }
 
         function loadData() {
             const saved = localStorage.getItem('michelle_vocab_data_v12');
@@ -774,6 +882,11 @@
                 } catch(e) {}
             }
 
+            const savedHistory = localStorage.getItem('michelle_history_logs');
+            if (savedHistory) {
+                try { historyLogs = JSON.parse(savedHistory); } catch(e) {}
+            }
+
             const savedXP = localStorage.getItem('michelle_xp');
             if (savedXP) userXP = parseInt(savedXP);
 
@@ -788,7 +901,90 @@
         function saveData() {
             localStorage.setItem('michelle_vocab_data_v12', JSON.stringify(vocabList));
             localStorage.setItem('michelle_sen_cases', JSON.stringify(senCasesList));
+            localStorage.setItem('michelle_history_logs', JSON.stringify(historyLogs));
             localStorage.setItem('michelle_xp', userXP);
+        }
+
+        // RESET PROGRES DENGAN TERSIMPAN DALAM ARSIP HISTORY LOGS
+        function openResetModal() {
+            const masteredCount = vocabList.filter(v => v.mastered).length;
+            document.getElementById('resetPreviewMastered').innerText = `${masteredCount} Kata`;
+            document.getElementById('resetPreviewXP').innerText = `⭐ ${userXP}`;
+            document.getElementById('resetModal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('resetModal').classList.add('hidden');
+        }
+
+        function confirmResetProgress() {
+            const masteredCount = vocabList.filter(v => v.mastered).length;
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            // Simpan Capaian ke Arsip History
+            historyLogs.unshift({
+                id: historyLogs.length + 1,
+                date: dateStr,
+                mastered: masteredCount,
+                total: vocabList.length,
+                xp: userXP
+            });
+
+            // Reset Status Belajar
+            vocabList.forEach(v => {
+                v.mastered = false;
+                v.srsBox = 1;
+            });
+            userXP = 0;
+
+            saveData();
+            renderStats();
+            filterFlashcards();
+            renderDictionary();
+            renderSrsView();
+            renderHistoryLogs();
+            closeResetModal();
+
+            alert('Progres belajar berhasil di-reset ke awal! Capaian sebelumnya tersimpan rapi di menu "Arsip Belajar". Selamat belajar kembali, Michelle! ✨');
+        }
+
+        function renderHistoryLogs() {
+            const container = document.getElementById('historyLogContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (historyLogs.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center text-xs text-slate-400 dark:text-purple-300/60 p-8 glass-card rounded-3xl">Belum ada arsip riwayat pembelajaran. Setelah melakukan Reset Progres, capaian pembelajaranmu akan muncul di sini!</div>`;
+                return;
+            }
+
+            historyLogs.forEach(log => {
+                const percent = ((log.mastered / log.total) * 100).toFixed(1);
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-2xl glass-card border border-purple-200 dark:border-purple-800 space-y-2 text-xs";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-pink-700 dark:text-purple-300 font-bold">
+                        <span><i class="fa-solid fa-certificate mr-1 text-amber-500"></i> Sesi Belajar #${log.id}</span>
+                        <span class="text-[10px] text-slate-400 dark:text-purple-300/60 font-medium">${log.date}</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-center pt-2">
+                        <div class="p-2 rounded-xl bg-pink-50 dark:bg-purple-900/40">
+                            <span class="text-[9px] text-slate-400 block">Dihafal</span>
+                            <span class="font-bold text-pink-600 dark:text-pink-400 text-sm">${log.mastered} Kata</span>
+                        </div>
+                        <div class="p-2 rounded-xl bg-purple-50 dark:bg-purple-900/40">
+                            <span class="text-[9px] text-slate-400 block">Capaian</span>
+                            <span class="font-bold text-purple-600 dark:text-purple-300 text-sm">${percent}%</span>
+                        </div>
+                        <div class="p-2 rounded-xl bg-rose-50 dark:bg-purple-900/40">
+                            <span class="text-[9px] text-slate-400 block">XP</span>
+                            <span class="font-bold text-rose-500 text-sm">⭐ ${log.xp}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         function addXP(amount) {
@@ -833,15 +1029,14 @@
 
         function switchTab(tab) {
             if (isAutoplayActive && tab !== 'autoplay') stopAutoplay();
-            ['learn', 'sencases', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'testcefr', 'quiz'].forEach(t => {
+            ['learn', 'sencases', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'history', 'testcefr', 'quiz'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tabBtn-${t}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all';
+                document.getElementById(`tabBtn-${t}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all';
             });
             document.getElementById(`tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md';
+            document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 dark:bg-purple-600 text-white shadow-md';
         }
 
-        // RENDER & MANAJEMEN SKENARIO SEN CASE STUDIES
         function renderSenCases() {
             const container = document.getElementById('senCasesContainer');
             if (!container) return;
@@ -849,29 +1044,29 @@
 
             senCasesList.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "p-5 rounded-3xl glass-card border border-pink-200 space-y-3 flex flex-col justify-between";
+                card.className = "p-5 rounded-3xl glass-card border border-pink-200 dark:border-purple-800 space-y-3 flex flex-col justify-between";
                 card.innerHTML = `
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-xs">
-                            <span class="px-2.5 py-1 rounded-full bg-pink-100 text-pink-700 font-extrabold">${item.topic}</span>
-                            <span class="text-slate-400 font-semibold">Case #${item.id}</span>
+                            <span class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-extrabold">${item.topic}</span>
+                            <span class="text-slate-400 dark:text-purple-300/60 font-semibold">Case #${item.id}</span>
                         </div>
-                        <h4 class="font-serif font-bold text-base text-pink-900">${item.title}</h4>
-                        <div class="p-3 rounded-2xl bg-rose-50/60 border border-rose-100 text-xs text-slate-700 leading-relaxed">
-                            <span class="font-bold text-pink-600 block mb-0.5">Skenario Lapangan:</span>
+                        <h4 class="font-serif font-bold text-base text-pink-900 dark:text-purple-100">${item.title}</h4>
+                        <div class="p-3 rounded-2xl bg-rose-50/60 dark:bg-purple-900/30 border border-rose-100 dark:border-purple-800 text-xs text-slate-700 dark:text-purple-200 leading-relaxed">
+                            <span class="font-bold text-pink-600 dark:text-purple-300 block mb-0.5">Skenario Lapangan:</span>
                             "${item.scenario}"
                         </div>
-                        <div class="p-3 rounded-2xl bg-purple-50/60 border border-purple-100 text-xs text-purple-900 leading-relaxed">
-                            <span class="font-bold text-purple-700 block mb-0.5">Strategi Pendampingan Guru (English):</span>
+                        <div class="p-3 rounded-2xl bg-purple-50/60 dark:bg-purple-900/40 border border-purple-100 dark:border-purple-800 text-xs text-purple-900 dark:text-purple-200 leading-relaxed">
+                            <span class="font-bold text-purple-700 dark:text-purple-300 block mb-0.5">Strategi Pendampingan Guru (English):</span>
                             "${item.strategy}"
                         </div>
                     </div>
-                    <div class="pt-2 border-t border-pink-100 flex items-center justify-between">
+                    <div class="pt-2 border-t border-pink-100 dark:border-purple-800/40 flex items-center justify-between">
                         <div class="flex flex-wrap gap-1">
-                            ${(item.keyTerms || []).map(t => `<span class="text-[9px] font-bold px-2 py-0.5 rounded-md bg-white text-pink-600 border border-pink-200">+ ${t}</span>`).join('')}
+                            ${(item.keyTerms || []).map(t => `<span class="text-[9px] font-bold px-2 py-0.5 rounded-md bg-white dark:bg-slate-900 text-pink-600 dark:text-purple-300 border border-pink-200 dark:border-purple-800">+ ${t}</span>`).join('')}
                         </div>
-                        <button onclick="speakWord('${item.strategy.replace(/'/g, "\\'")}')" class="text-xs bg-pink-100 text-pink-700 font-bold px-3 py-1.5 rounded-xl hover:bg-pink-200 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-volume-high text-pink-500"></i> Dengarkan
+                        <button onclick="speakWord('${item.strategy.replace(/'/g, "\\'")}')" class="text-xs bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-bold px-3 py-1.5 rounded-xl hover:bg-pink-200 transition-all flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high text-pink-500 dark:text-purple-300"></i> Dengarkan
                         </button>
                     </div>
                 `;
@@ -981,7 +1176,7 @@
             for (let i = 0; i < 28; i++) {
                 const div = document.createElement('div');
                 const isBright = i % 4 === 0 || i === 27;
-                div.className = `w-4 h-4 rounded-md ${isBright ? 'bg-pink-400' : 'bg-pink-100'} border border-pink-200 flex-shrink-0`;
+                div.className = `w-4 h-4 rounded-md ${isBright ? 'bg-pink-400 dark:bg-purple-500' : 'bg-pink-100 dark:bg-purple-950'} border border-pink-200 dark:border-purple-800 flex-shrink-0`;
                 div.title = `Hari ke-${i + 1}`;
                 container.appendChild(div);
             }
@@ -998,7 +1193,7 @@
         function renderCurrentCard() {
             const container = document.getElementById('flashcardContainer');
             if (filteredCards.length === 0) {
-                container.innerHTML = `<div class="text-center text-xs text-pink-400 p-8 glass-card rounded-3xl">Belum ada kosakata di level ini. Silakan klik <b>+ Tambah Kata</b> di kanan atas!</div>`;
+                container.innerHTML = `<div class="text-center text-xs text-pink-400 dark:text-purple-300 p-8 glass-card rounded-3xl">Belum ada kosakata di level ini. Silakan klik <b>+ Tambah Kata</b> di kanan atas!</div>`;
                 return;
             }
 
@@ -1006,32 +1201,32 @@
             container.innerHTML = `
                 <div id="flashcardObj" class="flashcard w-full max-w-md h-80 cursor-pointer" onclick="this.classList.toggle('flipped')">
                     <div class="flashcard-inner relative w-full h-full duration-500">
-                        <div class="flashcard-front absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-pink-200 text-center shadow-lg">
+                        <div class="flashcard-front absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-pink-200 dark:border-purple-800 text-center shadow-lg">
                             <div class="flex justify-between items-center text-xs">
-                                <span class="px-2.5 py-1 rounded-full bg-pink-100 text-pink-700 font-extrabold uppercase">${card.level}</span>
-                                <span class="text-pink-400 font-medium">${card.category}</span>
+                                <span class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-extrabold uppercase">${card.level}</span>
+                                <span class="text-pink-400 dark:text-purple-300 font-medium">${card.category}</span>
                             </div>
                             <div>
-                                <h2 class="font-serif text-3xl font-extrabold text-pink-800">${card.word}</h2>
-                                <p class="text-xs text-slate-400 mt-1">${card.phonetic}</p>
-                                <button onclick="event.stopPropagation(); speakWord('${card.word}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 text-pink-600 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
+                                <h2 class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-100">${card.word}</h2>
+                                <p class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">${card.phonetic}</p>
+                                <button onclick="event.stopPropagation(); speakWord('${card.word}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-200 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
                             </div>
-                            <p class="text-[11px] text-pink-400 font-medium">Klik kartu untuk melihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
+                            <p class="text-[11px] text-pink-400 dark:text-purple-300 font-medium">Klik kartu untuk melihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
                         </div>
-                        <div class="flashcard-back absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-200 text-center shadow-lg bg-purple-50/30">
+                        <div class="flashcard-back absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-200 dark:border-purple-700 text-center shadow-lg bg-purple-50/30 dark:bg-purple-950/40">
                             <div class="flex justify-between items-center text-xs">
-                                <span class="px-2.5 py-1 rounded-full bg-purple-100 text-purple-700 font-extrabold uppercase">${card.level}</span>
-                                <span class="text-xs text-slate-400">${currentCardIndex + 1} / ${filteredCards.length}</span>
+                                <span class="px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-extrabold uppercase">${card.level}</span>
+                                <span class="text-xs text-slate-400 dark:text-purple-300/60">${currentCardIndex + 1} / ${filteredCards.length}</span>
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-purple-800 mb-2">${card.meaning}</h3>
-                                <div class="p-3 rounded-xl bg-white/80 border border-purple-100 text-left">
-                                    <p class="text-xs text-slate-600 italic">"${card.context}"</p>
+                                <h3 class="text-lg font-bold text-purple-800 dark:text-purple-200 mb-2">${card.meaning}</h3>
+                                <div class="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-purple-100 dark:border-purple-800 text-left">
+                                    <p class="text-xs text-slate-600 dark:text-purple-200 italic">"${card.context}"</p>
                                 </div>
                             </div>
-                            <p class="text-[11px] text-purple-400 font-medium">Klik untuk balikkan kartu</p>
+                            <p class="text-[11px] text-purple-400 dark:text-purple-300 font-medium">Klik untuk balikkan kartu</p>
                         </div>
                     </div>
                 </div>
@@ -1072,7 +1267,7 @@
             const status = document.getElementById('speechFeedbackStatus');
 
             box.classList.remove('hidden');
-            status.className = "text-purple-600 font-bold";
+            status.className = "text-purple-600 dark:text-purple-300 font-bold";
             status.innerHTML = `<i class="fa-solid fa-microphone text-pink-500 animate-pulse mr-1"></i> Mendengarkan... Silakan ucapkan kata di kartu!`;
 
             recognition.start();
@@ -1082,18 +1277,18 @@
                 const targetWord = filteredCards[currentCardIndex].word.toLowerCase().trim();
 
                 if (spokenWord === targetWord || spokenWord.includes(targetWord) || targetWord.includes(spokenWord)) {
-                    status.className = "text-emerald-600 font-extrabold text-sm";
+                    status.className = "text-emerald-600 dark:text-emerald-400 font-extrabold text-sm";
                     status.innerHTML = `🎉 Luar biasa! Pelafalan "${spokenWord}" kamu sangat tepat! <br><span class="text-xs font-bold text-amber-500">+15 XP Reward! ⭐</span>`;
                     addXP(15);
                     confetti({ particleCount: 60, spread: 60, origin: { y: 0.7 } });
                 } else {
-                    status.className = "text-rose-500 font-bold text-xs";
+                    status.className = "text-rose-500 dark:text-rose-400 font-bold text-xs";
                     status.innerHTML = `❌ Kamu mengucapkan: <span class="underline">"${spokenWord}"</span>.<br>Target: "${filteredCards[currentCardIndex].word}". Coba klik Tes Pelafalan lagi! 💪`;
                 }
             };
 
             recognition.onerror = () => {
-                status.className = "text-amber-600 font-bold text-xs";
+                status.className = "text-amber-600 dark:text-amber-400 font-bold text-xs";
                 status.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Tidak terdengar suara/mikrofon belum diizinkan. Coba klik lagi yaa!`;
             };
         }
@@ -1136,7 +1331,7 @@
                 btn.className = "px-5 py-3 rounded-full text-xs font-bold border-2 border-emerald-500 text-white bg-emerald-500 transition-all flex items-center gap-2 shadow-sm";
                 btn.innerHTML = `<i class="fa-solid fa-circle-check text-base"></i> Sudah Dihafal`;
             } else {
-                btn.className = "px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 text-pink-600 bg-white hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm";
+                btn.className = "px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 dark:border-purple-500 text-pink-600 dark:text-purple-200 bg-white dark:bg-slate-900 hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm";
                 btn.innerHTML = `<i class="fa-regular fa-circle-check text-base"></i> Tandai Dihafal`;
             }
         }
@@ -1152,10 +1347,10 @@
             boxes.forEach(b => {
                 const count = vocabList.filter(v => (v.srsBox || 1) === b).length;
                 const boxDiv = document.createElement('div');
-                boxDiv.className = "p-3 rounded-2xl glass-card border border-pink-200 text-center";
+                boxDiv.className = "p-3 rounded-2xl glass-card border border-pink-200 dark:border-purple-800 text-center";
                 boxDiv.innerHTML = `
-                    <div class="text-lg font-black text-pink-600 font-fredoka">${count}</div>
-                    <div class="text-[9px] text-slate-500 font-bold uppercase mt-1">Kotak ${b}</div>
+                    <div class="text-lg font-black text-pink-600 dark:text-purple-300 font-fredoka">${count}</div>
+                    <div class="text-[9px] text-slate-500 dark:text-purple-300/60 font-bold uppercase mt-1">Kotak ${b}</div>
                 `;
                 grid.appendChild(boxDiv);
             });
@@ -1232,7 +1427,7 @@
             
             keyWords.forEach(word => {
                 const btn = document.createElement('button');
-                btn.className = "text-[10px] font-bold px-2.5 py-1 rounded-lg bg-white border border-pink-200 text-pink-700 hover:bg-pink-200 transition-all shadow-sm";
+                btn.className = "text-[10px] font-bold px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 border border-pink-200 dark:border-purple-800 text-pink-700 dark:text-purple-200 hover:bg-pink-200 transition-all shadow-sm";
                 btn.innerText = `+ ${word}`;
                 btn.onclick = () => insertWordToNote(word);
                 container.appendChild(btn);
@@ -1289,15 +1484,15 @@
                 let bodyText = item.body.replace(/{student}/g, student).replace(/{parent}/g, parent).replace(/{teacher}/g, teacher).replace(/{date}/g, date);
 
                 const card = document.createElement('div');
-                card.className = "p-4 rounded-2xl glass-card border border-pink-200 space-y-2 text-xs";
+                card.className = "p-4 rounded-2xl glass-card border border-pink-200 dark:border-purple-800 space-y-2 text-xs";
                 card.innerHTML = `
                     <div class="flex justify-between items-center">
-                        <span class="font-bold text-pink-800 text-sm">${item.title}</span>
-                        <span class="px-2 py-0.5 rounded bg-pink-100 text-pink-700 font-extrabold uppercase">${item.level}</span>
+                        <span class="font-bold text-pink-800 dark:text-purple-200 text-sm">${item.title}</span>
+                        <span class="px-2 py-0.5 rounded bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-extrabold uppercase">${item.level}</span>
                     </div>
-                    <div class="font-bold text-slate-700">Subject: ${subj}</div>
-                    <div class="p-3 rounded-xl bg-white/80 border border-pink-100 text-slate-600 whitespace-pre-line leading-relaxed font-sans">${bodyText}</div>
-                    <button onclick="copyToClipboard('${bodyText.replace(/\n/g, '\\n').replace(/'/g, "\\'")}')" class="w-full py-2 bg-pink-100 text-pink-700 font-bold rounded-xl hover:bg-pink-200 transition-all">
+                    <div class="font-bold text-slate-700 dark:text-purple-200">Subject: ${subj}</div>
+                    <div class="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-pink-100 dark:border-purple-800 text-slate-600 dark:text-purple-200 whitespace-pre-line leading-relaxed font-sans">${bodyText}</div>
+                    <button onclick="copyToClipboard('${bodyText.replace(/\n/g, '\\n').replace(/'/g, "\\'")}')" class="w-full py-2 bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-bold rounded-xl hover:bg-pink-200 transition-all">
                         <i class="fa-solid fa-copy mr-1"></i> Salin Email Ini
                     </button>
                 `;
@@ -1314,11 +1509,11 @@
             const container = document.getElementById('testCefrContainer');
             container.innerHTML = `
                 <div class="text-center space-y-4">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-3xl">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-600 dark:text-purple-300 flex items-center justify-center text-3xl">
                         <i class="fa-solid fa-vial"></i>
                     </div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800">Tes Perkiraan Level CEFR</h3>
-                    <p class="text-xs text-slate-500 leading-relaxed max-w-md mx-auto">
+                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Tes Perkiraan Level CEFR</h3>
+                    <p class="text-xs text-slate-500 dark:text-purple-300/70 leading-relaxed max-w-md mx-auto">
                         Uji kemampuan Bahasa Inggris kamu meliputi Kosakata, Tata Bahasa (Grammar), Membaca, dan Menyimak Audio.
                     </p>
                     <button onclick="startCefrTest()" class="px-8 py-3 pink-gradient-btn text-white font-bold rounded-2xl shadow-lg text-xs">
@@ -1332,11 +1527,11 @@
             const container = document.getElementById('testCefrContainer');
             container.innerHTML = `
                 <div class="space-y-4 text-center">
-                    <span class="text-xs font-bold text-pink-600">Pertanyaan 1 dari 5</span>
-                    <h4 class="font-bold text-base text-slate-800">She ___ to school by bus every day.</h4>
+                    <span class="text-xs font-bold text-pink-600 dark:text-purple-300">Pertanyaan 1 dari 5</span>
+                    <h4 class="font-bold text-base text-slate-800 dark:text-purple-100">She ___ to school by bus every day.</h4>
                     <div class="grid grid-cols-1 gap-2 text-xs">
-                        <button onclick="finishCefrTest(true)" class="p-3 rounded-xl border border-pink-200 bg-white font-semibold hover:bg-pink-50">goes</button>
-                        <button onclick="finishCefrTest(false)" class="p-3 rounded-xl border border-pink-200 bg-white font-semibold hover:bg-pink-50">go</button>
+                        <button onclick="finishCefrTest(true)" class="p-3 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 font-semibold hover:bg-pink-50">goes</button>
+                        <button onclick="finishCefrTest(false)" class="p-3 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 font-semibold hover:bg-pink-50">go</button>
                     </div>
                 </div>
             `;
@@ -1347,8 +1542,8 @@
             const container = document.getElementById('testCefrContainer');
             container.innerHTML = `
                 <div class="text-center space-y-4">
-                    <div class="text-4xl font-extrabold text-pink-600 font-fredoka">Level B2 / C1</div>
-                    <p class="text-xs text-slate-600">Luar biasa! Hasil tes menunjukkan penguasaan yang sangat baik untuk standar mengajar Cikal!</p>
+                    <div class="text-4xl font-extrabold text-pink-600 dark:text-purple-300 font-fredoka">Level B2 / C1</div>
+                    <p class="text-xs text-slate-600 dark:text-purple-200">Luar biasa! Hasil tes menunjukkan penguasaan yang sangat baik untuk standar mengajar Cikal!</p>
                     <button onclick="renderTestCefrHome()" class="px-6 py-2.5 pink-gradient-btn text-white font-bold rounded-xl text-xs">Selesai</button>
                 </div>
             `;
@@ -1374,16 +1569,16 @@
 
             filtered.forEach(item => {
                 const div = document.createElement('div');
-                div.className = `p-3.5 rounded-2xl glass-card border ${item.mastered ? 'border-emerald-200 bg-emerald-50/20' : 'border-pink-100'} flex justify-between items-center`;
+                div.className = `p-3.5 rounded-2xl glass-card border ${item.mastered ? 'border-emerald-200 bg-emerald-50/20 dark:border-emerald-800 dark:bg-emerald-950/20' : 'border-pink-100 dark:border-purple-800'} flex justify-between items-center`;
                 div.innerHTML = `
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-pink-800">${item.word}</span>
-                            <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-pink-100 text-pink-600">${item.level}</span>
+                            <span class="text-xs font-bold text-pink-800 dark:text-purple-200">${item.word}</span>
+                            <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300">${item.level}</span>
                         </div>
-                        <p class="text-xs text-slate-600 mt-0.5">${item.meaning}</p>
+                        <p class="text-xs text-slate-600 dark:text-purple-300/80 mt-0.5">${item.meaning}</p>
                     </div>
-                    <button onclick="toggleDictMastered(${item.id})" class="text-lg ${item.mastered ? 'text-emerald-500' : 'text-slate-300 hover:text-pink-400'}">
+                    <button onclick="toggleDictMastered(${item.id})" class="text-lg ${item.mastered ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-700 hover:text-pink-400'}">
                         <i class="fa-solid fa-circle-check"></i>
                     </button>
                 `;
@@ -1460,7 +1655,7 @@
             container.innerHTML = '';
             options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = "w-full p-3 rounded-xl border border-pink-200 bg-white/80 text-xs font-semibold text-slate-700 hover:bg-pink-50 transition-all text-left";
+                btn.className = "w-full p-3 rounded-xl border border-pink-200 dark:border-purple-800 bg-white/80 dark:bg-slate-900/80 text-xs font-semibold text-slate-700 dark:text-purple-200 hover:bg-pink-50 transition-all text-left";
                 btn.innerText = opt;
                 btn.onclick = () => answerQuiz(opt === q.meaning);
                 container.appendChild(btn);
