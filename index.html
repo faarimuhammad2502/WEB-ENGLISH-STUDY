@@ -202,7 +202,7 @@
                 <div class="p-4 rounded-2xl bg-pink-50/60 border border-pink-100">
                     <span class="text-xs text-pink-500 font-semibold uppercase tracking-wider">Kata Dihafal</span>
                     <div id="statMastered" class="text-3xl font-extrabold text-pink-600 mt-1">0</div>
-                    <span id="statTotalSub" class="text-[10px] text-slate-400">Target 1000 Kata</span>
+                    <span id="statTotalSub" class="text-[10px] text-slate-400">Target Kosakata</span>
                 </div>
                 <div class="p-4 rounded-2xl bg-purple-50/60 border border-purple-100">
                     <span class="text-xs text-purple-600 font-semibold uppercase tracking-wider">Progres Total</span>
@@ -247,7 +247,7 @@
                 <i class="fa-solid fa-pen-to-square mr-1"></i> IEP Notes
             </button>
             <button onclick="switchTab('dict')" id="tabBtn-dict" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
-                <i class="fa-solid fa-book mr-1"></i> Kamus (<span id="tabDictCount">1000</span>)
+                <i class="fa-solid fa-book mr-1"></i> Kamus (<span id="tabDictCount">0</span>)
             </button>
             <button onclick="switchTab('templates')" id="tabBtn-templates" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
                 <i class="fa-solid fa-envelope mr-1"></i> Template Email
@@ -378,7 +378,7 @@
             </div>
         </section>
 
-        <!-- TAB 2: KAMUS 1000 KATA -->
+        <!-- TAB 2: KAMUS KOSAKATA REAL -->
         <section id="tab-dict" class="hidden space-y-4">
             <div class="glass-card rounded-2xl p-4 flex flex-col md:flex-row gap-3 justify-between items-center">
                 <div class="relative w-full md:w-80">
@@ -530,49 +530,54 @@
         </div>
     </div>
 
-    <!-- SCRIPT DATA & COMBINED LOGIC -->
+    <!-- SCRIPT DATA & REAL VOCABULARY LOGIC -->
     <script>
-        const masterCombinedVocab = [
-            { id: 1, word: "Metacognition", level: "C2", meaning: "Kesadaran & pemahaman tentang proses berpikir sendiri", phonetic: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", context: "Encouraging metacognition helps SEN students self-regulate.", category: "Pedagogy" },
-            { id: 2, word: "Scaffolding", level: "C1", meaning: "Dukungan bertahap dari guru hingga siswa mandiri", phonetic: "/ˈskæf.əl.dɪŋ/", context: "Scaffolding complex instruction is vital in inclusive classrooms.", category: "Pedagogy" },
-            { id: 3, word: "Differentiation", level: "C1", meaning: "Penyesuaian pengajaran sesuai kebutuhan unik tiap siswa", phonetic: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", context: "Differentiation allows SEN pupils to access goals.", category: "Pedagogy" },
-            { id: 4, word: "Neurodiversity", level: "C1", meaning: "Keberagaman fungsi otak dan perkembangan saraf", phonetic: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", context: "Celebrating neurodiversity is a core value at Cikal Serpong.", category: "SEN" },
-            { id: 5, word: "Accommodation", level: "B2", meaning: "Penyesuaian cara belajar tanpa merubah standar materi", phonetic: "/əˌkɒm.əˈdeɪ.ʃən/", context: "Extra time during assessments is a helpful accommodation.", category: "SEN" },
-            { id: 6, word: "Formative", level: "B2", meaning: "Evaluasi berkelanjutan selama proses belajar berjalan", phonetic: "/ˈfɔː.mə.tɪv/", context: "Formative assessment guides daily lesson goals.", category: "Pedagogy" },
-            { id: 7, word: "Individualised Education Plan", level: "B2", meaning: "Rencana pendidikan individual (IEP) untuk siswa ABK", phonetic: "/ˌɪn.dɪˈvɪdʒ.u.ə.laɪzd/", context: "We update the Individualised Education Plan every term.", category: "SEN" },
-            { id: 8, word: "Sensory Overload", level: "B2", meaning: "Kelebihan stimulasi panca indera pada anak", phonetic: "/ˈsen.sər.i ˈəʊ.və.ləʊd/", context: "A quiet corner helps during sensory overload.", category: "SEN" }
+        // DAFTAR KOSAKATA REAL DAN BERGUNA UNTUK PENDIDIKAN & CAMBRIDGE
+        const rawRealVocab = [
+            // LEVEL A2
+            { word: "Classroom", level: "A2", meaning: "Ruang kelas tempat proses belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive learning tools.", category: "General" },
+            { word: "Whiteboard", level: "A2", meaning: "Papan tulis putih", phonetic: "/ˈwaɪt.bɔːd/", context: "Ms. Michelle wrote the daily agenda on the whiteboard.", category: "General" },
+            { word: "Lesson Plan", level: "A2", meaning: "Rencana pelaksanaan pembelajaran (RPP)", phonetic: "/ˈles.ən plæn/", context: "Preparing a clear lesson plan helps structure the teaching session.", category: "Pedagogy" },
+            { word: "Assessment", level: "A2", meaning: "Penilaian atau evaluasi pembelajaran", phonetic: "/əˈses.mənt/", context: "Assessment helps track student learning progress over time.", category: "Pedagogy" },
+            { word: "Instruction", level: "A2", meaning: "Petunjuk atau instruksi mengajar", phonetic: "/ɪnˈstrʌk.ʃən/", context: "Clear instructions make class activities easier to follow.", category: "Pedagogy" },
+            { word: "Assignment", level: "A2", meaning: "Tugas sekolah", phonetic: "/əˈsaɪn.mənt/", context: "Students submitted their daily reading assignment.", category: "General" },
+            { word: "Feedback", level: "A2", meaning: "Umpan balik / tanggapan", phonetic: "/ˈfiːd.bæk/", context: "Positive feedback builds student confidence.", category: "Pedagogy" },
+
+            // LEVEL B1
+            { word: "Curriculum", level: "B1", meaning: "Kurikulum atau rancangan mata pelajaran", phonetic: "/kəˈrɪk.jə.ləm/", context: "Sekolah Cikal implements a learner-centered curriculum.", category: "Pedagogy" },
+            { word: "Collaboration", level: "B1", meaning: "Kerja sama antar siswa atau guru", phonetic: "/kəˌlæb.əˈreɪ.ʃən/", context: "Group work fosters strong collaboration skills.", category: "General" },
+            { word: "Inquiry", level: "B1", meaning: "Penyelidikan / Pembelajaran berbasis rasa ingin tahu", phonetic: "/ɪnˈkwaɪ.ə.ri/", context: "Inquiry-based learning encourages critical thinking.", category: "Pedagogy" },
+            { word: "Behavior", level: "B1", meaning: "Perilaku atau tingkah laku siswa", phonetic: "/bɪˈheɪ.vjər/", context: "Understanding student behavior helps in classroom management.", category: "SEN" },
+            { word: "Objective", level: "B1", meaning: "Tujuan pembelajaran", phonetic: "/əbˈdʒek.tɪv/", context: "Today's learning objective is to understand reading context.", category: "Pedagogy" },
+            { word: "Intervention", level: "B1", meaning: "Tindakan intervensi khusus untuk siswa", phonetic: "/ˌɪn.təˈven.ʃən/", context: "Early intervention supports children with learning difficulties.", category: "SEN" },
+
+            // LEVEL B2
+            { word: "Accommodation", level: "B2", meaning: "Penyesuaian cara belajar tanpa merubah standar materi", phonetic: "/əˌkɒm.əˈdeɪ.ʃən/", context: "Providing extra time is a helpful accommodation during tests.", category: "SEN" },
+            { word: "Formative", level: "B2", meaning: "Evaluasi berkelanjutan selama proses belajar", phonetic: "/ˈfɔː.mə.tɪv/", context: "Formative assessment guides daily teaching strategies.", category: "Pedagogy" },
+            { word: "Individualised Education Plan", level: "B2", meaning: "Rencana Pendidikan Individual (IEP) untuk siswa ABK", phonetic: "/ˌɪn.dɪˈvɪdʒ.u.ə.laɪzd/", context: "We review each Individualised Education Plan every term.", category: "SEN" },
+            { word: "Sensory Overload", level: "B2", meaning: "Kelebihan stimulasi panca indera pada anak", phonetic: "/ˈsen.sər.i ˈəʊ.və.ləʊd/", context: "A quiet sensory room helps prevent sensory overload.", category: "SEN" },
+            { word: "Co-regulation", level: "B2", meaning: "Proses pendampingan emosi antara guru dan siswa", phonetic: "/kəʊ ˌreɡ.jəˈleɪ.ʃən/", context: "Co-regulation helps children manage intense emotions.", category: "SEN" },
+            { word: "Syllabus", level: "B2", meaning: "Silabus topik dan alur pembelajaran", phonetic: "/ˈsɪl.ə.bəs/", context: "The Cambridge syllabus provides a global education framework.", category: "Pedagogy" },
+            { word: "Scaffolding", level: "B2", meaning: "Dukungan bertahap dari guru hingga siswa mandiri", phonetic: "/ˈskæf.əl.dɪŋ/", context: "Scaffolding helps students master complex concepts step-by-step.", category: "Pedagogy" },
+
+            // LEVEL C1
+            { word: "Differentiation", level: "C1", meaning: "Penyesuaian pengajaran sesuai kebutuhan unik tiap siswa", phonetic: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", context: "Differentiation ensures every student can access learning goals.", category: "Pedagogy" },
+            { word: "Neurodiversity", level: "C1", meaning: "Keberagaman fungsi otak dan perkembangan saraf", phonetic: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", context: "Embracing neurodiversity creates an inclusive community.", category: "SEN" },
+            { word: "Facilitate", level: "C1", meaning: "Memfasilitasi atau mempermudah proses belajar", phonetic: "/fəˈsɪl.ɪ.teɪt/", context: "Teachers facilitate meaningful discussion in class.", category: "Pedagogy" },
+            { word: "Self-Regulation", level: "C1", meaning: "Kemampuan mengatur emosi & fokus mandiri", phonetic: "/ˌself.reɡ.jəˈleɪ.ʃən/", context: "Self-regulation is a crucial life skill for all learners.", category: "SEN" },
+
+            // LEVEL C2
+            { word: "Metacognition", level: "C2", meaning: "Kesadaran & pemahaman tentang proses berpikir sendiri", phonetic: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", context: "Encouraging metacognition helps SEN students self-reflect.", category: "Pedagogy" },
+            { word: "Pedagogy", level: "C2", meaning: "Ilmu dan metode strategi pengajaran", phonetic: "/ˈped.ə.ɡɒdʒ.i/", context: "Modern pedagogy emphasizes active learning and empathy.", category: "Pedagogy" },
+            { word: "Meticulous", level: "C2", meaning: "Sangat teliti, cermat, dan detail", phonetic: "/məˈtɪk.jə.ləs/", context: "Ms. Michelle is meticulous in tracking student progress.", category: "General" }
         ];
 
         let vocabList = [];
-        (function build1000List() {
+        (function initVocabList() {
             let id = 1;
-            masterCombinedVocab.forEach(item => {
+            rawRealVocab.forEach(item => {
                 vocabList.push({ ...item, id: id++, mastered: false, srsBox: 1 });
             });
-
-            const rawBase = [
-                { w: "Classroom", m: "Ruang kelas", l: "A2" }, { w: "Whiteboard", m: "Papan tulis", l: "A2" },
-                { w: "Lesson Plan", m: "Rencana pembelajaran", l: "A2" }, { w: "Assessment", m: "Penilaian", l: "A2" },
-                { w: "Inquiry", m: "Penyelidikan / Inkuiri", l: "A2" }, { w: "Syllabus", m: "Silabus kurikulum", l: "B2" },
-                { w: "Retrieval Practice", m: "Latihan mengingat kembali", l: "B2" }, { w: "Inclusion", m: "Pendidikan inklusif", l: "B2" },
-                { w: "Furthermore", m: "Lebih lanjut / Terlebih lagi", l: "C1" }, { w: "Facilitate", m: "Memfasilitasi", l: "C1" },
-                { w: "Meticulous", m: "Sangat teliti & cermat", l: "C2" }, { w: "Paramount", m: "Terpenting / Paling utama", l: "C2" }
-            ];
-
-            while (vocabList.length < 1000) {
-                const base = rawBase[vocabList.length % rawBase.length];
-                vocabList.push({
-                    id: id++,
-                    word: `${base.w} ${vocabList.length + 1}`,
-                    level: base.l,
-                    meaning: base.m,
-                    phonetic: `/${base.w.toLowerCase()}/`,
-                    context: `Michelle uses ${base.w.toLowerCase()} during teaching sessions.`,
-                    category: "General",
-                    mastered: false,
-                    srsBox: 1
-                });
-            }
         })();
 
         // APP STATE
@@ -602,11 +607,11 @@
         });
 
         function loadData() {
-            const saved = localStorage.getItem('michelle_vocab_data_v9');
+            const saved = localStorage.getItem('michelle_vocab_data_v10');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    if (parsed.length >= 1000) vocabList = parsed;
+                    if (parsed.length > 0) vocabList = parsed;
                 } catch(e) {}
             }
 
@@ -622,7 +627,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('michelle_vocab_data_v9', JSON.stringify(vocabList));
+            localStorage.setItem('michelle_vocab_data_v10', JSON.stringify(vocabList));
             localStorage.setItem('michelle_xp', userXP);
         }
 
@@ -728,10 +733,10 @@
         function renderStats() {
             const masteredCount = vocabList.filter(v => v.mastered).length;
             const total = vocabList.length;
-            const percent = ((masteredCount / total) * 100).toFixed(1);
+            const percent = total > 0 ? ((masteredCount / total) * 100).toFixed(1) : 0;
 
             document.getElementById('statMastered').innerText = masteredCount;
-            document.getElementById('statTotalSub').innerText = `Target ${total} Kata`;
+            document.getElementById('statTotalSub').innerText = `${total} Kosakata Total`;
             document.getElementById('tabDictCount').innerText = total;
             document.getElementById('statPercent').innerText = `${percent}%`;
             document.getElementById('statXP').innerText = `⭐ ${userXP}`;
@@ -766,7 +771,7 @@
         function renderCurrentCard() {
             const container = document.getElementById('flashcardContainer');
             if (filteredCards.length === 0) {
-                container.innerHTML = `<div class="text-center text-xs text-pink-400">Tidak ada kosakata untuk level ini.</div>`;
+                container.innerHTML = `<div class="text-center text-xs text-pink-400 p-8 glass-card rounded-3xl">Belum ada kosakata di level ini. Silakan klik <b>+ Tambah Kata</b> di kanan atas!</div>`;
                 return;
             }
 
@@ -806,7 +811,6 @@
             `;
             updateMasteredButtonState();
             
-            // RESET FEEDBACK BOX
             const feedbackBox = document.getElementById('speechFeedbackBox');
             if (feedbackBox) feedbackBox.classList.add('hidden');
         }
@@ -817,12 +821,11 @@
             window.speechSynthesis.speak(utterance);
         }
 
-        // FITUR BARU TES PELAFALAN DENGAN FEEDBACK VISUAL & REWARD +15 XP
         function testPronunciation() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             
             if (!SpeechRecognition) {
-                alert('Browser kamu belum mendukung Speech Recognition. Silakan gunakan Google Chrome di Laptop / HP Android.');
+                alert('Browser kamu belum mendukung Speech Recognition. Silakan gunakan Google Chrome.');
                 return;
             }
 
@@ -844,15 +847,9 @@
                 const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
                 const targetWord = filteredCards[currentCardIndex].word.toLowerCase().trim();
 
-                // Dapatkan versi bersih tanpa nomor/simbol
-                const cleanTarget = targetWord.replace(/[^a-z\s]/g, '').trim();
-                const cleanSpoken = spokenWord.replace(/[^a-z\s]/g, '').trim();
-
-                if (cleanSpoken === cleanTarget || cleanSpoken.includes(cleanTarget) || cleanTarget.includes(cleanSpoken)) {
+                if (spokenWord === targetWord || spokenWord.includes(targetWord) || targetWord.includes(spokenWord)) {
                     status.className = "text-emerald-600 font-extrabold text-sm";
                     status.innerHTML = `🎉 Luar biasa! Pelafalan "${spokenWord}" kamu sangat tepat! <br><span class="text-xs font-bold text-amber-500">+15 XP Reward! ⭐</span>`;
-                    
-                    // REWARD XP & CONFETTI
                     addXP(15);
                     confetti({ particleCount: 60, spread: 60, origin: { y: 0.7 } });
                 } else {
@@ -861,7 +858,7 @@
                 }
             };
 
-            recognition.onerror = (event) => {
+            recognition.onerror = () => {
                 status.className = "text-amber-600 font-bold text-xs";
                 status.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Tidak terdengar suara/mikrofon belum diizinkan. Coba klik lagi yaa!`;
             };
@@ -960,7 +957,7 @@
         }
 
         function playNextAutoplayItem() {
-            if (!isAutoplayActive) return;
+            if (!isAutoplayActive || vocabList.length === 0) return;
 
             const item = vocabList[autoplayIndex % vocabList.length];
             document.getElementById('autoLevelBadge').innerText = `Level ${item.level}`;
@@ -1000,7 +997,7 @@
         function renderNoteVocabChips() {
             const container = document.getElementById('noteVocabChips');
             container.innerHTML = '';
-            const keyWords = ["Scaffolding", "Differentiation", "Co-regulation", "Formative Assessment", "Neurodiversity", "Accommodation", "Executive Functioning"];
+            const keyWords = ["Scaffolding", "Differentiation", "Co-regulation", "Formative Assessment", "Neurodiversity", "Accommodation", "Self-Regulation"];
             
             keyWords.forEach(word => {
                 const btn = document.createElement('button');
@@ -1227,7 +1224,7 @@
             document.getElementById('quizQuestion').innerText = `Apa arti dari kosakata "${q.word}"?`;
 
             const options = [q.meaning];
-            while (options.length < 4) {
+            while (options.length < 4 && vocabList.length > 1) {
                 const rand = vocabList[Math.floor(Math.random() * vocabList.length)].meaning;
                 if (!options.includes(rand)) options.push(rand);
             }
