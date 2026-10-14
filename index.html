@@ -175,22 +175,22 @@
 
         <!-- NAVIGATION TABS -->
         <div class="flex flex-wrap justify-center gap-1.5 p-1.5 glass-card rounded-2xl max-w-3xl mx-auto">
-            <button onclick="switchTab('learn')" id="tabBtn-learn" class="flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md">
+            <button onclick="switchTab('learn')" id="tabBtn-learn" class="flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md">
                 <i class="fa-solid fa-book-open mr-1"></i> Belajar
             </button>
-            <button onclick="switchTab('spelling')" id="tabBtn-spelling" class="flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
-                <i class="fa-solid fa-keyboard mr-1"></i> Ejaan
-            </button>
-            <button onclick="switchTab('iep')" id="tabBtn-iep" class="flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('notes')" id="tabBtn-notes" class="flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
                 <i class="fa-solid fa-pen-to-square mr-1"></i> Catatan IEP
             </button>
-            <button onclick="switchTab('dict')" id="tabBtn-dict" class="flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('spelling')" id="tabBtn-spelling" class="flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+                <i class="fa-solid fa-keyboard mr-1"></i> Ejaan
+            </button>
+            <button onclick="switchTab('dict')" id="tabBtn-dict" class="flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
                 <i class="fa-solid fa-book mr-1"></i> Kamus (<span id="tabDictCount">1000</span>)
             </button>
-            <button onclick="switchTab('phrases')" id="tabBtn-phrases" class="flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('phrases')" id="tabBtn-phrases" class="flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
                 <i class="fa-solid fa-comments mr-1"></i> Frasa ABK
             </button>
-            <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
+            <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all">
                 <i class="fa-solid fa-puzzle-piece mr-1"></i> Quiz
             </button>
         </div>
@@ -222,9 +222,11 @@
                 <button onclick="prevCard()" class="w-12 h-12 rounded-full glass-card border border-pink-200 text-pink-600 flex items-center justify-center shadow-md hover:bg-pink-50 transition-all">
                     <i class="fa-solid fa-chevron-left text-lg"></i>
                 </button>
+
                 <button onclick="testPronunciation()" class="px-4 py-3 rounded-full text-xs font-bold bg-purple-100 text-purple-700 hover:bg-purple-200 transition-all flex items-center gap-1.5 border border-purple-200 shadow-sm">
                     <i class="fa-solid fa-microphone text-purple-600"></i> Tes Pelafalan
                 </button>
+
                 <button onclick="toggleMasteredCurrent()" id="masteredBtn" class="px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 text-pink-600 bg-white hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm">
                     <i class="fa-regular fa-circle-check text-base"></i> Tandai Dihafal
                 </button>
@@ -236,13 +238,48 @@
             <div id="speechFeedback" class="text-center text-xs font-semibold text-purple-600 hidden"></div>
         </section>
 
-        <!-- TAB LATIHAN EJAAN & SPELLING -->
+        <!-- FITUR BARU POIN 1: TAB CATATAN IEP & LESSON PLANNER PRIBADI MICHELLE -->
+        <section id="tab-notes" class="hidden space-y-4">
+            <div class="glass-card rounded-3xl p-6 space-y-4">
+                <div class="flex justify-between items-center border-b border-pink-100 pb-3">
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-pen-to-square text-pink-500 mr-2"></i> Asisten Catatan IEP & Lesson Plan Pribadi</h3>
+                        <p class="text-xs text-slate-500">Ruang latihan mandiri Michelle menyusun catatan pengajaran dalam Bahasa Inggris profesional.</p>
+                    </div>
+                    <button onclick="downloadTeacherNote()" class="text-xs bg-purple-100 text-purple-700 font-bold px-3 py-1.5 rounded-xl hover:bg-purple-200 transition-all">
+                        <i class="fa-solid fa-file-arrow-down mr-1"></i> Simpan File Teks
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- KOLOM 1: REKOMENDASI KOSAKATA PRIBADI -->
+                    <div class="p-4 rounded-2xl bg-pink-50/60 border border-pink-100 space-y-3">
+                        <h4 class="text-xs font-bold text-pink-700 uppercase tracking-wider"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Klik Kata Cikal/Cambridge</h4>
+                        <p class="text-[11px] text-slate-500">Klik kata di bawah ini untuk menyelipkannya ke dalam draf catatanmu:</p>
+                        <div class="flex flex-wrap gap-1.5" id="noteVocabChips">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- KOLOM 2 & 3: AREA TEXTAREA DRAF -->
+                    <div class="md:col-span-2 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <label class="text-xs font-bold text-pink-800">Draf Catatan Pengajaran Pribadi Michelle:</label>
+                            <span id="noteSavedStatus" class="text-[10px] text-emerald-600 font-semibold hidden"><i class="fa-solid fa-check mr-1"></i> Tersimpan Otomatis</span>
+                        </div>
+                        <textarea id="teacherNoteInput" oninput="autoSaveNote()" rows="10" placeholder="Ketik draf catatan perkembangan murid atau rencana pengajaran harian di sini... (Contoh: Today, the student demonstrated great progress in co-regulation through scaffolding...)" class="w-full p-4 rounded-2xl border-2 border-pink-200 focus:outline-none focus:border-pink-400 bg-white/90 text-xs text-slate-700 leading-relaxed font-sans"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB LATIHAN EJAAN -->
         <section id="tab-spelling" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 max-w-xl mx-auto text-center space-y-5">
                 <span class="text-xs font-bold uppercase tracking-wider text-pink-500"><i class="fa-solid fa-keyboard mr-1"></i> Mode Latihan Ejaan</span>
                 <div class="p-4 rounded-2xl bg-pink-50/70 border border-pink-200 text-left">
                     <span id="spellingLevel" class="text-[10px] font-black px-2 py-0.5 rounded bg-pink-200 text-pink-800 uppercase">Level B2</span>
-                    <h4 id="spellingHintMeaning" class="font-bold text-base text-slate-800 mt-2">Dukungan bertahap dari guru kepada siswa...</h4>
+                    <h4 id="spellingHintMeaning" class="font-bold text-base text-slate-800 mt-2">...</h4>
                     <p id="spellingContextHint" class="text-xs text-slate-500 italic mt-1">"..."</p>
                 </div>
                 <div class="space-y-3">
@@ -255,37 +292,7 @@
             </div>
         </section>
 
-        <!-- FITUR BARU POIN 1: TAB ASISTEN CATATAN IEP & LESSON PLAN -->
-        <section id="tab-iep" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 max-w-3xl mx-auto space-y-5">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800"><i class="fa-solid fa-pen-to-square text-pink-500 mr-2"></i> Asisten Catatan IEP & Lesson Plan</h3>
-                        <p class="text-xs text-slate-500">Buat draf laporan siswa dengan kosakata pedagogi profesional Cambridge.</p>
-                    </div>
-                    <button onclick="copyIepNotes()" class="px-3.5 py-2 rounded-xl bg-pink-100 text-pink-700 hover:bg-pink-200 text-xs font-bold transition-all">
-                        <i class="fa-regular fa-copy mr-1"></i> Salin Catatan
-                    </button>
-                </div>
-
-                <!-- SMART SUGGESTION PHRASES -->
-                <div class="p-4 rounded-2xl bg-purple-50/60 border border-purple-100 space-y-2">
-                    <span class="text-[11px] font-bold text-purple-700 block"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Klik frasa otomatis untuk memasukkan ke catatan:</span>
-                    <div class="flex flex-wrap gap-1.5" id="iepSuggestions">
-                        <!-- Injected via JavaScript -->
-                    </div>
-                </div>
-
-                <!-- NOTE EDITOR TEXTAREA -->
-                <div>
-                    <label class="block text-xs font-bold text-pink-700 mb-1 ml-1">Draf Catatan Perkembangan Siswa (Bahasa Inggris)</label>
-                    <textarea id="iepNoteText" rows="6" placeholder="Ketik atau klik frasa rekomendasi di atas untuk menyusun catatan IEP..." class="w-full p-4 rounded-2xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white/90 text-xs text-slate-700 font-medium leading-relaxed"></textarea>
-                </div>
-                <div id="iepCopyStatus" class="text-xs font-bold text-emerald-600 hidden text-center">Catatan berhasil disalin ke clipboard! ✨</div>
-            </div>
-        </section>
-
-        <!-- TAB 2: KAMUS & PENCARIAN 1000 KATA -->
+        <!-- TAB 2: KAMUS 1000 KATA -->
         <section id="tab-dict" class="hidden space-y-4">
             <div class="glass-card rounded-2xl p-4 flex flex-col md:flex-row gap-3 justify-between items-center">
                 <div class="relative w-full md:w-80">
@@ -311,7 +318,7 @@
             </div>
         </section>
 
-        <!-- TAB: FRASA KHUSUS GURU ABK & CIKAL SERPONG -->
+        <!-- TAB FRASA GURU ABK -->
         <section id="tab-phrases" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 space-y-4">
                 <div class="flex justify-between items-center">
@@ -369,7 +376,7 @@
 
     </main>
 
-    <!-- MODAL: TAMBAH KOSAKATA BARU MANDIRI -->
+    <!-- MODAL TAMBAH KOSAKATA MANDIRI -->
     <div id="addVocabModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
         <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-pink-200 relative">
             <button onclick="closeAddVocabModal()" class="absolute right-4 top-4 text-pink-400 hover:text-pink-600"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -413,15 +420,6 @@
 
     <!-- SCRIPT DATA & APP LOGIC -->
     <script>
-        const iepSuggestionsList = [
-            "The student demonstrated improved self-regulation during class.",
-            "Scaffolding was applied to help with complex instructions.",
-            "Showing great progress in executive functioning tasks.",
-            "Responded positively to sensory breaks during the lesson.",
-            "Requires individualized support for transition between tasks.",
-            "Engaged actively in collaborative inquiry learning."
-        ];
-
         const translationDictionary = {
             "ability": { m: "Kemampuan / Keahlian", c: "Every child has a unique learning ability." },
             "absorb": { m: "Menyerap (Informasi/Pelajaran)", c: "Students absorb new concepts better through visuals." },
@@ -432,14 +430,26 @@
             "accuracy": { m: "Ketepatan / Akurasi", c: "Practice improves speaking fluency and accuracy." },
             "achieve": { m: "Mencapai / Meraih Keberhasilan", c: "Students achieve milestones through consistent effort." },
             "acknowledge": { m: "Mengakui / Menghargai Usaha", c: "Always acknowledge every positive effort in class." },
-            "acquire": { m: "Menguasai Keterampilan Baru", c: "Children acquire vocabulary rapidly through active play." }
+            "acquire": { m: "Menguasai Keterampilan Baru", c: "Children acquire vocabulary rapidly through active play." },
+            "action": { m: "Tindakan / Langkah Nyata", c: "Take positive action to support students with special needs." },
+            "activate": { m: "Mengaktifkan (Pengetahuan Awal)", c: "Activate prior knowledge before introducing a new topic." },
+            "active": { m: "Aktif / Antusias", c: "Active learning keeps students engaged in the lesson." },
+            "adapt": { m: "Menyesuaikan Diri", c: "Teachers adapt learning strategies to fit each child." },
+            "adequate": { m: "Memadai / Cukup", c: "Ensure adequate rest and sensory breaks during study." },
+            "adjust": { m: "Mengatur / Mengubah Penyesuaian", c: "Adjust lesson pace when students need more time." },
+            "administer": { m: "Mengelola / Mengatur Tugas", c: "Teachers administer classroom activities smoothly." },
+            "adolescence": { m: "Masa Remaja / Perkembangan", c: "Understanding developmental changes in adolescence." },
+            "advocate": { m: "Mendukung / Membela Hak Anak", c: "Educators advocate for inclusive rights at school." },
+            "affective": { m: "Berkaitan dengan Emosi & Perasaan", c: "Pay attention to the child's affective emotional state." }
         };
 
         const teacherPhrasesList = [
             { category: "IEP & Target Belajar", en: "Let's review the IEP goals for this term.", id: "Mari kita tinjau target IEP untuk semester ini." },
             { category: "Penanganan Sensori", en: "He is experiencing sensory overload right now.", id: "Dia sedang mengalami kelebihan beban sensori saat ini." },
             { category: "Instruksi Kelas", en: "First, complete the task, then you can have a short break.", id: "Pertama, selesaikan tugasnya, lalu kamu boleh istirahat sejenak." },
-            { category: "Diskusi Orang Tua", en: "She showed great progress in co-regulation today.", id: "Dia menunjukkan kemajuan pesat dalam mengelola emosi bersama hari ini." }
+            { category: "Diskusi Orang Tua", en: "She showed great progress in co-regulation today.", id: "Dia menunjukkan kemajuan pesat dalam mengelola emosi bersama hari ini." },
+            { category: "Regulasi Emosi", en: "Take a deep breath and use your calm words.", id: "Tarik napas dalam-dalam dan gunakan kata-kata yang tenang." },
+            { category: "Apresiasi & Semangat", en: "You did an incredible job staying focused!", id: "Kamu melakukan pekerjaan luar biasa dalam menjaga fokus!" }
         ];
 
         const masterCoreList = [
@@ -447,24 +457,33 @@
             { w: "Scaffolding", l: "C1", m: "Dukungan bertahap dari guru hingga siswa mandiri", p: "/ˈskæf.əl.dɪŋ/", c: "Scaffolding complex instruction is vital in inclusive classrooms.", cat: "Pedagogy" },
             { w: "Differentiation", l: "C1", m: "Penyesuaian pengajaran sesuai kebutuhan unik tiap siswa", p: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", c: "Differentiation allows SEN pupils to access goals.", cat: "Pedagogy" },
             { w: "Neurodiversity", l: "C1", m: "Keberagaman fungsi otak dan perkembangan saraf", p: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", c: "Celebrating neurodiversity is a core value at Cikal Serpong.", cat: "SEN" },
-            { w: "Accommodation", l: "B2", m: "Penyesuaian cara belajar tanpa merubah standar materi", p: "/əˌkɒm.əˈdeɪ.ʃən/", c: "Extra time during assessments is a helpful accommodation.", cat: "SEN" }
+            { w: "Accommodation", l: "B2", m: "Penyesuaian cara belajar tanpa merubah standar materi", p: "/əˌkɒm.əˈdeɪ.ʃən/", c: "Extra time during assessments is a helpful accommodation.", cat: "SEN" },
+            { w: "Formative", l: "B2", m: "Evaluasi berkelanjutan selama proses belajar berjalan", p: "/ˈfɔː.mə.tɪv/", c: "Formative assessment guides daily lesson goals.", cat: "Pedagogy" },
+            { w: "Empathetic", l: "B2", m: "Kemampuan memahami dan merasakan emosi orang lain", p: "/ˌem.pəˈθet.ɪk/", c: "Michelle is an empathetic educator for all her students.", cat: "General" },
+            { w: "Sensory", l: "B2", m: "Berhubungan dengan panca indera dan persepsi tubuh", p: "/ˈsen.sər.i/", c: "Sensory tools help children focus better in class.", cat: "SEN" },
+            { w: "Co-regulation", l: "C1", m: "Pendampingan emosi bersama antara guru dan siswa", p: "/kəʊ ˌreɡ.jəˈleɪ.ʃən/", c: "Co-regulation helps calm anxious learners during transitions.", cat: "SEN" },
+            { w: "Inquiry", l: "B2", m: "Pembelajaran berbasis eksplorasi dan rasa ingin tahu", p: "/ɪnˈkwaɪ.ə.ri/", c: "Inquiry-based learning fosters curiosity in pupils.", cat: "Pedagogy" },
+            { w: "Resilience", l: "C1", m: "Ketangguhan mental untuk bangkit dari tantangan", p: "/rɪˈzɪl.jəns/", c: "Resilience helps students overcome learning obstacles.", cat: "General" },
+            { w: "Intervention", l: "B2", m: "Penanganan khusus untuk mendukung tumbuh kembang", p: "/ˌɪn.təˈven.ʃən/", c: "Early intervention yields positive educational outcomes.", cat: "SEN" },
+            { w: "Comprehensive", l: "B2", m: "Menyeluruh dan mencakup semua aspek penting", p: "/ˌkɒm.prɪˈhen.sɪv/", c: "A comprehensive assessment provides clear student profile.", cat: "Pedagogy" },
+            { w: "Collaborative", l: "B2", m: "Bersifat bekerja sama secara tim", p: "/kəˈlæb.ər.ə.tɪv/", c: "Collaborative teaching strengthens student support.", cat: "General" },
+            { w: "Teacher", l: "A0", m: "Guru / Pendidik", p: "/ˈtiː.tʃər/", c: "Michelle is an inspiring teacher.", cat: "General" },
+            { w: "Student", l: "A0", m: "Murid / Siswa", p: "/ˈstjuː.dənt/", c: "Every student learns at their own pace.", cat: "General" },
+            { w: "School", l: "A0", m: "Sekolah", p: "/skuːl/", c: "Sekolah Cikal Serpong provides inclusive education.", cat: "General" },
+            { w: "Smile", l: "A0", m: "Senyuman", p: "/smaɪl/", c: "A warm smile creates a welcoming classroom.", cat: "General" },
+            { w: "Listen", l: "A1", m: "Mendengarkan", p: "/ˈlɪs.ən/", c: "Listen attentively to the children's needs.", cat: "General" },
+            { w: "Support", l: "A1", m: "Mendukung / Bantuan", p: "/səˈpɔːt/", c: "Shadow teachers offer dedicated support.", cat: "SEN" },
+            { w: "Helpful", l: "A1", m: "Suka membantu / Bermanfaat", p: "/ˈhelp.fəl/", c: "Peer support creates a helpful community.", cat: "General" },
+            { w: "Focus", l: "A2", m: "Fokus / Konsentrasi", p: "/ˈfəʊ.kəs/", c: "Visual cues help students maintain focus.", cat: "General" },
+            { w: "Patience", l: "A2", m: "Kesabaran", p: "/ˈpeɪ.ʃəns/", c: "Patience is essential when teaching special needs.", cat: "General" },
+            { w: "Encourage", l: "A2", m: "Mendorong / Memberi semangat", p: "/ɪnˈkʌr.ɪdʒ/", c: "Encourage small daily achievements in class.", cat: "General" }
         ];
 
         let vocabList = [];
         (function build1000CleanList() {
             let id = 1;
-
             masterCoreList.forEach(item => {
-                vocabList.push({
-                    id: id++,
-                    word: item.w,
-                    level: item.l,
-                    meaning: item.m,
-                    phonetic: item.p,
-                    context: item.c,
-                    category: item.cat,
-                    mastered: false
-                });
+                vocabList.push({ id: id++, word: item.w, level: item.l, meaning: item.m, phonetic: item.p, context: item.c, category: item.cat, mastered: false });
             });
 
             const keys = Object.keys(translationDictionary);
@@ -476,16 +495,7 @@
                 const info = translationDictionary[key];
                 const lvl = levels[vocabList.length % levels.length];
 
-                vocabList.push({
-                    id: id++,
-                    word: cleanWord,
-                    level: lvl,
-                    meaning: info.m,
-                    phonetic: `/${key}/`,
-                    context: info.c,
-                    category: "General",
-                    mastered: false
-                });
+                vocabList.push({ id: id++, word: cleanWord, level: lvl, meaning: info.m, phonetic: `/${key}/`, context: info.c, category: "General", mastered: false });
             }
         })();
 
@@ -504,44 +514,36 @@
             filterFlashcards();
             renderDictionary();
             renderTeacherPhrases();
-            renderIepSuggestions();
             setupSpellingQuestion();
+            loadTeacherNote();
+            renderNoteVocabChips();
         });
 
         function loadData() {
-            const saved = localStorage.getItem('michelle_vocab_data_v8');
+            const saved = localStorage.getItem('michelle_vocab_data_v7');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    if (parsed.length >= 1000) {
-                        vocabList = parsed;
-                    } else {
-                        saveData();
-                    }
-                } catch(e) {
-                    saveData();
-                }
-            } else {
-                saveData();
-            }
+                    if (parsed.length >= 1000) vocabList = parsed;
+                    else saveData();
+                } catch(e) { saveData(); }
+            } else { saveData(); }
         }
 
         function saveData() {
-            localStorage.setItem('michelle_vocab_data_v8', JSON.stringify(vocabList));
+            localStorage.setItem('michelle_vocab_data_v7', JSON.stringify(vocabList));
         }
 
         // AUTH & LOGIN
         function checkAuth() {
-            const isAuth = localStorage.getItem('michelle_auth');
-            if (isAuth === 'true') {
+            if (localStorage.getItem('michelle_auth') === 'true') {
                 document.getElementById('loginOverlay').classList.add('hidden');
             }
         }
 
         function handleLogin(e) {
             e.preventDefault();
-            const pass = document.getElementById('loginPass').value.trim();
-            if (pass.toUpperCase() === 'SEMANGATBELAJAR') {
+            if (document.getElementById('loginPass').value.trim().toUpperCase() === 'SEMANGATBELAJAR') {
                 localStorage.setItem('michelle_auth', 'true');
                 document.getElementById('loginOverlay').classList.add('hidden');
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -569,12 +571,12 @@
 
         // NAVIGATION TABS
         function switchTab(tab) {
-            ['learn', 'spelling', 'iep', 'dict', 'phrases', 'quiz'].forEach(t => {
+            ['learn', 'notes', 'spelling', 'dict', 'phrases', 'quiz'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tabBtn-${t}`).className = 'flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all';
+                document.getElementById(`tabBtn-${t}`).className = 'flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold text-pink-700 hover:bg-pink-100/50 transition-all';
             });
             document.getElementById(`tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[90px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md';
+            document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[85px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md';
         }
 
         // RENDER STATS & HEATMAP
@@ -602,41 +604,62 @@
             }
         }
 
-        // POIN 1: LOGIC ASISTEN IEP & LESSON PLAN
-        function renderIepSuggestions() {
-            const container = document.getElementById('iepSuggestions');
+        // FITUR BARU POIN 1 LOGIC: ASISTEN CATATAN PRIBADI MICHELLE
+        function renderNoteVocabChips() {
+            const container = document.getElementById('noteVocabChips');
             container.innerHTML = '';
-            iepSuggestionsList.forEach(text => {
+            const keyWords = ["Scaffolding", "Differentiation", "Co-regulation", "Formative Assessment", "Neurodiversity", "Accommodation", "Executive Functioning", "Inquiry-based", "Intrinsic Motivation"];
+            
+            keyWords.forEach(word => {
                 const btn = document.createElement('button');
-                btn.className = "text-[10px] font-semibold px-2.5 py-1.5 rounded-lg bg-white border border-purple-200 text-purple-800 hover:bg-purple-100 transition-all text-left";
-                btn.innerText = text;
-                btn.onclick = () => insertIepText(text);
+                btn.className = "text-[10px] font-bold px-2.5 py-1 rounded-lg bg-white border border-pink-200 text-pink-700 hover:bg-pink-200 transition-all shadow-sm";
+                btn.innerText = `+ ${word}`;
+                btn.onclick = () => insertWordToNote(word);
                 container.appendChild(btn);
             });
         }
 
-        function insertIepText(text) {
-            const textarea = document.getElementById('iepNoteText');
-            textarea.value += (textarea.value ? " " : "") + text;
+        function insertWordToNote(word) {
+            const noteArea = document.getElementById('teacherNoteInput');
+            noteArea.value += (noteArea.value ? ' ' : '') + word;
+            autoSaveNote();
         }
 
-        function copyIepNotes() {
-            const textarea = document.getElementById('iepNoteText');
-            if (!textarea.value) return;
-            navigator.clipboard.writeText(textarea.value);
-            const status = document.getElementById('iepCopyStatus');
+        function autoSaveNote() {
+            const text = document.getElementById('teacherNoteInput').value;
+            localStorage.setItem('michelle_private_note', text);
+            const status = document.getElementById('noteSavedStatus');
             status.classList.remove('hidden');
             setTimeout(() => status.classList.add('hidden'), 2000);
         }
 
-        // FLASHCARD LOGIC
+        function loadTeacherNote() {
+            const saved = localStorage.getItem('michelle_private_note');
+            if (saved) {
+                document.getElementById('teacherNoteInput').value = saved;
+            }
+        }
+
+        function downloadTeacherNote() {
+            const text = document.getElementById('teacherNoteInput').value;
+            if (!text.trim()) {
+                alert('Belum ada catatan yang ditulis.');
+                return;
+            }
+            const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+            const dlAnchor = document.createElement('a');
+            dlAnchor.href = URL.createObjectURL(blob);
+            dlAnchor.download = "Michelle_IEP_Lesson_Draft.txt";
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+        // FLASHCARD LOGIC & SPEECH TEST
         function filterFlashcards() {
             const lvl = document.getElementById('levelFilter').value;
-            if (lvl === 'ALL') {
-                filteredCards = [...vocabList];
-            } else {
-                filteredCards = vocabList.filter(v => v.level === lvl);
-            }
+            if (lvl === 'ALL') filteredCards = [...vocabList];
+            else filteredCards = vocabList.filter(v => v.level === lvl);
             currentCardIndex = 0;
             renderCurrentCard();
         }
@@ -652,7 +675,6 @@
             container.innerHTML = `
                 <div id="flashcardObj" class="flashcard w-full max-w-md h-80 cursor-pointer" onclick="this.classList.toggle('flipped')">
                     <div class="flashcard-inner relative w-full h-full duration-500">
-                        <!-- FRONT -->
                         <div class="flashcard-front absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-pink-200 text-center shadow-lg">
                             <div class="flex justify-between items-center text-xs">
                                 <span class="px-2.5 py-1 rounded-full bg-pink-100 text-pink-700 font-extrabold uppercase">${card.level}</span>
@@ -667,7 +689,6 @@
                             </div>
                             <p class="text-[11px] text-pink-400 font-medium">Klik kartu untuk melihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
                         </div>
-                        <!-- BACK -->
                         <div class="flashcard-back absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-200 text-center shadow-lg bg-purple-50/30">
                             <div class="flex justify-between items-center text-xs">
                                 <span class="px-2.5 py-1 rounded-full bg-purple-100 text-purple-700 font-extrabold uppercase">${card.level}</span>
@@ -699,7 +720,6 @@
                 alert('Browser kamu belum mendukung Speech Recognition. Coba pakai Google Chrome.');
                 return;
             }
-
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             const recognition = new SpeechRecognition();
             recognition.lang = 'en-US';
@@ -710,7 +730,6 @@
             feedback.classList.remove('hidden');
 
             recognition.start();
-
             recognition.onresult = (event) => {
                 const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
                 const targetWord = filteredCards[currentCardIndex].word.toLowerCase().trim();
@@ -747,9 +766,7 @@
                 saveData();
                 renderStats();
                 updateMasteredButtonState();
-                if (target.mastered) {
-                    confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
-                }
+                if (target.mastered) confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
             }
         }
 
@@ -766,7 +783,7 @@
             }
         }
 
-        // LATIHAN EJAAN & SPELLING
+        // SPELLING LOGIC
         function setupSpellingQuestion() {
             spellingCurrentCard = vocabList[Math.floor(Math.random() * vocabList.length)];
             document.getElementById('spellingLevel').innerText = `Level ${spellingCurrentCard.level}`;
@@ -792,7 +809,7 @@
             }
         }
 
-        // FRASA GURU ABK
+        // FRASA GURU LOGIC
         function renderTeacherPhrases() {
             const container = document.getElementById('phrasesContainer');
             container.innerHTML = '';
@@ -859,14 +876,9 @@
             }
         }
 
-        // MODAL TAMBAH KOSAKATA MANDIRI & EXPORT
-        function openAddVocabModal() {
-            document.getElementById('addVocabModal').classList.remove('hidden');
-        }
-
-        function closeAddVocabModal() {
-            document.getElementById('addVocabModal').classList.add('hidden');
-        }
+        // MODAL ADD VOCAB
+        function openAddVocabModal() { document.getElementById('addVocabModal').classList.remove('hidden'); }
+        function closeAddVocabModal() { document.getElementById('addVocabModal').classList.add('hidden'); }
 
         function handleAddVocabSubmit(e) {
             e.preventDefault();
@@ -876,18 +888,7 @@
             const meaning = document.getElementById('newMeaning').value.trim();
             const context = document.getElementById('newContext').value.trim() || `Example context for ${word}.`;
 
-            const newEntry = {
-                id: vocabList.length + 1,
-                word: word,
-                level: level,
-                meaning: meaning,
-                phonetic: `/${word.toLowerCase()}/`,
-                context: context,
-                category: category,
-                mastered: false
-            };
-
-            vocabList.unshift(newEntry);
+            vocabList.unshift({ id: vocabList.length + 1, word, level, meaning, phonetic: `/${word.toLowerCase()}/`, context, category, mastered: false });
             saveData();
             renderStats();
             filterFlashcards();
@@ -945,20 +946,15 @@
         function answerQuiz(isCorrect) {
             if (isCorrect) quizState.score += 20;
             quizState.current++;
-            if (quizState.current < 5) {
-                renderQuizQuestion();
-            } else {
-                showQuizResults();
-            }
+            if (quizState.current < 5) renderQuizQuestion();
+            else showQuizResults();
         }
 
         function showQuizResults() {
             document.getElementById('quizPlayScreen').classList.add('hidden');
             document.getElementById('quizResultScreen').classList.remove('hidden');
             document.getElementById('quizResultText').innerText = `Skor Akhir Michelle: ${quizState.score} / 100`;
-            if (quizState.score >= 80) {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            }
+            if (quizState.score >= 80) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
     </script>
 </body>
