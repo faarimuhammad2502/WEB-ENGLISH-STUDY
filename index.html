@@ -41,7 +41,6 @@
         }
     </script>
     <style>
-        /* Background Gradient + Pattern Motif Buku, Pensil, Pulpen, Penghapus */
         body {
             background-color: #fff5f7;
             background-image: 
@@ -138,6 +137,46 @@
 
     <!-- CONTENT CONTAINER -->
     <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
+
+        <!-- FITUR BARU POIN 4: CIKAL ACADEMIC CALENDAR & DAILY STUDY GOAL WIDGET -->
+        <section class="glass-card rounded-3xl p-5 border-2 border-pink-200/60 bg-gradient-to-r from-pink-50/80 via-purple-50/50 to-pink-50/80">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                
+                <!-- SUB-WIDGET 1: CIKAL CALENDAR INFO -->
+                <div class="flex items-center gap-3 border-b md:border-b-0 md:border-r border-pink-200/80 pb-3 md:pb-0 md:pr-4">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-pink-500 uppercase tracking-wider">Cikal Academic Calendar</span>
+                        <h4 id="todayDateDisplay" class="font-bold text-xs text-slate-800">Hari ini: ...</h4>
+                        <p id="cikalPeriodDisplay" class="text-[11px] text-purple-700 font-semibold mt-0.5"><i class="fa-solid fa-bullseye mr-1"></i> Target: Mid-Term Pedagogy Review</p>
+                    </div>
+                </div>
+
+                <!-- SUB-WIDGET 2: DAILY GOAL SETTER & PROGRESS -->
+                <div class="md:col-span-2 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-pink-800"><i class="fa-solid fa-crosshair text-pink-500 mr-1"></i> Target Harian Michelle:</span>
+                            <select id="dailyGoalSelect" onchange="updateDailyGoalTarget()" class="px-2 py-0.5 rounded-lg border border-pink-200 text-xs font-bold text-pink-700 bg-white focus:outline-none">
+                                <option value="5">5 Kata / hari</option>
+                                <option value="10" selected>10 Kata / hari</option>
+                                <option value="15">15 Kata / hari</option>
+                                <option value="20">20 Kata / hari</option>
+                            </select>
+                        </div>
+                        <span id="dailyGoalProgressText" class="font-extrabold text-pink-600">0 / 10 Kata</span>
+                    </div>
+
+                    <!-- PROGRESS BAR -->
+                    <div class="w-full bg-pink-100 h-3 rounded-full overflow-hidden p-0.5 border border-pink-200">
+                        <div id="dailyGoalProgressBar" class="bg-gradient-to-r from-pink-400 to-purple-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
 
         <!-- STATS & PROGRESS DASHBOARD -->
         <section class="glass-card rounded-3xl p-6 relative overflow-hidden">
@@ -246,7 +285,7 @@
             <div id="speechFeedback" class="text-center text-xs font-semibold text-purple-600 hidden"></div>
         </section>
 
-        <!-- FITUR BARU POIN 3: MODE AUTOPLAY HANDS-FREE AUDIO -->
+        <!-- MODE AUTOPLAY HANDS-FREE AUDIO -->
         <section id="tab-autoplay" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 max-w-xl mx-auto text-center space-y-5">
                 <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-2xl shadow-inner">
@@ -509,10 +548,11 @@
         let spellingCurrentCard = null;
         let quizState = { current: 0, score: 0, questions: [] };
         
-        // AUTOPLAY STATE
         let isAutoplayActive = false;
         let autoplayIndex = 0;
         let autoplayTimeout = null;
+
+        let dailyGoalTarget = 10;
 
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
@@ -526,6 +566,7 @@
             setupSpellingQuestion();
             loadTeacherNote();
             renderNoteVocabChips();
+            initCikalCalendarWidget();
         });
 
         function loadData() {
@@ -537,6 +578,13 @@
                     else saveData();
                 } catch(e) { saveData(); }
             } else { saveData(); }
+
+            const savedTarget = localStorage.getItem('michelle_daily_goal');
+            if (savedTarget) {
+                dailyGoalTarget = parseInt(savedTarget);
+                const sel = document.getElementById('dailyGoalSelect');
+                if (sel) sel.value = dailyGoalTarget;
+            }
         }
 
         function saveData() {
@@ -591,6 +639,24 @@
             document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[80px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 text-white shadow-md';
         }
 
+        // FITUR BARU POIN 4 LOGIC: CIKAL CALENDAR & GOAL
+        function initCikalCalendarWidget() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('id-ID', options);
+            document.getElementById('todayDateDisplay').innerText = `Hari ini: ${dateStr}`;
+            updateDailyGoalTarget();
+        }
+
+        function updateDailyGoalTarget() {
+            const sel = document.getElementById('dailyGoalSelect');
+            if (sel) {
+                dailyGoalTarget = parseInt(sel.value);
+                localStorage.setItem('michelle_daily_goal', dailyGoalTarget);
+            }
+            renderStats();
+        }
+
         // RENDER STATS & HEATMAP
         function renderStats() {
             const masteredCount = vocabList.filter(v => v.mastered).length;
@@ -601,7 +667,13 @@
             document.getElementById('statTotalSub').innerText = `Target ${total} Kata`;
             document.getElementById('tabDictCount').innerText = total;
             document.getElementById('statPercent').innerText = `${percent}%`;
-            document.getElementById('statDaily').innerText = `${Math.min(masteredCount, 10)}/10`;
+
+            const currentDailyDone = Math.min(masteredCount, dailyGoalTarget);
+            document.getElementById('statDaily').innerText = `${currentDailyDone}/${dailyGoalTarget}`;
+
+            const goalPercent = Math.min(100, Math.round((currentDailyDone / dailyGoalTarget) * 100));
+            document.getElementById('dailyGoalProgressText').innerText = `${currentDailyDone} / ${dailyGoalTarget} Kata`;
+            document.getElementById('dailyGoalProgressBar').style.width = `${goalPercent}%`;
         }
 
         function renderHeatmap() {
@@ -616,13 +688,10 @@
             }
         }
 
-        // FITUR BARU POIN 3 LOGIC: AUTOPLAY AUDIO HANDS-FREE
+        // AUTOPLAY LOGIC
         function toggleAutoplay() {
-            if (isAutoplayActive) {
-                stopAutoplay();
-            } else {
-                startAutoplay();
-            }
+            if (isAutoplayActive) stopAutoplay();
+            else startAutoplay();
         }
 
         function startAutoplay() {
