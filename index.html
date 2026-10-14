@@ -270,7 +270,7 @@
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-bold text-pink-700 dark:text-purple-300"><i class="fa-regular fa-calendar-check mr-1"></i> Aktivitas Belajar Harian Michelle</span>
                     <div class="flex gap-2">
-                        <button onclick="openCertificateModal()" class="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline"><i class="fa-solid fa-certificate mr-1"></i> Cetak Sertifikat</button>
+                        <button onclick="openCertificateModal()" class="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline"><i class="fa-solid fa-award mr-1"></i> Cetak Sertifikat</button>
                         <button onclick="openResetModal()" class="text-[10px] font-bold text-rose-500 dark:text-rose-400 hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Reset Progres Belajar</button>
                         <button onclick="exportDataJSON()" class="text-[10px] font-bold text-purple-600 dark:text-purple-400 hover:underline"><i class="fa-solid fa-download mr-1"></i> Backup Data</button>
                     </div>
@@ -283,6 +283,9 @@
         <div class="flex flex-wrap justify-center gap-1.5 p-1.5 glass-card rounded-2xl max-w-5xl mx-auto">
             <button onclick="switchTab('learn')" id="tabBtn-learn" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 dark:bg-purple-600 text-white shadow-md">
                 <i class="fa-solid fa-book-open mr-1"></i> Belajar
+            </button>
+            <button onclick="switchTab('iepgen')" id="tabBtn-iepgen" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
+                <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> IEP Generator
             </button>
             <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-hands-holding-child mr-1"></i> Skenario ABK
@@ -374,6 +377,64 @@
             
             <div id="speechFeedbackBox" class="max-w-md mx-auto p-4 rounded-2xl glass-card border-2 border-purple-200 dark:border-purple-700 text-center text-xs font-bold transition-all hidden">
                 <div id="speechFeedbackStatus" class="text-purple-600 dark:text-purple-300">🎤 Mendengarkan... Ucapkan kata di atas!</div>
+            </div>
+        </section>
+
+        <!-- TAB SMART IEP GOAL GENERATOR (TAHAP 1) -->
+        <section id="tab-iepgen" class="hidden space-y-4">
+            <div class="glass-card rounded-3xl p-6 space-y-5">
+                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-wand-magic-sparkles text-pink-500 dark:text-purple-400 mr-2"></i> Smart IEP Goal Generator (Draf Indikator IEP)</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Susun draf tujuan IEP profesional dalam Bahasa Inggris standar Cikal & Cambridge dengan memilih area pengembangan siswa.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="space-y-3 bg-pink-50/50 dark:bg-purple-900/20 p-4 rounded-2xl border border-pink-200/80 dark:border-purple-800/50">
+                        <div>
+                            <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Pilih Area Pengembangan (Domain)</label>
+                            <select id="iepDomainSelect" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
+                                <option value="Executive Functioning & Focus">Executive Functioning & Focus (Atensi & Tugas)</option>
+                                <option value="Sensory & Emotion Regulation">Sensory & Emotional Regulation (Emosi & Sensorik)</option>
+                                <option value="Communication & Social Interaction">Communication & Social Interaction (Komunikasi)</option>
+                                <option value="Academic Reading & Writing Accommodations">Academic Reading & Writing (Akademik)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Target Perilaku / Spesifik Tantangan</label>
+                            <input type="text" id="iepChallengeInput" placeholder="Contoh: Menolak tugas bacaan panjang / Mudah cemas saat bising" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Tingkat Bantuan (Prompting Level)</label>
+                            <select id="iepPromptSelect" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
+                                <option value="with minimal verbal prompts">Minimal Verbal Prompts (Bantuan Minimal)</option>
+                                <option value="with visual cues and moderate scaffolding">Visual Cues & Scaffolding (Bantuan Visual/Sedang)</option>
+                                <option value="independently with self-regulation strategies">Independently (Secara Mandiri)</option>
+                            </select>
+                        </div>
+
+                        <button onclick="generateIEPGoalDraft()" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md text-xs flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> Buat Draf Indikator IEP
+                        </button>
+                    </div>
+
+                    <div class="md:col-span-2 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-xs font-bold text-pink-800 dark:text-purple-200"><i class="fa-solid fa-file-signature text-purple-500 mr-1"></i> Hasil Draf Indikator & Accommodations:</h4>
+                            <div class="flex gap-2">
+                                <button onclick="copyIEPResult()" class="text-[11px] bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-bold px-3 py-1 rounded-lg hover:bg-pink-200 transition-all"><i class="fa-solid fa-copy mr-1"></i> Salin Teks</button>
+                                <button onclick="sendIEPToNote()" class="text-[11px] bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-bold px-3 py-1 rounded-lg hover:bg-purple-200 transition-all"><i class="fa-solid fa-square-plus mr-1"></i> Masukkan ke IEP Notes</button>
+                            </div>
+                        </div>
+
+                        <div id="iepOutputBox" class="p-4 rounded-2xl bg-white/90 dark:bg-slate-900/90 border-2 border-pink-200 dark:border-purple-800 text-xs text-slate-700 dark:text-purple-100 min-h-[220px] leading-relaxed space-y-3 font-sans">
+                            <div class="text-slate-400 dark:text-purple-300/60 italic text-center pt-16">Pilih kriteria di sebelah kiri dan klik <b>"Buat Draf Indikator IEP"</b> untuk melihat hasilnya di sini.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -853,6 +914,7 @@
         let senCasesList = [...initialSenCases];
         let historyLogs = [];
         let currentDictationItem = null;
+        let lastGeneratedIEPText = "";
 
         const baseVocabBank = [
             { word: "Classroom", level: "A2", meaning: "Ruang kelas tempat belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive tools.", category: "General" },
@@ -1040,6 +1102,67 @@
             localStorage.setItem('michelle_history_logs', JSON.stringify(historyLogs));
             localStorage.setItem('michelle_xp', userXP);
             renderBadges();
+        }
+
+        // TAHAP 1: SMART IEP GOAL GENERATOR LOGIC
+        function generateIEPGoalDraft() {
+            const domain = document.getElementById('iepDomainSelect').value;
+            const challenge = document.getElementById('iepChallengeInput').value.trim() || "maintaining sustained attention during learning tasks";
+            const prompting = document.getElementById('iepPromptSelect').value;
+
+            let targetGoal = "";
+            let accList = [];
+
+            if (domain.includes("Executive Functioning")) {
+                targetGoal = `By the end of the term, the student will engage in structured learning activities addressing '${challenge}' for 15-20 consecutive minutes ${prompting} in 4 out of 5 observed classroom sessions.`;
+                accList = ["Utilize visual timers and task-chunking checklists.", "Provide movement breaks after completing mini-milestones.", "Use high-contrast visual anchors for task instructions."];
+            } else if (domain.includes("Sensory")) {
+                targetGoal = `By the end of the term, when experiencing sensory or emotional triggers related to '${challenge}', the student will independently utilize a designated calming strategy or request a sensory break ${prompting} in 80% of opportunities.`;
+                accList = ["Provide access to noise-cancelling headphones and sensory calm space.", "Implement proactive co-regulation with low-arousal verbal tones.", "Offer visual emotion-rating charts to express internal states."];
+            } else if (domain.includes("Communication")) {
+                targetGoal = `By the end of the term, the student will initiate and sustain social/learning interactions during group work while managing '${challenge}' ${prompting} across 3 consecutive learning cycles.`;
+                accList = ["Provide structured role-cards during collaborative tasks.", "Use social scripts and clear sentence starters for peer interaction.", "Acknowledge positive communicative attempts with specific praise."];
+            } else {
+                targetGoal = `By the end of the term, the student will complete differentiated academic reading/writing goals despite '${challenge}' ${prompting} in 4 out of 5 weekly formative evaluations.`;
+                accList = ["Provide text-to-speech accommodations or simplified font formats.", "Allow alternative response modes (oral responses, fill-in-the-blank worksheets).", "Break multi-step instructions into clear 1-2 step visual bullet points."];
+            }
+
+            lastGeneratedIEPText = `IEP ANNUAL SMART GOAL:\n${targetGoal}\n\nRECOMMENDED CLASSROOM ACCOMMODATIONS:\n• ${accList.join('\n• ')}\n\nKEY PEDAGOGICAL PHRASES:\n• Structured Scaffolding & Differentiation\n• Co-regulation & Sensory Management\n• Formative Behavioral Observation`;
+
+            const outputContainer = document.getElementById('iepOutputBox');
+            outputContainer.innerHTML = `
+                <div class="p-3 rounded-xl bg-pink-100/60 dark:bg-purple-950/60 border border-pink-200 dark:border-purple-800 font-bold text-pink-800 dark:text-purple-200">
+                    🎯 Domain: ${domain}
+                </div>
+                <div>
+                    <span class="font-extrabold text-purple-700 dark:text-purple-300 block mb-1">Draf SMART Goal (English):</span>
+                    <p class="italic bg-white/70 dark:bg-slate-900/70 p-3 rounded-xl border border-pink-100 dark:border-purple-900 font-serif text-slate-800 dark:text-purple-100">"${targetGoal}"</p>
+                </div>
+                <div>
+                    <span class="font-extrabold text-pink-700 dark:text-pink-300 block mb-1">Akomodasi Kelas Yang Direkomendasikan:</span>
+                    <ul class="list-disc pl-5 space-y-1 text-slate-600 dark:text-purple-200">
+                        ${accList.map(a => `<li>${a}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            addXP(15);
+            confetti({ particleCount: 40, spread: 50 });
+        }
+
+        function copyIEPResult() {
+            if (!lastGeneratedIEPText) { alert("Belum ada draf IEP yang dibuat. Klik 'Buat Draf Indikator IEP' terlebih dahulu."); return; }
+            navigator.clipboard.writeText(lastGeneratedIEPText);
+            alert("Draf Indikator IEP berhasil disalin ke clipboard! ✨");
+        }
+
+        function sendIEPToNote() {
+            if (!lastGeneratedIEPText) { alert("Belum ada draf IEP yang dibuat."); return; }
+            const noteArea = document.getElementById('teacherNoteInput');
+            noteArea.value += (noteArea.value ? '\n\n' : '') + lastGeneratedIEPText;
+            autoSaveNote();
+            switchTab('notes');
+            alert("Draf IEP berhasil dimasukkan ke tab 'IEP Notes'! ✨");
         }
 
         function initDictationGame() {
@@ -1252,7 +1375,7 @@
 
         function switchTab(tab) {
             if (isAutoplayActive && tab !== 'autoplay') stopAutoplay();
-            ['learn', 'sencases', 'dictation', 'badges', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'history', 'testcefr', 'quiz'].forEach(t => {
+            ['learn', 'iepgen', 'sencases', 'dictation', 'badges', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'history', 'testcefr', 'quiz'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 document.getElementById(`tabBtn-${t}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all';
             });
