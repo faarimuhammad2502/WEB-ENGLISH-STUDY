@@ -462,19 +462,34 @@
             </div>
         </section>
 
-        <!-- TAB SEN CASE STUDY CARDS -->
+        <!-- TAB SEN CASE STUDY CARDS (TAHAP 5 UPDATED) -->
         <section id="tab-sencases" class="hidden space-y-4">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                <div>
-                    <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-hands-holding-child text-pink-500 dark:text-purple-400 mr-2"></i> Studi Kasus & Skenario ABK Real-Life</h3>
-                    <p class="text-xs text-slate-500 dark:text-purple-300/70">Kumpulan tantangan situasi murid ABK di kelas beserta solusi strategi pedagogi pendampingan Bahasa Inggris.</p>
+            <div class="glass-card rounded-3xl p-6 space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-hands-holding-child text-pink-500 dark:text-purple-400 mr-2"></i> Studi Kasus & Skenario ABK Real-Life</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Kumpulan tantangan situasi murid ABK di kelas beserta solusi strategi pedagogi pendampingan Bahasa Inggris.</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <div class="relative w-full sm:w-48">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-400 text-xs"></i>
+                            <input type="text" id="caseSearchInput" oninput="renderSenCases()" placeholder="Cari kasus..." class="w-full pl-8 pr-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                        </div>
+                        <select id="caseFilterTopic" onchange="renderSenCases()" class="px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none">
+                            <option value="ALL">Semua Topik</option>
+                            <option value="Autism / Sensory Needs">Autism / Sensory</option>
+                            <option value="ADHD / Executive Functioning">ADHD / Focus</option>
+                            <option value="Emotional Regulation">Emotional Regulation</option>
+                            <option value="Dysgraphia / Fine Motor Support">Dysgraphia / Fine Motor</option>
+                        </select>
+                        <button onclick="openAddCaseModal()" class="text-xs pink-gradient-btn text-white font-bold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> Tambah Kasus
+                        </button>
+                    </div>
                 </div>
-                <button onclick="openAddCaseModal()" class="text-xs pink-gradient-btn text-white font-bold px-4 py-2 rounded-xl shadow-md flex items-center gap-1.5">
-                    <i class="fa-solid fa-plus"></i> Tambah Kasus Baru
-                </button>
-            </div>
 
-            <div id="senCasesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <div id="senCasesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
         </section>
 
         <!-- TAB DICTATION AUDIO GAME -->
@@ -881,7 +896,12 @@
                 </div>
                 <div>
                     <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Topik Kategori</label>
-                    <input type="text" id="caseTopicInput" placeholder="Contoh: Focus / Anxiety / Social Skills" required class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300">
+                    <select id="caseTopicInput" required class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300 font-bold">
+                        <option value="Autism / Sensory Needs">Autism / Sensory Needs</option>
+                        <option value="ADHD / Executive Functioning">ADHD / Executive Functioning</option>
+                        <option value="Emotional Regulation">Emotional Regulation</option>
+                        <option value="Dysgraphia / Fine Motor Support">Dysgraphia / Fine Motor Support</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block font-bold text-pink-700 dark:text-purple-300 mb-1">Deskripsi Skenario (Apa yang terjadi pada murid)</label>
@@ -996,6 +1016,7 @@
             }
         ];
 
+        // TAHAP 5: INTERACTIVE SEN CASE STUDY MASTER DATA
         const initialSenCases = [
             {
                 id: 1,
@@ -1227,6 +1248,60 @@
             localStorage.setItem('michelle_history_logs', JSON.stringify(historyLogs));
             localStorage.setItem('michelle_xp', userXP);
             renderBadges();
+        }
+
+        // TAHAP 5: INTERACTIVE SEN CASE STUDY RENDER & FILTERING LOGIC
+        function renderSenCases() {
+            const container = document.getElementById('senCasesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const searchKey = document.getElementById('caseSearchInput') ? document.getElementById('caseSearchInput').value.toLowerCase() : '';
+            const selectedTopic = document.getElementById('caseFilterTopic') ? document.getElementById('caseFilterTopic').value : 'ALL';
+
+            const filteredCases = senCasesList.filter(c => {
+                const matchSearch = c.title.toLowerCase().includes(searchKey) || 
+                                    c.scenario.toLowerCase().includes(searchKey) || 
+                                    c.strategy.toLowerCase().includes(searchKey);
+                const matchTopic = (selectedTopic === 'ALL') || (c.topic === selectedTopic);
+                return matchSearch && matchTopic;
+            });
+
+            if (filteredCases.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center text-xs text-slate-400 dark:text-purple-300/60 p-8 glass-card rounded-3xl">Tidak ada skenario kasus yang cocok dengan kriteria pencarian.</div>`;
+                return;
+            }
+
+            filteredCases.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "p-5 rounded-3xl glass-card border border-pink-200 dark:border-purple-800 space-y-3 flex flex-col justify-between hover:shadow-lg transition-all";
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-extrabold uppercase">${item.topic}</span>
+                            <span class="text-slate-400 dark:text-purple-300/60 font-semibold">Case #${item.id}</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-base text-pink-900 dark:text-purple-100">${item.title}</h4>
+                        <div class="p-3 rounded-2xl bg-rose-50/60 dark:bg-purple-900/30 border border-rose-100 dark:border-purple-800 text-xs text-slate-700 dark:text-purple-200 leading-relaxed">
+                            <span class="font-bold text-pink-600 dark:text-purple-300 block mb-0.5">Skenario Lapangan:</span>
+                            "${item.scenario}"
+                        </div>
+                        <div class="p-3 rounded-2xl bg-purple-50/60 dark:bg-purple-900/40 border border-purple-100 dark:border-purple-800 text-xs text-purple-900 dark:text-purple-200 leading-relaxed">
+                            <span class="font-bold text-purple-700 dark:text-purple-300 block mb-0.5">Strategi Pendampingan Guru (English):</span>
+                            "${item.strategy}"
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-pink-100 dark:border-purple-800/40 flex items-center justify-between">
+                        <div class="flex flex-wrap gap-1">
+                            ${(item.keyTerms || []).map(t => `<span class="text-[9px] font-bold px-2 py-0.5 rounded-md bg-white dark:bg-slate-900 text-pink-600 dark:text-purple-300 border border-pink-200 dark:border-purple-800">+ ${t}</span>`).join('')}
+                        </div>
+                        <button onclick="speakWord('${item.strategy.replace(/'/g, "\\'")}')" class="text-xs bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-bold px-3 py-1.5 rounded-xl hover:bg-pink-200 transition-all flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high text-pink-500 dark:text-purple-300"></i> Dengarkan
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         // TAHAP 4: AUTOPLAY HANDS-FREE AUDIO ENGINE LOGIC
@@ -1703,43 +1778,6 @@
             document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 dark:bg-purple-600 text-white shadow-md';
         }
 
-        function renderSenCases() {
-            const container = document.getElementById('senCasesContainer');
-            if (!container) return;
-            container.innerHTML = '';
-
-            senCasesList.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "p-5 rounded-3xl glass-card border border-pink-200 dark:border-purple-800 space-y-3 flex flex-col justify-between";
-                card.innerHTML = `
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-extrabold">${item.topic}</span>
-                            <span class="text-slate-400 dark:text-purple-300/60 font-semibold">Case #${item.id}</span>
-                        </div>
-                        <h4 class="font-serif font-bold text-base text-pink-900 dark:text-purple-100">${item.title}</h4>
-                        <div class="p-3 rounded-2xl bg-rose-50/60 dark:bg-purple-900/30 border border-rose-100 dark:border-purple-800 text-xs text-slate-700 dark:text-purple-200 leading-relaxed">
-                            <span class="font-bold text-pink-600 dark:text-purple-300 block mb-0.5">Skenario Lapangan:</span>
-                            "${item.scenario}"
-                        </div>
-                        <div class="p-3 rounded-2xl bg-purple-50/60 dark:bg-purple-900/40 border border-purple-100 dark:border-purple-800 text-xs text-purple-900 dark:text-purple-200 leading-relaxed">
-                            <span class="font-bold text-purple-700 dark:text-purple-300 block mb-0.5">Strategi Pendampingan Guru (English):</span>
-                            "${item.strategy}"
-                        </div>
-                    </div>
-                    <div class="pt-2 border-t border-pink-100 dark:border-purple-800/40 flex items-center justify-between">
-                        <div class="flex flex-wrap gap-1">
-                            ${(item.keyTerms || []).map(t => `<span class="text-[9px] font-bold px-2 py-0.5 rounded-md bg-white dark:bg-slate-900 text-pink-600 dark:text-purple-300 border border-pink-200 dark:border-purple-800">+ ${t}</span>`).join('')}
-                        </div>
-                        <button onclick="speakWord('${item.strategy.replace(/'/g, "\\'")}')" class="text-xs bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-bold px-3 py-1.5 rounded-xl hover:bg-pink-200 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-volume-high text-pink-500 dark:text-purple-300"></i> Dengarkan
-                        </button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
         function openAddCaseModal() { document.getElementById('addCaseModal').classList.remove('hidden'); }
         function closeAddCaseModal() { document.getElementById('addCaseModal').classList.add('hidden'); }
 
@@ -1751,7 +1789,7 @@
         function handleCaseSubmit(e) {
             e.preventDefault();
             const title = document.getElementById('caseTitleInput').value.trim();
-            const topic = document.getElementById('caseTopicInput').value.trim();
+            const topic = document.getElementById('caseTopicInput').value;
             const scenario = document.getElementById('caseScenarioInput').value.trim();
             const strategy = document.getElementById('caseStrategyInput').value.trim();
             const termsRaw = document.getElementById('caseTermsInput').value.trim();
