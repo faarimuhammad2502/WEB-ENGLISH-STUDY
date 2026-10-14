@@ -47,7 +47,7 @@
             background-color: #fff5f7;
             background-image: 
                 radial-gradient(#fda4af 0.75px, transparent 0.75px),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' opacity='0.12'%3E%3Cg fill='%23e11d48'%3E%3Cpath d='M15,20 L35,20 L35,35 L15,35 Z M20,15 L30,15 L30,20 L20,20 Z'/%3E%3Cpath d='M80,25 L95,10 L100,15 L85,30 Z M95,10 L100,5 L105,10 L100,15 Z'/%3E%3Cpath d='M25,80 L28,60 L35,60 L38,80 L31.5,88 Z'/%3E%3Crect x='75' y='75' width='25' height='15' rx='3'/%3E%3C/g%3E%3C/svg%3E");
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' opacity='0.03'%3E%3Cg fill='%23e11d48'%3E%3Cpath d='M15,20 L35,20 L35,35 L15,35 Z M20,15 L30,15 L30,20 L20,20 Z'/%3E%3Cpath d='M80,25 L95,10 L100,15 L85,30 Z M95,10 L100,5 L105,10 L100,15 Z'/%3E%3Cpath d='M25,80 L28,60 L35,60 L38,80 L31.5,88 Z'/%3E%3Crect x='75' y='75' width='25' height='15' rx='3'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 24px 24px, 120px 120px;
             min-height: 100vh;
             transition: background-color 0.4s ease, color 0.4s ease;
@@ -61,15 +61,15 @@
         }
         
         .glass-card {
-            background: rgba(255, 255, 255, 0.90);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 200, 220, 0.6);
             box-shadow: 0 8px 32px 0 rgba(244, 63, 94, 0.08);
             transition: all 0.3s ease;
         }
 
         html.dark .glass-card {
-            background: rgba(30, 23, 42, 0.85);
+            background: rgba(30, 23, 42, 0.90);
             border: 1px solid rgba(168, 85, 247, 0.25);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
@@ -287,7 +287,6 @@
             <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-hands-holding-child mr-1"></i> Skenario ABK
             </button>
-            <!-- TAB BARU: DICTATION GAME -->
             <button onclick="switchTab('dictation')" id="tabBtn-dictation" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
                 <i class="fa-solid fa-ear-listen mr-1"></i> Tebak Suara
             </button>
@@ -393,7 +392,7 @@
             <div id="senCasesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- TAB BARU: DICTATION AUDIO GAME -->
+        <!-- TAB DICTATION AUDIO GAME -->
         <section id="tab-dictation" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 text-center max-w-xl mx-auto space-y-5">
                 <div class="w-16 h-16 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-2xl shadow-inner">
@@ -1043,7 +1042,6 @@
             renderBadges();
         }
 
-        // LOGIKA DICTATION GAME
         function initDictationGame() {
             if (vocabList.length === 0) return;
             currentDictationItem = vocabList[Math.floor(Math.random() * vocabList.length)];
