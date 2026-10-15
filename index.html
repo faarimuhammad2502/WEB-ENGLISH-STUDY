@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Cambridge English Portal | Portal System</title>
+    <title>Michelle's Cambridge English Portal | Sekolah Cikal Serpong</title>
+    <!-- Favicon Inisial M -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ff6b8b'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='55' fill='white'>M</text></svg>">
     
-    <!-- Tailwind CSS & FontAwesome -->
+    <!-- Tailwind CSS & FontAwesome & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -14,267 +15,355 @@
             theme: {
                 extend: {
                     colors: {
-                        theme: {
-                            pinkPrimary: '#f43f5e',
-                            pinkSecondary: '#e11d48',
-                            bluePrimary: '#0284c7',
-                            blueSecondary: '#0369a1'
+                        girly: {
+                            50: '#fff0f5',
+                            100: '#ffe4e8',
+                            200: '#fecddb',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            purple: '#e9d5ff',
+                            lavender: '#f3e8ff',
+                            peach: '#ffedd5',
+                            accent: '#ff4b82'
                         }
                     },
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
+                        serif: ['Playfair Display', 'serif'],
+                        fredoka: ['Fredoka', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        body.theme-michelle {
+        body {
             background-color: #fff5f7;
-            background-image: radial-gradient(#fda4af 0.75px, transparent 0.75px);
-            background-size: 24px 24px;
-        }
-        body.theme-admin {
-            background-color: #f0f9ff;
-            background-image: radial-gradient(#38bdf8 0.75px, transparent 0.75px);
-            background-size: 24px 24px;
+            background-image: 
+                radial-gradient(#fda4af 0.75px, transparent 0.75px),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' opacity='0.03'%3E%3Cg fill='%23e11d48'%3E%3Cpath d='M15,20 L35,20 L35,35 L15,35 Z M20,15 L30,15 L30,20 L20,20 Z'/%3E%3Cpath d='M80,25 L95,10 L100,15 L85,30 Z M95,10 L100,5 L105,10 L100,15 Z'/%3E%3Cpath d='M25,80 L28,60 L35,60 L38,80 L31.5,88 Z'/%3E%3Crect x='75' y='75' width='25' height='15' rx='3'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 24px 24px, 120px 120px;
+            min-height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
+        html.dark body {
+            background-color: #120e1b;
+            background-image: 
+                radial-gradient(#6b21a8 0.75px, transparent 0.75px);
+            color: #f3e8ff;
+        }
+        
         .glass-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(16px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 200, 220, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(244, 63, 94, 0.08);
             transition: all 0.3s ease;
         }
 
-        body.theme-michelle .glass-card { border: 1px solid rgba(255, 200, 220, 0.6); }
-        body.theme-admin .glass-card { border: 1px solid rgba(186, 230, 253, 0.8); }
-
-        .btn-theme {
-            transition: all 0.3s ease;
-            color: white;
-            font-weight: 700;
+        html.dark .glass-card {
+            background: rgba(30, 23, 42, 0.90);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
-        body.theme-michelle .btn-theme {
+
+        .pink-gradient-btn {
             background: linear-gradient(135deg, #ff6b8b 0%, #d864d8 100%);
+            transition: all 0.3s ease;
         }
-        body.theme-admin .btn-theme {
-            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+        .pink-gradient-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 139, 0.4);
         }
 
-        .nav-active-michelle {
-            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
-            color: white !important;
+        html.dark .pink-gradient-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
         }
-        .nav-active-admin {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+
+        .nav-btn-active {
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
             color: white !important;
+            box-shadow: 0 4px 14px rgba(244, 63, 94, 0.35);
+        }
+
+        html.dark .nav-btn-active {
+            background: linear-gradient(135deg, #9333ea 0%, #c026d3 100%);
+            color: white !important;
+            box-shadow: 0 4px 14px rgba(147, 51, 234, 0.45);
         }
 
         .flashcard-inner {
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
-        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back { backface-visibility: hidden; }
-        .flashcard-back { transform: rotateY(180deg); }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            backface-visibility: hidden;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(244, 63, 94, 0.2);
+            border-radius: 10px;
+        }
     </style>
 </head>
-<body id="appBody" class="theme-michelle text-slate-700 font-sans antialiased min-h-screen">
+<body class="text-slate-700 dark:text-purple-100 font-sans antialiased">
 
     <!-- LOGIN OVERLAY -->
-    <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md">
-        <div class="glass-card max-w-md w-full rounded-3xl p-8 text-center shadow-2xl border-2 border-white/80 relative">
-            <div id="loginAvatar" class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-tr from-rose-400 to-pink-500 flex items-center justify-center text-white text-3xl font-extrabold shadow-lg">
-                <i class="fa-solid fa-user-lock"></i>
+    <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-pink-900/30 dark:bg-purple-950/60 backdrop-blur-md">
+        <div class="glass-card max-w-md w-full rounded-3xl p-8 text-center shadow-2xl relative overflow-hidden border-2 border-pink-200 dark:border-purple-500/30">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-tr from-pink-400 to-rose-300 dark:from-purple-500 dark:to-pink-500 flex items-center justify-center text-white text-3xl font-extrabold shadow-lg">
+                M
             </div>
-            <h2 class="font-serif text-2xl font-bold text-slate-800 mb-1">Masuk Sistem Portal</h2>
-            <p class="text-xs text-slate-500 mb-6">Silakan pilih atau masukkan kredensial akun Anda</p>
+            <h2 class="font-serif text-2xl font-bold text-pink-700 dark:text-pink-300 mb-1">Welcome, Michelle! 🌸</h2>
+            <p class="text-xs text-slate-500 dark:text-purple-300/70 mb-6">Cambridge English Portal • Sekolah Cikal Serpong</p>
             
-            <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Email / ID Pengguna</label>
-                    <input type="text" id="loginUser" placeholder="Masukkan Email atau Nama..." required class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white/90 text-sm font-medium">
+                    <label class="block text-left text-xs font-semibold text-pink-600 dark:text-purple-300 mb-1 ml-1">Nama</label>
+                    <input type="text" id="loginName" value="Michelle" required class="w-full px-4 py-3 rounded-2xl border border-pink-200 dark:border-purple-800 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-purple-100 font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Password</label>
+                    <label class="block text-left text-xs font-semibold text-pink-600 dark:text-purple-300 mb-1 ml-1">Password Masuk</label>
                     <div class="relative">
-                        <input type="password" id="loginPass" placeholder="Masukkan password..." required class="w-full px-4 py-3 pr-12 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white/90 text-sm font-medium">
-                        <button type="button" onclick="togglePassVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                        <input type="password" id="loginPass" placeholder="Masukkan password..." required class="w-full px-4 py-3 pr-12 rounded-2xl border border-pink-200 dark:border-purple-800 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-purple-100 font-medium">
+                        <button type="button" onclick="togglePassVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-pink-400 dark:text-purple-400 hover:text-pink-600 focus:outline-none">
                             <i id="passEyeIcon" class="fa-solid fa-eye"></i>
                         </button>
                     </div>
                 </div>
-
-                <div id="loginError" class="text-xs text-rose-500 hidden font-bold text-center">Email atau password salah!</div>
-
-                <button type="submit" class="w-full py-3.5 btn-theme rounded-2xl shadow-md text-sm">
-                    Masuk Sekarang <i class="fa-solid fa-arrow-right-to-bracket ml-2"></i>
+                <div id="loginError" class="text-xs text-rose-500 hidden font-medium">Password salah! Coba petunjuk: SEMANGATBELAJAR</div>
+                <button type="submit" class="w-full py-3.5 pink-gradient-btn text-white font-bold rounded-2xl shadow-md text-sm tracking-wide">
+                    Masuk Ruang Belajar <i class="fa-solid fa-heart ml-2"></i>
                 </button>
             </form>
-
-            <div class="mt-6 pt-4 border-t border-slate-100 flex justify-center gap-2 text-[11px] text-slate-400">
-                <span>Pilihan Akses Cepat:</span>
-                <button onclick="fillQuickLogin('michelle')" class="text-pink-600 font-bold hover:underline">Akun Michelle</button> | 
-                <button onclick="fillQuickLogin('admin')" class="text-sky-600 font-bold hover:underline">Akun Admin</button>
-            </div>
         </div>
     </div>
 
-    <!-- MAIN APP STRUCTURE -->
+    <!-- MAIN WRAPPER (SIDEBAR + CONTENT) -->
     <div class="flex min-h-screen">
 
+        <!-- MOBILE NAVBAR HEADER -->
+        <div class="lg:hidden fixed top-0 left-0 right-0 z-30 glass-card border-b border-pink-100 dark:border-purple-800/40 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <button onclick="toggleMobileSidebar()" class="w-9 h-9 rounded-xl bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 flex items-center justify-center text-base">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-400 text-white font-black text-sm flex items-center justify-center shadow-sm">M</div>
+                <span class="font-serif font-bold text-xs text-pink-800 dark:text-purple-200">Michelle's Portal</span>
+            </div>
+        </div>
+
         <!-- SIDEBAR NAVIGATION -->
-        <aside class="sticky top-0 left-0 w-64 h-screen glass-card p-4 flex flex-col justify-between border-r border-slate-200">
-            <div class="space-y-4">
-                <div class="flex items-center gap-3 pb-3 border-b border-slate-200">
-                    <div id="brandIcon" class="w-10 h-10 rounded-2xl bg-rose-500 text-white font-black text-xl flex items-center justify-center shadow-md">M</div>
-                    <div>
-                        <h1 id="brandTitle" class="font-serif font-bold text-slate-800 text-sm">Michelle's Portal</h1>
-                        <p id="brandSub" class="text-[9px] text-rose-500 font-semibold">Cikal Serpong SEN Pedagogy</p>
+        <aside id="sidebarNav" class="fixed lg:sticky top-0 left-0 z-40 w-64 h-screen glass-card border-r border-pink-200/80 dark:border-purple-800/40 p-4 flex flex-col justify-between -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+            <div class="space-y-4 overflow-y-auto sidebar-scroll pr-1">
+                <!-- LOGO HEADER -->
+                <div class="flex items-center justify-between pb-3 border-b border-pink-100 dark:border-purple-800/40">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 text-white font-black text-xl flex items-center justify-center shadow-md">M</div>
+                        <div>
+                            <h1 class="font-serif font-bold text-pink-800 dark:text-purple-200 text-sm leading-tight">Michelle's Portal</h1>
+                            <p class="text-[9px] text-pink-500 dark:text-pink-400 font-semibold">Cikal Serpong SEN Pedagogy</p>
+                        </div>
                     </div>
+                    <button onclick="toggleMobileSidebar()" class="lg:hidden text-slate-400 hover:text-pink-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <!-- MENU SISWA MICHELLE -->
-                <div id="menuStudentGroup" class="space-y-1">
-                    <span class="text-[9px] font-black uppercase text-pink-400 px-2">Menu Pembelajaran</span>
-                    <button onclick="switchTab('home')" id="tabBtn-home" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-pink-100/60 flex items-center gap-2.5">
-                        <i class="fa-solid fa-house text-pink-500 w-4"></i> Beranda (Dashboard)
-                    </button>
-                    <button onclick="switchTab('learn')" id="tabBtn-learn" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-pink-100/60 flex items-center gap-2.5">
-                        <i class="fa-solid fa-book-open text-pink-500 w-4"></i> Flashcard Harian
-                    </button>
-                    <button onclick="switchTab('iepgen')" id="tabBtn-iepgen" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-pink-100/60 flex items-center gap-2.5">
-                        <i class="fa-solid fa-wand-magic-sparkles text-pink-500 w-4"></i> IEP Goal Generator
+                <!-- MENU BERANDA UTAMA -->
+                <div class="space-y-1">
+                    <button onclick="switchTab('home')" id="tabBtn-home" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between nav-btn-active">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-house text-pink-500 w-4"></i> Beranda (Dashboard)</span>
                     </button>
                 </div>
 
-                <!-- MENU KHUSUS MAINTENANCE ADMIN -->
-                <div id="menuAdminGroup" class="space-y-1 hidden">
-                    <span class="text-[9px] font-black uppercase text-sky-500 px-2">Maintenance Console</span>
-                    <button onclick="switchTab('admin-db')" id="tabBtn-admin-db" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-sky-100/60 flex items-center gap-2.5">
-                        <i class="fa-solid fa-database text-sky-600 w-4"></i> Kelola Database Vocab
+                <!-- MENU CATEGORY 1: PUSAT BELAJAR & LATIHAN -->
+                <div class="space-y-1 pt-2 border-t border-pink-100 dark:border-purple-800/40">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-pink-400 dark:text-purple-400 px-2">Pusat Belajar</span>
+                    
+                    <button onclick="switchTab('learn')" id="tabBtn-learn" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-book-open text-pink-500 w-4"></i> Flashcard Harian</span>
                     </button>
-                    <button onclick="switchTab('admin-sys')" id="tabBtn-admin-sys" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-sky-100/60 flex items-center gap-2.5">
-                        <i class="fa-solid fa-sliders text-sky-600 w-4"></i> System Maintenance
+
+                    <button onclick="switchTab('dict')" id="tabBtn-dict" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-book text-pink-500 w-4"></i> Kamus Kosakata</span>
+                    </button>
+
+                    <button onclick="switchTab('srs')" id="tabBtn-srs" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-rotate text-pink-500 w-4"></i> Leitner SRS Review</span>
+                    </button>
+
+                    <button onclick="switchTab('autoplay')" id="tabBtn-autoplay" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-headphones text-pink-500 w-4"></i> Hands-Free Audio</span>
+                    </button>
+
+                    <button onclick="switchTab('dictation')" id="tabBtn-dictation" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-ear-listen text-pink-500 w-4"></i> Dictation Game</span>
+                    </button>
+                </div>
+
+                <!-- MENU CATEGORY 2: APLIKASI PEDAGOGI & IEP -->
+                <div class="space-y-1 pt-2 border-t border-pink-100 dark:border-purple-800/40">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-pink-400 dark:text-purple-400 px-2">Aplikasi SEN & IEP</span>
+
+                    <button onclick="switchTab('iepgen')" id="tabBtn-iepgen" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-wand-magic-sparkles text-purple-500 w-4"></i> IEP Goal Generator</span>
+                    </button>
+
+                    <button onclick="switchTab('matrix')" id="tabBtn-matrix" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-cubes-stacked text-purple-500 w-4"></i> Behavior Matrix</span>
+                    </button>
+
+                    <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-hands-holding-child text-purple-500 w-4"></i> Studi Kasus ABK</span>
+                    </button>
+
+                    <button onclick="switchTab('notes')" id="tabBtn-notes" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-pen-to-square text-purple-500 w-4"></i> IEP Notes Draft</span>
                     </button>
                 </div>
             </div>
 
-            <div class="pt-3 border-t border-slate-200 space-y-2">
-                <div class="p-2.5 rounded-xl bg-slate-100/80 text-xs flex items-center justify-between">
-                    <span id="userBadgeRole" class="font-bold text-slate-700">Role: ...</span>
-                    <button onclick="logout()" class="text-rose-500 hover:text-rose-700 text-xs font-bold"><i class="fa-solid fa-power-off"></i> Keluar</button>
-                </div>
+            <div class="pt-3 border-t border-pink-100 dark:border-purple-800/40">
+                <button onclick="toggleDarkMode()" class="w-full py-2 bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-bold rounded-xl text-xs hover:bg-purple-200 transition-all flex items-center justify-center gap-1.5">
+                    <i id="darkModeIcon" class="fa-solid fa-moon"></i> <span id="darkModeText">Night Mode</span>
+                </button>
             </div>
         </aside>
 
-        <!-- MAIN KONTEN -->
-        <main class="flex-1 max-w-5xl mx-auto px-8 py-8 space-y-6">
+        <!-- MAIN KONTEN KANAN -->
+        <main class="flex-1 max-w-6xl mx-auto px-4 lg:px-8 pt-16 lg:pt-8 pb-12 space-y-6">
 
-            <!-- TAB 1: BERANDA MICHELLE -->
+            <!-- TAB BERANDA (INFORMASI & KALENDER) -->
             <section id="tab-home" class="space-y-6">
-                <div class="glass-card rounded-3xl p-5 border-2 border-rose-200 bg-gradient-to-r from-rose-100/60 to-purple-100/60 shadow-sm flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-500 text-white flex items-center justify-center text-2xl flex-shrink-0">
+                <!-- INFORMASI LOVE & SUPPORT BOARD -->
+                <div class="glass-card rounded-3xl p-5 border-2 border-rose-200/80 dark:border-purple-800/50 bg-gradient-to-r from-rose-100/60 via-pink-50/80 to-purple-100/60 shadow-md flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-500 text-white flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
                         <i class="fa-solid fa-heart"></i>
                     </div>
                     <div>
                         <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 text-pink-800 uppercase">Love & Support Board 🌸</span>
-                        <p class="font-serif italic text-sm text-pink-900 font-semibold mt-1">
+                        <p id="loveNoteDisplay" class="font-serif italic text-sm text-pink-900 dark:text-purple-100 font-semibold mt-1">
                             "Semangat terus belajar Bahasa Inggrisnya yaa Michelle sayang! Kamu guru yang luar biasa dan hebat di Sekolah Cikal Serpong! 💖"
                         </p>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-3xl p-6 border-2 border-pink-200">
-                    <h3 class="font-serif font-bold text-lg text-pink-800 mb-2">Progres Belajar Michelle Hari Ini</h3>
-                    <div class="w-full bg-pink-100 h-3 rounded-full overflow-hidden p-0.5">
-                        <div class="bg-gradient-to-r from-pink-400 to-purple-500 h-full rounded-full" style="width: 40%"></div>
+                <!-- KALENDER AKADEMIK & TARGET HARIAN -->
+                <div class="glass-card rounded-3xl p-5 border-2 border-pink-200/60 dark:border-purple-800/40 bg-gradient-to-r from-pink-50/80 to-purple-50/50">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div class="flex items-center gap-3 border-r border-pink-200 pr-4">
+                            <div class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl flex-shrink-0">
+                                <i class="fa-regular fa-calendar-days"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-pink-500 uppercase">Cikal Academic Calendar</span>
+                                <h4 id="todayDateDisplay" class="font-bold text-xs text-slate-800 dark:text-purple-100">Hari ini: Kamis, 15 Oktober 2026</h4>
+                                <p class="text-[11px] text-purple-700 dark:text-purple-300 font-semibold mt-0.5"><i class="fa-solid fa-bullseye mr-1"></i> Target: Mid-Term Pedagogy Review</p>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-2 space-y-2">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="font-bold text-pink-800 dark:text-purple-200">Target Harian Michelle: 10 Kata / hari</span>
+                                <span class="font-extrabold text-pink-600 dark:text-pink-400">0 / 10 Kata</span>
+                            </div>
+                            <div class="w-full bg-pink-100 dark:bg-purple-950 h-3 rounded-full overflow-hidden p-0.5">
+                                <div class="bg-gradient-to-r from-pink-400 to-purple-500 h-full rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- TAB 2: FLASHCARD BELAJAR -->
+            <!-- TAB FLASHCARD (DITAMBAH MINI WIDGET SUPAYA LEBIH RAME) -->
             <section id="tab-learn" class="hidden space-y-4">
-                <div class="glass-card rounded-2xl p-4 flex justify-between items-center bg-pink-50/50">
-                    <h3 class="font-bold text-sm text-pink-900">Flashcard Belajar Harian</h3>
-                    <span class="text-xs font-bold text-pink-600 bg-white px-3 py-1 rounded-xl border border-pink-200">Total: 1000 Kata</span>
-                </div>
-                <div id="flashcardContainer" class="relative min-h-[280px] flex items-center justify-center"></div>
-                <div class="flex justify-center items-center gap-3">
-                    <button onclick="prevCard()" class="w-10 h-10 rounded-full glass-card text-pink-600 flex items-center justify-center shadow"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button onclick="nextCard()" class="w-10 h-10 rounded-full btn-theme text-white flex items-center justify-center shadow"><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            </section>
-
-            <!-- TAB 3: IEP GOAL GENERATOR -->
-            <section id="tab-iepgen" class="hidden space-y-4">
-                <div class="glass-card rounded-3xl p-6">
-                    <h3 class="font-serif font-bold text-lg text-pink-800 border-b pb-2 mb-4">Smart IEP Goal Generator</h3>
-                    <div class="p-4 rounded-2xl bg-pink-50/50 border border-pink-200 text-xs text-pink-900">
-                        Fitur draf penyusunan laporan IEP otomatis untuk pendampingan ABK.
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB ADMIN 1: KELOLA DATABASE -->
-            <section id="tab-admin-db" class="hidden space-y-4">
-                <div class="glass-card rounded-3xl p-6 border-2 border-sky-200">
-                    <div class="flex justify-between items-center border-b border-sky-100 pb-3">
+                <!-- BANNER HEADER KONTEN -->
+                <div class="glass-card rounded-2xl p-4 flex justify-between items-center bg-gradient-to-r from-pink-100/50 to-purple-100/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center font-bold">📖</div>
                         <div>
-                            <h3 class="font-serif font-bold text-lg text-sky-900"><i class="fa-solid fa-database text-sky-600 mr-2"></i> Console Maintenance - Kelola Kosakata</h3>
-                            <p class="text-xs text-slate-500">Akses khusus Admin Faari Akbar untuk menambah atau mengedit kata dalam database aplikasi.</p>
+                            <h3 class="font-bold text-sm text-pink-900 dark:text-purple-200">Ruang Latihan Flashcard</h3>
+                            <p class="text-[11px] text-slate-500">Latih hafalan kata bahasa Inggris lengkap dengan pelafalan audio baku.</p>
                         </div>
-                        <button onclick="alert('Form Tambah Kata Master Baru Siap!')" class="px-3 py-2 btn-theme text-xs rounded-xl shadow">+ Tambah Kata Baru</button>
                     </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-white dark:bg-slate-900 font-bold text-pink-600 px-3 py-1.5 rounded-xl border border-pink-200">
+                            ⚡ Sesi Aktif
+                        </span>
+                    </div>
+                </div>
 
-                    <div class="pt-4 space-y-2">
-                        <div class="p-3 rounded-2xl bg-sky-50 border border-sky-200 flex justify-between items-center text-xs">
-                            <div>
-                                <span class="font-bold text-sky-900">1. Accommodation</span>
-                                <span class="ml-2 text-[10px] bg-sky-200 text-sky-800 font-extrabold px-1.5 py-0.5 rounded">Level B2</span>
-                                <p class="text-slate-500 text-[11px] mt-0.5">Penyesuaian cara belajar untuk anak ABK</p>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="text-sky-600 hover:underline font-bold">Edit</button>
-                                <button class="text-rose-500 hover:underline font-bold">Hapus</button>
-                            </div>
-                        </div>
-                        <div class="p-3 rounded-2xl bg-sky-50 border border-sky-200 flex justify-between items-center text-xs">
-                            <div>
-                                <span class="font-bold text-sky-900">2. Differentiation</span>
-                                <span class="ml-2 text-[10px] bg-sky-200 text-sky-800 font-extrabold px-1.5 py-0.5 rounded">Level C1</span>
-                                <p class="text-slate-500 text-[11px] mt-0.5">Penyesuaian strategi pengajaran guru</p>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="text-sky-600 hover:underline font-bold">Edit</button>
-                                <button class="text-rose-500 hover:underline font-bold">Hapus</button>
-                            </div>
-                        </div>
-                    </div>
+                <!-- CARD UTAMA -->
+                <div id="flashcardContainer" class="relative min-h-[320px] flex items-center justify-center"></div>
+
+                <!-- AKSI & BANTUAN -->
+                <div class="flex justify-center items-center gap-3 pt-2">
+                    <button onclick="prevCard()" class="w-12 h-12 rounded-full glass-card text-pink-600 flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-chevron-left text-lg"></i>
+                    </button>
+
+                    <button onclick="testPronunciation()" class="px-5 py-3 rounded-full text-xs font-bold bg-purple-100 text-purple-700 hover:bg-purple-200 transition-all flex items-center gap-1.5 border border-purple-200 shadow-sm">
+                        <i class="fa-solid fa-microphone text-purple-600"></i> Tes Pelafalan
+                    </button>
+
+                    <button onclick="nextCard()" class="w-12 h-12 rounded-full pink-gradient-btn text-white flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-chevron-right text-lg"></i>
+                    </button>
                 </div>
             </section>
 
-            <!-- TAB ADMIN 2: SYSTEM MAINTENANCE -->
-            <section id="tab-admin-sys" class="hidden space-y-4">
-                <div class="glass-card rounded-3xl p-6 border-2 border-sky-200 space-y-4">
-                    <h3 class="font-serif font-bold text-lg text-sky-900 border-b border-sky-100 pb-2"><i class="fa-solid fa-sliders text-sky-600 mr-2"></i> Pengaturan & System Health</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div class="p-4 rounded-2xl bg-white border border-sky-200 space-y-2">
-                            <span class="font-bold text-sky-800 block">⚡ Reset Data & Memory</span>
-                            <p class="text-slate-500 text-[11px]">Gunakan ini jika ingin mengosongkan cache progres hafalan Michelle.</p>
-                            <button onclick="alert('Data Progres Hafalan Berhasil Di-reset!')" class="px-3 py-1.5 bg-rose-500 text-white font-bold rounded-lg hover:bg-rose-600">Clear Cache Progres</button>
+            <!-- TAB IEP GOAL GENERATOR (DITAMBAH QUICK HELP CARDS) -->
+            <section id="tab-iepgen" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-5">
+                    <div class="border-b border-pink-100 pb-3 flex justify-between items-center">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-wand-magic-sparkles text-pink-500 mr-2"></i> Smart IEP Goal Generator</h3>
+                            <p class="text-xs text-slate-500">Buat draf indikator tujuan IEP dengan cepat menggunakan pilihan domain di bawah ini.</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-white border border-sky-200 space-y-2">
-                            <span class="font-bold text-sky-800 block">📦 Backup Database</span>
-                            <p class="text-slate-500 text-[11px]">Download seluruh data kosakata dan catatan IEP dalam file JSON.</p>
-                            <button onclick="alert('Database JSON berhasil dikirim ke folder Download!')" class="px-3 py-1.5 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700">Download Backup JSON</button>
+                        <span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2.5 py-1 rounded-full"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Standar Cikal</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="space-y-3 bg-pink-50/50 p-4 rounded-2xl border border-pink-200">
+                            <div>
+                                <label class="block text-xs font-bold text-pink-800 mb-1">Pilih Domain SEN</label>
+                                <select id="iepDomainSelect" class="w-full px-3 py-2 rounded-xl border border-pink-200 text-xs font-bold bg-white text-slate-700 focus:outline-none">
+                                    <option value="Executive Functioning & Focus">Executive Functioning & Focus</option>
+                                    <option value="Sensory & Emotion Regulation">Sensory & Emotion Regulation</option>
+                                    <option value="Communication & Social Interaction">Communication & Social Interaction</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-pink-800 mb-1">Target Perilaku Spesifik</label>
+                                <input type="text" id="iepChallengeInput" placeholder="Contoh: Menolak membaca paragraf panjang" class="w-full px-3 py-2 rounded-xl border border-pink-200 text-xs bg-white text-slate-700 focus:outline-none">
+                            </div>
+
+                            <button onclick="generateIEPGoalDraft()" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md text-xs flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> Generate Draf IEP
+                            </button>
+                        </div>
+
+                        <div class="md:col-span-2 space-y-3">
+                            <h4 class="text-xs font-bold text-pink-800"><i class="fa-solid fa-file-signature text-purple-500 mr-1"></i> Hasil Draf Indikator IEP:</h4>
+                            <div id="iepOutputBox" class="p-4 rounded-2xl bg-white border-2 border-pink-200 text-xs text-slate-700 min-h-[180px] leading-relaxed space-y-3">
+                                <div class="text-slate-400 italic text-center pt-12">Pilih kriteria di sebelah kiri dan klik <b>"Generate Draf IEP"</b>.</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -283,144 +372,63 @@
         </main>
     </div>
 
-    <!-- SCRIPT MULTI-ROLE & AUTH FIX -->
     <script>
         const vocabList = [
-            { word: "Accommodation", level: "B2", meaning: "Penyesuaian cara belajar untuk anak ABK", phonetic: "/əˌkɒm.əˈdeɪ.ʃən/" },
-            { word: "Differentiation", level: "C1", meaning: "Penyesuaian strategi pengajaran guru", phonetic: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/" }
+            { id: 1, word: "Classroom", level: "A2", meaning: "Ruang kelas tempat belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive tools.", category: "General" },
+            { id: 2, word: "Accommodation", level: "B2", meaning: "Penyesuaian cara belajar untuk anak ABK", phonetic: "/əˌkɒm.əˈdeɪ.ʃən/", context: "Extra time is a helpful accommodation during tests.", category: "SEN" },
+            { id: 3, word: "Differentiation", level: "C1", meaning: "Penyesuaian strategi pengajaran guru", phonetic: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", context: "Differentiation ensures every student accesses goals.", category: "Pedagogy" }
         ];
+
         let currentCardIndex = 0;
-        let currentUserRole = 'student';
 
         window.addEventListener('DOMContentLoaded', () => {
             renderCurrentCard();
-            checkSession();
+            switchTab('home');
         });
 
-        function fillQuickLogin(role) {
-            if (role === 'admin') {
-                document.getElementById('loginUser').value = 'faarimuhammad25@gmail.com';
-                document.getElementById('loginPass').value = 'bambuapus123';
-            } else {
-                document.getElementById('loginUser').value = 'Michelle';
-                document.getElementById('loginPass').value = 'SEMANGATBELAJAR';
-            }
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('loginUser').value.trim().toLowerCase();
-            const pass = document.getElementById('loginPass').value.trim().toLowerCase();
-            const err = document.getElementById('loginError');
-
-            // 1. CEK LOGIN ADMIN FAARI
-            if (user === 'faarimuhammad25@gmail.com' && pass === 'bambuapus123') {
-                currentUserRole = 'admin';
-                localStorage.setItem('auth_role', 'admin');
-                applyUserRoleTheme('admin');
-                document.getElementById('loginOverlay').classList.add('hidden');
-                err.classList.add('hidden');
-                switchTab('admin-db');
-            } 
-            // 2. CEK LOGIN MICHELLE
-            else if ((user === 'michelle' || user === 'faarimuhammad25@gmail.com') && pass === 'semangatbelajar') {
-                currentUserRole = 'student';
-                localStorage.setItem('auth_role', 'student');
-                applyUserRoleTheme('student');
-                document.getElementById('loginOverlay').classList.add('hidden');
-                err.classList.add('hidden');
-                switchTab('home');
-            } 
-            else {
-                err.classList.remove('hidden');
-            }
-        }
-
-        function applyUserRoleTheme(role) {
-            const body = document.getElementById('appBody');
-            const brandIcon = document.getElementById('brandIcon');
-            const brandTitle = document.getElementById('brandTitle');
-            const brandSub = document.getElementById('brandSub');
-            const badgeRole = document.getElementById('userBadgeRole');
-
-            const menuStudent = document.getElementById('menuStudentGroup');
-            const menuAdmin = document.getElementById('menuAdminGroup');
-
-            if (role === 'admin') {
-                body.className = "theme-admin text-slate-700 font-sans antialiased min-h-screen";
-                brandIcon.className = "w-10 h-10 rounded-2xl bg-sky-600 text-white font-black text-xl flex items-center justify-center shadow-md";
-                brandTitle.innerText = "Admin Portal";
-                brandSub.innerText = "Faari Maintenance Mode";
-                brandSub.className = "text-[9px] text-sky-600 font-bold";
-                badgeRole.innerHTML = `👤 Role: <b class="text-sky-600">Admin Maintenance</b>`;
-
-                menuStudent.classList.add('hidden');
-                menuAdmin.classList.remove('hidden');
-            } else {
-                body.className = "theme-michelle text-slate-700 font-sans antialiased min-h-screen";
-                brandIcon.className = "w-10 h-10 rounded-2xl bg-rose-500 text-white font-black text-xl flex items-center justify-center shadow-md";
-                brandTitle.innerText = "Michelle's Portal";
-                brandSub.innerText = "Cikal Serpong SEN Pedagogy";
-                brandSub.className = "text-[9px] text-pink-500 font-semibold";
-                badgeRole.innerHTML = `👤 Role: <b class="text-pink-600">Siswa (Michelle)</b>`;
-
-                menuStudent.classList.remove('hidden');
-                menuAdmin.classList.add('hidden');
-            }
-        }
-
-        function checkSession() {
-            const savedRole = localStorage.getItem('auth_role');
-            if (savedRole) {
-                currentUserRole = savedRole;
-                applyUserRoleTheme(savedRole);
-                document.getElementById('loginOverlay').classList.add('hidden');
-                switchTab(savedRole === 'admin' ? 'admin-db' : 'home');
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('auth_role');
-            document.getElementById('loginOverlay').classList.remove('hidden');
+        function toggleMobileSidebar() {
+            document.getElementById('sidebarNav').classList.toggle('-translate-x-full');
         }
 
         function switchTab(tab) {
-            ['home', 'learn', 'iepgen', 'admin-db', 'admin-sys'].forEach(t => {
+            ['home', 'learn', 'iepgen', 'matrix', 'sencases', 'notes', 'dict'].forEach(t => {
                 const sec = document.getElementById(`tab-${t}`);
                 const btn = document.getElementById(`tabBtn-${t}`);
                 if (sec) sec.classList.add('hidden');
-                if (btn) {
-                    btn.classList.remove('nav-active-michelle');
-                    btn.classList.remove('nav-active-admin');
-                }
+                if (btn) btn.classList.remove('nav-btn-active');
             });
 
             const targetSec = document.getElementById(`tab-${tab}`);
             const targetBtn = document.getElementById(`tabBtn-${tab}`);
             
             if (targetSec) targetSec.classList.remove('hidden');
-            if (targetBtn) {
-                targetBtn.classList.add(currentUserRole === 'admin' ? 'nav-active-admin' : 'nav-active-michelle');
-            }
+            if (targetBtn) targetBtn.classList.add('nav-btn-active');
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
         }
 
         function renderCurrentCard() {
             const container = document.getElementById('flashcardContainer');
             const card = vocabList[currentCardIndex];
             container.innerHTML = `
-                <div class="flashcard w-full max-w-sm h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard w-full max-w-md h-72 cursor-pointer" onclick="this.classList.toggle('flipped')">
                     <div class="flashcard-inner relative w-full h-full duration-500">
                         <div class="flashcard-front absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-pink-200 text-center shadow-lg">
                             <span class="px-2.5 py-1 rounded-full bg-pink-100 text-pink-700 font-extrabold text-xs self-center">${card.level}</span>
                             <div>
-                                <h2 class="font-serif text-2xl font-extrabold text-pink-800">${card.word}</h2>
+                                <h2 class="font-serif text-3xl font-extrabold text-pink-800">${card.word}</h2>
                                 <p class="text-xs text-slate-400 mt-1">${card.phonetic}</p>
                             </div>
-                            <p class="text-[11px] text-pink-400 font-medium">Klik untuk balikkan kartu <i class="fa-solid fa-rotate ml-1"></i></p>
+                            <p class="text-[11px] text-pink-400 font-medium">Klik untuk lihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
                         </div>
                         <div class="flashcard-back absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-200 text-center shadow-lg bg-purple-50/40">
-                            <span class="text-xs font-bold text-purple-700 uppercase">Arti Kata</span>
-                            <h3 class="text-base font-bold text-purple-800">${card.meaning}</h3>
+                            <span class="text-xs font-bold text-purple-700 uppercase">Arti & Contoh</span>
+                            <div>
+                                <h3 class="text-base font-bold text-purple-800 mb-2">${card.meaning}</h3>
+                                <p class="text-xs text-slate-600 italic">"${card.context}"</p>
+                            </div>
                             <p class="text-[11px] text-purple-400 font-medium">Klik untuk balikkan kartu</p>
                         </div>
                     </div>
@@ -438,16 +446,28 @@
             renderCurrentCard();
         }
 
+        function testPronunciation() {
+            alert('Fitur Mikrofon Siap Mendengarkan Suara Pelafalan!');
+        }
+
+        function generateIEPGoalDraft() {
+            const domain = document.getElementById('iepDomainSelect').value;
+            const challenge = document.getElementById('iepChallengeInput').value || 'memahami bacaan panjang';
+            
+            document.getElementById('iepOutputBox').innerHTML = `
+                <div class="p-2 rounded bg-pink-100 text-pink-800 font-bold mb-2">Domain: ${domain}</div>
+                <p><b>Target SMART IEP Goal:</b> By the end of this term, student will independently address '${challenge}' with structured visual scaffolding in 4 out of 5 observations.</p>
+            `;
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            document.getElementById('loginOverlay').classList.add('hidden');
+        }
+
         function togglePassVisibility() {
             const input = document.getElementById('loginPass');
-            const icon = document.getElementById('passEyeIcon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.className = 'fa-solid fa-eye-slash';
-            } else {
-                input.type = 'password';
-                icon.className = 'fa-solid fa-eye';
-            }
+            input.type = input.type === 'password' ? 'text' : 'password';
         }
     </script>
 </body>
