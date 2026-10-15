@@ -325,12 +325,16 @@
             </button>
         </div>
 
-        <!-- TAB 1: FLASHCARD BELAJAR HARIAN -->
+        <!-- TAB 1: FLASHCARD BELAJAR HARIAN (TAHAP 6 ENHANCED) -->
         <section id="tab-learn" class="space-y-4">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
                 <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200">Flashcard Belajar Harian ✨</h3>
                 
                 <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="toggleCardAutoAudio()" id="cardAutoAudioBtn" class="text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 font-bold hover:bg-pink-50 transition-all flex items-center gap-1.5 shadow-sm">
+                        <i id="cardAutoAudioIcon" class="fa-solid fa-volume-xmark text-slate-400"></i> Auto-Audio: <span id="cardAutoAudioText">OFF</span>
+                    </button>
+
                     <div class="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-pink-200 dark:border-purple-800 shadow-sm text-xs">
                         <i class="fa-solid fa-sliders text-pink-500 dark:text-purple-400"></i>
                         <select id="cardVoiceAccent" class="bg-transparent font-bold text-pink-700 dark:text-purple-200 focus:outline-none cursor-pointer">
@@ -462,7 +466,7 @@
             </div>
         </section>
 
-        <!-- TAB SEN CASE STUDY CARDS (TAHAP 5 UPDATED) -->
+        <!-- TAB SEN CASE STUDY CARDS (TAHAP 5) -->
         <section id="tab-sencases" class="hidden space-y-4">
             <div class="glass-card rounded-3xl p-6 space-y-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
@@ -1157,6 +1161,7 @@
         let autoplayIndex = 0;
         let autoplayTimeout = null;
         let dailyGoalTarget = 10;
+        let isCardAutoAudioEnabled = false;
 
         window.addEventListener('DOMContentLoaded', () => {
             loadDarkMode();
@@ -1248,6 +1253,180 @@
             localStorage.setItem('michelle_history_logs', JSON.stringify(historyLogs));
             localStorage.setItem('michelle_xp', userXP);
             renderBadges();
+        }
+
+        // TAHAP 6: FLASHCARD AUDIO ENHANCEMENTS & PRONUNCIATION REFINEMENT
+        function toggleCardAutoAudio() {
+            isCardAutoAudioEnabled = !isCardAutoAudioEnabled;
+            const btnText = document.getElementById('cardAutoAudioText');
+            const icon = document.getElementById('cardAutoAudioIcon');
+
+            if (isCardAutoAudioEnabled) {
+                btnText.innerText = "ON";
+                icon.className = "fa-solid fa-volume-high text-pink-500";
+                if (filteredCards.length > 0) speakWord(filteredCards[currentCardIndex].word);
+            } else {
+                btnText.innerText = "OFF";
+                icon.className = "fa-solid fa-volume-xmark text-slate-400";
+            }
+        }
+
+        function filterFlashcards() {
+            const lvl = document.getElementById('levelFilter').value;
+            if (lvl === 'ALL') filteredCards = [...vocabList];
+            else filteredCards = vocabList.filter(v => v.level === lvl);
+            currentCardIndex = 0;
+            renderCurrentCard();
+        }
+
+        function renderCurrentCard() {
+            const container = document.getElementById('flashcardContainer');
+            if (filteredCards.length === 0) {
+                container.innerHTML = `<div class="text-center text-xs text-pink-400 dark:text-purple-300 p-8 glass-card rounded-3xl">Belum ada kosakata di level ini. Silakan klik <b>+ Tambah Kata</b> di kanan atas!</div>`;
+                return;
+            }
+
+            const card = filteredCards[currentCardIndex];
+            container.innerHTML = `
+                <div id="flashcardObj" class="flashcard w-full max-w-md h-80 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner relative w-full h-full duration-500">
+                        <div class="flashcard-front absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-pink-200 dark:border-purple-800 text-center shadow-lg">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-extrabold uppercase">${card.level}</span>
+                                <span class="text-pink-400 dark:text-purple-300 font-medium">${card.category}</span>
+                            </div>
+                            <div>
+                                <h2 class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-100">${card.word}</h2>
+                                <p class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">${card.phonetic}</p>
+                                <button onclick="event.stopPropagation(); speakWord('${card.word.replace(/'/g, "\\'")}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-200 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                            <p class="text-[11px] text-pink-400 dark:text-purple-300 font-medium">Klik kartu untuk melihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
+                        </div>
+                        <div class="flashcard-back absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-200 dark:border-purple-700 text-center shadow-lg bg-purple-50/30 dark:bg-purple-950/40">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-extrabold uppercase">${card.level}</span>
+                                <span class="text-xs text-slate-400 dark:text-purple-300/60">${currentCardIndex + 1} / ${filteredCards.length}</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-purple-800 dark:text-purple-200 mb-2">${card.meaning}</h3>
+                                <div class="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-purple-100 dark:border-purple-800 text-left">
+                                    <p class="text-xs text-slate-600 dark:text-purple-200 italic">"${card.context}"</p>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-purple-400 dark:text-purple-300 font-medium">Klik untuk balikkan kartu</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            updateMasteredButtonState();
+            
+            const feedbackBox = document.getElementById('speechFeedbackBox');
+            if (feedbackBox) feedbackBox.classList.add('hidden');
+
+            if (isCardAutoAudioEnabled) {
+                speakWord(card.word);
+            }
+        }
+
+        function speakWord(word) {
+            const utterance = new SpeechSynthesisUtterance(word);
+            
+            const accent = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
+            const speed = document.getElementById('cardVoiceSpeed') ? parseFloat(document.getElementById('cardVoiceSpeed').value) : 1.0;
+
+            utterance.lang = accent;
+            utterance.rate = speed;
+            
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function testPronunciation() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                alert('Browser kamu belum mendukung Speech Recognition. Silakan gunakan Google Chrome.');
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            recognition.lang = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            const box = document.getElementById('speechFeedbackBox');
+            const status = document.getElementById('speechFeedbackStatus');
+
+            box.classList.remove('hidden');
+            status.className = "text-purple-600 dark:text-purple-300 font-bold";
+            status.innerHTML = `<i class="fa-solid fa-microphone text-pink-500 animate-pulse mr-1"></i> Mendengarkan... Silakan ucapkan kata di kartu!`;
+
+            recognition.start();
+
+            recognition.onresult = (event) => {
+                const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
+                const targetWord = filteredCards[currentCardIndex].word.toLowerCase().trim();
+
+                if (spokenWord === targetWord || spokenWord.includes(targetWord) || targetWord.includes(spokenWord)) {
+                    status.className = "text-emerald-600 dark:text-emerald-400 font-extrabold text-sm";
+                    status.innerHTML = `🎉 Luar biasa! Pelafalan "${spokenWord}" kamu sangat tepat! <br><span class="text-xs font-bold text-amber-500">+15 XP Reward! ⭐</span>`;
+                    addXP(15);
+                    confetti({ particleCount: 60, spread: 60, origin: { y: 0.7 } });
+                } else {
+                    status.className = "text-rose-500 dark:text-rose-400 font-bold text-xs";
+                    status.innerHTML = `❌ Kamu mengucapkan: <span class="underline">"${spokenWord}"</span>.<br>Target: "${filteredCards[currentCardIndex].word}". Coba klik Tes Pelafalan lagi! 💪`;
+                }
+            };
+
+            recognition.onerror = () => {
+                status.className = "text-amber-600 dark:text-amber-400 font-bold text-xs";
+                status.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Tidak terdengar suara/mikrofon belum diizinkan. Coba klik lagi yaa!`;
+            };
+        }
+
+        function prevCard() {
+            if (filteredCards.length === 0) return;
+            currentCardIndex = (currentCardIndex - 1 + filteredCards.length) % filteredCards.length;
+            renderCurrentCard();
+        }
+
+        function nextCard() {
+            if (filteredCards.length === 0) return;
+            currentCardIndex = (currentCardIndex + 1) % filteredCards.length;
+            renderCurrentCard();
+        }
+
+        function toggleMasteredCurrent() {
+            if (filteredCards.length === 0) return;
+            const card = filteredCards[currentCardIndex];
+            const target = vocabList.find(v => v.id === card.id);
+            if (target) {
+                target.mastered = !target.mastered;
+                if (target.mastered) {
+                    target.srsBox = Math.min(5, (target.srsBox || 1) + 1);
+                    addXP(10);
+                    confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
+                }
+                saveData();
+                renderStats();
+                updateMasteredButtonState();
+                renderSrsView();
+            }
+        }
+
+        function updateMasteredButtonState() {
+            if (filteredCards.length === 0) return;
+            const card = filteredCards[currentCardIndex];
+            const btn = document.getElementById('masteredBtn');
+            if (card.mastered) {
+                btn.className = "px-5 py-3 rounded-full text-xs font-bold border-2 border-emerald-500 text-white bg-emerald-500 transition-all flex items-center gap-2 shadow-sm";
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-base"></i> Sudah Dihafal`;
+            } else {
+                btn.className = "px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 dark:border-purple-500 text-pink-600 dark:text-purple-200 bg-white dark:bg-slate-900 hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm";
+                btn.innerHTML = `<i class="fa-regular fa-circle-check text-base"></i> Tandai Dihafal`;
+            }
         }
 
         // TAHAP 5: INTERACTIVE SEN CASE STUDY RENDER & FILTERING LOGIC
@@ -1883,160 +2062,6 @@
                 div.className = `w-4 h-4 rounded-md ${isBright ? 'bg-pink-400 dark:bg-purple-500' : 'bg-pink-100 dark:bg-purple-950'} border border-pink-200 dark:border-purple-800 flex-shrink-0`;
                 div.title = `Hari ke-${i + 1}`;
                 container.appendChild(div);
-            }
-        }
-
-        function filterFlashcards() {
-            const lvl = document.getElementById('levelFilter').value;
-            if (lvl === 'ALL') filteredCards = [...vocabList];
-            else filteredCards = vocabList.filter(v => v.level === lvl);
-            currentCardIndex = 0;
-            renderCurrentCard();
-        }
-
-        function renderCurrentCard() {
-            const container = document.getElementById('flashcardContainer');
-            if (filteredCards.length === 0) {
-                container.innerHTML = `<div class="text-center text-xs text-pink-400 dark:text-purple-300 p-8 glass-card rounded-3xl">Belum ada kosakata di level ini. Silakan klik <b>+ Tambah Kata</b> di kanan atas!</div>`;
-                return;
-            }
-
-            const card = filteredCards[currentCardIndex];
-            container.innerHTML = `
-                <div id="flashcardObj" class="flashcard w-full max-w-md h-80 cursor-pointer" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner relative w-full h-full duration-500">
-                        <div class="flashcard-front absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-pink-200 dark:border-purple-800 text-center shadow-lg">
-                            <div class="flex justify-between items-center text-xs">
-                                <span class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-extrabold uppercase">${card.level}</span>
-                                <span class="text-pink-400 dark:text-purple-300 font-medium">${card.category}</span>
-                            </div>
-                            <div>
-                                <h2 class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-100">${card.word}</h2>
-                                <p class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">${card.phonetic}</p>
-                                <button onclick="event.stopPropagation(); speakWord('${card.word}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-200 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
-                                    <i class="fa-solid fa-volume-high"></i>
-                                </button>
-                            </div>
-                            <p class="text-[11px] text-pink-400 dark:text-purple-300 font-medium">Klik kartu untuk melihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
-                        </div>
-                        <div class="flashcard-back absolute inset-0 glass-card rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-200 dark:border-purple-700 text-center shadow-lg bg-purple-50/30 dark:bg-purple-950/40">
-                            <div class="flex justify-between items-center text-xs">
-                                <span class="px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-extrabold uppercase">${card.level}</span>
-                                <span class="text-xs text-slate-400 dark:text-purple-300/60">${currentCardIndex + 1} / ${filteredCards.length}</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-purple-800 dark:text-purple-200 mb-2">${card.meaning}</h3>
-                                <div class="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-purple-100 dark:border-purple-800 text-left">
-                                    <p class="text-xs text-slate-600 dark:text-purple-200 italic">"${card.context}"</p>
-                                </div>
-                            </div>
-                            <p class="text-[11px] text-purple-400 dark:text-purple-300 font-medium">Klik untuk balikkan kartu</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            updateMasteredButtonState();
-            
-            const feedbackBox = document.getElementById('speechFeedbackBox');
-            if (feedbackBox) feedbackBox.classList.add('hidden');
-        }
-
-        function speakWord(word) {
-            const utterance = new SpeechSynthesisUtterance(word);
-            
-            const accent = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
-            const speed = document.getElementById('cardVoiceSpeed') ? parseFloat(document.getElementById('cardVoiceSpeed').value) : 1.0;
-
-            utterance.lang = accent;
-            utterance.rate = speed;
-            
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(utterance);
-        }
-
-        function testPronunciation() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
-            if (!SpeechRecognition) {
-                alert('Browser kamu belum mendukung Speech Recognition. Silakan gunakan Google Chrome.');
-                return;
-            }
-
-            const recognition = new SpeechRecognition();
-            recognition.lang = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
-            recognition.interimResults = false;
-            recognition.maxAlternatives = 1;
-
-            const box = document.getElementById('speechFeedbackBox');
-            const status = document.getElementById('speechFeedbackStatus');
-
-            box.classList.remove('hidden');
-            status.className = "text-purple-600 dark:text-purple-300 font-bold";
-            status.innerHTML = `<i class="fa-solid fa-microphone text-pink-500 animate-pulse mr-1"></i> Mendengarkan... Silakan ucapkan kata di kartu!`;
-
-            recognition.start();
-
-            recognition.onresult = (event) => {
-                const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
-                const targetWord = filteredCards[currentCardIndex].word.toLowerCase().trim();
-
-                if (spokenWord === targetWord || spokenWord.includes(targetWord) || targetWord.includes(spokenWord)) {
-                    status.className = "text-emerald-600 dark:text-emerald-400 font-extrabold text-sm";
-                    status.innerHTML = `🎉 Luar biasa! Pelafalan "${spokenWord}" kamu sangat tepat! <br><span class="text-xs font-bold text-amber-500">+15 XP Reward! ⭐</span>`;
-                    addXP(15);
-                    confetti({ particleCount: 60, spread: 60, origin: { y: 0.7 } });
-                } else {
-                    status.className = "text-rose-500 dark:text-rose-400 font-bold text-xs";
-                    status.innerHTML = `❌ Kamu mengucapkan: <span class="underline">"${spokenWord}"</span>.<br>Target: "${filteredCards[currentCardIndex].word}". Coba klik Tes Pelafalan lagi! 💪`;
-                }
-            };
-
-            recognition.onerror = () => {
-                status.className = "text-amber-600 dark:text-amber-400 font-bold text-xs";
-                status.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Tidak terdengar suara/mikrofon belum diizinkan. Coba klik lagi yaa!`;
-            };
-        }
-
-        function prevCard() {
-            if (filteredCards.length === 0) return;
-            currentCardIndex = (currentCardIndex - 1 + filteredCards.length) % filteredCards.length;
-            renderCurrentCard();
-        }
-
-        function nextCard() {
-            if (filteredCards.length === 0) return;
-            currentCardIndex = (currentCardIndex + 1) % filteredCards.length;
-            renderCurrentCard();
-        }
-
-        function toggleMasteredCurrent() {
-            if (filteredCards.length === 0) return;
-            const card = filteredCards[currentCardIndex];
-            const target = vocabList.find(v => v.id === card.id);
-            if (target) {
-                target.mastered = !target.mastered;
-                if (target.mastered) {
-                    target.srsBox = Math.min(5, (target.srsBox || 1) + 1);
-                    addXP(10);
-                    confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
-                }
-                saveData();
-                renderStats();
-                updateMasteredButtonState();
-                renderSrsView();
-            }
-        }
-
-        function updateMasteredButtonState() {
-            if (filteredCards.length === 0) return;
-            const card = filteredCards[currentCardIndex];
-            const btn = document.getElementById('masteredBtn');
-            if (card.mastered) {
-                btn.className = "px-5 py-3 rounded-full text-xs font-bold border-2 border-emerald-500 text-white bg-emerald-500 transition-all flex items-center gap-2 shadow-sm";
-                btn.innerHTML = `<i class="fa-solid fa-circle-check text-base"></i> Sudah Dihafal`;
-            } else {
-                btn.className = "px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 dark:border-purple-500 text-pink-600 dark:text-purple-200 bg-white dark:bg-slate-900 hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm";
-                btn.innerHTML = `<i class="fa-regular fa-circle-check text-base"></i> Tandai Dihafal`;
             }
         }
 
