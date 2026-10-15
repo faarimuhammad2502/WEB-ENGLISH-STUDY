@@ -87,6 +87,18 @@
             background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
         }
 
+        .nav-btn-active {
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            color: white !important;
+            box-shadow: 0 4px 14px rgba(244, 63, 94, 0.35);
+        }
+
+        html.dark .nav-btn-active {
+            background: linear-gradient(135deg, #9333ea 0%, #c026d3 100%);
+            color: white !important;
+            box-shadow: 0 4px 14px rgba(147, 51, 234, 0.45);
+        }
+
         .flashcard-inner {
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
@@ -99,6 +111,15 @@
         }
         .flashcard-back {
             transform: rotateY(180deg);
+        }
+
+        /* Custom Scrollbar for Sidebar */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(244, 63, 94, 0.2);
+            border-radius: 10px;
         }
 
         @media print {
@@ -120,7 +141,7 @@
         }
     </style>
 </head>
-<body class="text-slate-700 dark:text-purple-100 font-sans pb-12">
+<body class="text-slate-700 dark:text-purple-100 font-sans antialiased">
 
     <!-- LOGIN OVERLAY -->
     <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-pink-900/30 dark:bg-purple-950/60 backdrop-blur-md">
@@ -153,635 +174,700 @@
         </div>
     </div>
 
-    <!-- MAIN NAVBAR -->
-    <nav class="sticky top-0 z-40 glass-card border-b border-pink-100 dark:border-purple-800/40">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 dark:from-purple-600 dark:to-pink-500 flex items-center justify-center text-white font-black text-xl shadow-md">
-                    M
-                </div>
-                <div>
-                    <h1 class="font-serif font-bold text-pink-800 dark:text-purple-200 text-base leading-tight">Michelle's Cambridge Journey</h1>
-                    <p class="text-[10px] text-pink-500 dark:text-pink-400 font-medium">Cikal Serpong SEN Pedagogy (A2 - C2 Level)</p>
-                </div>
+    <!-- MAIN WRAPPER (SIDEBAR + CONTENT) -->
+    <div class="flex min-h-screen">
+
+        <!-- MOBILE NAVBAR HEADER (HANYA MUNCUL DI HP / TABLET) -->
+        <div class="lg:hidden fixed top-0 left-0 right-0 z-30 glass-card border-b border-pink-100 dark:border-purple-800/40 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <button onclick="toggleMobileSidebar()" class="w-9 h-9 rounded-xl bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 flex items-center justify-center text-base">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-400 text-white font-black text-sm flex items-center justify-center shadow-sm">M</div>
+                <span class="font-serif font-bold text-xs text-pink-800 dark:text-purple-200">Michelle's Portal</span>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="toggleDarkMode()" class="text-xs bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 px-3 py-1.5 rounded-full font-bold hover:bg-purple-200 transition-all flex items-center gap-1">
-                    <i id="darkModeIcon" class="fa-solid fa-moon"></i> <span id="darkModeText">Night</span>
-                </button>
-
-                <button onclick="openAddVocabModal()" class="text-xs bg-pink-100 dark:bg-pink-900/40 text-pink-700 dark:text-pink-300 px-3 py-1.5 rounded-full font-bold hover:bg-pink-200 transition-all">
-                    <i class="fa-solid fa-plus mr-1"></i> Tambah Kata
-                </button>
-                <span id="streakBadge" class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-amber-200 dark:border-amber-800/50 shadow-sm">
-                    <i class="fa-solid fa-fire text-amber-500"></i> <span id="streakCountText">1</span> Hari Streak
+                <span class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-amber-200 flex items-center gap-1">
+                    <i class="fa-solid fa-fire text-amber-500"></i> <span id="mobileStreakCount">1</span> Hari
                 </span>
-                <button onclick="logout()" class="text-xs text-pink-400 dark:text-purple-400 hover:text-pink-600 p-2"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
             </div>
         </div>
-    </nav>
 
-    <!-- CONTENT CONTAINER -->
-    <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
-
-        <!-- LOVE & SUPPORT ENCOURAGEMENT BOARD -->
-        <section class="glass-card rounded-3xl p-5 border-2 border-rose-200/80 dark:border-purple-800/50 bg-gradient-to-r from-rose-100/60 via-pink-50/80 to-purple-100/60 dark:from-purple-950/40 dark:via-purple-900/20 dark:to-pink-950/40 shadow-md relative overflow-hidden">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-3.5">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-500 dark:bg-purple-600 text-white flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 dark:bg-purple-900 text-pink-800 dark:text-purple-200 uppercase tracking-wider">Love & Support Board 🌸</span>
+        <!-- SIDEBAR NAVIGATION (SISI KIRI) -->
+        <aside id="sidebarNav" class="fixed lg:sticky top-0 left-0 z-40 w-64 h-screen glass-card border-r border-pink-200/80 dark:border-purple-800/40 p-4 flex flex-col justify-between -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+            <div class="space-y-4 overflow-y-auto sidebar-scroll pr-1">
+                <!-- LOGO HEADER -->
+                <div class="flex items-center justify-between pb-3 border-b border-pink-100 dark:border-purple-800/40">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 dark:from-purple-600 dark:to-pink-500 flex items-center justify-center text-white font-black text-xl shadow-md">
+                            M
                         </div>
-                        <p id="loveNoteDisplay" class="font-serif italic text-sm text-pink-900 dark:text-purple-100 font-semibold mt-1">
-                            "Semangat terus belajar Bahasa Inggrisnya yaa Michelle sayang! Kamu guru yang luar biasa dan hebat di Sekolah Cikal Serpong! 💖"
-                        </p>
-                    </div>
-                </div>
-                <button onclick="openEditLoveNoteModal()" class="text-xs bg-white/80 dark:bg-purple-900/60 hover:bg-white text-pink-700 dark:text-purple-200 font-bold px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-700 shadow-sm flex-shrink-0 transition-all">
-                    <i class="fa-solid fa-pen-heart text-pink-500 dark:text-pink-400 mr-1"></i> Ubah Pesan
-                </button>
-            </div>
-        </section>
-
-        <!-- CIKAL ACADEMIC CALENDAR & DAILY STUDY GOAL WIDGET -->
-        <section class="glass-card rounded-3xl p-5 border-2 border-pink-200/60 dark:border-purple-800/40 bg-gradient-to-r from-pink-50/80 via-purple-50/50 to-pink-50/80 dark:from-purple-950/30 dark:via-purple-900/20 dark:to-purple-950/30">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                <div class="flex items-center gap-3 border-b md:border-b-0 md:border-r border-pink-200/80 dark:border-purple-800/50 pb-3 md:pb-0 md:pr-4">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
-                        <i class="fa-regular fa-calendar-days"></i>
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-bold text-pink-500 dark:text-purple-400 uppercase tracking-wider">Cikal Academic Calendar</span>
-                        <h4 id="todayDateDisplay" class="font-bold text-xs text-slate-800 dark:text-purple-100">Hari ini: ...</h4>
-                        <p id="cikalPeriodDisplay" class="text-[11px] text-purple-700 dark:text-purple-300 font-semibold mt-0.5"><i class="fa-solid fa-bullseye mr-1"></i> Target: Mid-Term Pedagogy Review</p>
-                    </div>
-                </div>
-
-                <div class="md:col-span-2 space-y-2">
-                    <div class="flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-pink-800 dark:text-purple-200"><i class="fa-solid fa-crosshair text-pink-500 dark:text-purple-400 mr-1"></i> Target Harian Michelle:</span>
-                            <select id="dailyGoalSelect" onchange="updateDailyGoalTarget()" class="px-2 py-0.5 rounded-lg border border-pink-200 dark:border-purple-800 text-xs font-bold text-pink-700 dark:text-purple-200 bg-white dark:bg-slate-900 focus:outline-none">
-                                <option value="5">5 Kata / hari</option>
-                                <option value="10" selected>10 Kata / hari</option>
-                                <option value="15">15 Kata / hari</option>
-                                <option value="20">20 Kata / hari</option>
-                            </select>
+                        <div>
+                            <h1 class="font-serif font-bold text-pink-800 dark:text-purple-200 text-sm leading-tight">Michelle's Portal</h1>
+                            <p class="text-[9px] text-pink-500 dark:text-pink-400 font-semibold">Cikal Serpong SEN Pedagogy</p>
                         </div>
-                        <span id="dailyGoalProgressText" class="font-extrabold text-pink-600 dark:text-pink-400">0 / 10 Kata</span>
                     </div>
+                    <button onclick="toggleMobileSidebar()" class="lg:hidden text-slate-400 hover:text-pink-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
+                </div>
 
-                    <div class="w-full bg-pink-100 dark:bg-purple-950 h-3 rounded-full overflow-hidden p-0.5 border border-pink-200 dark:border-purple-800">
-                        <div id="dailyGoalProgressBar" class="bg-gradient-to-r from-pink-400 to-purple-500 dark:from-purple-500 dark:to-pink-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- STATS & PROGRESS DASHBOARD -->
-        <section class="glass-card rounded-3xl p-6 relative overflow-hidden">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-purple-900/30 border border-pink-100 dark:border-purple-800/40">
-                    <span class="text-xs text-pink-500 dark:text-purple-300 font-semibold uppercase tracking-wider">Kata Dihafal</span>
-                    <div id="statMastered" class="text-3xl font-extrabold text-pink-600 dark:text-pink-400 mt-1">0</div>
-                    <span id="statTotalSub" class="text-[10px] text-slate-400 dark:text-purple-300/60">Target 1000 Kosakata</span>
-                </div>
-                <div class="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/40">
-                    <span class="text-xs text-purple-600 dark:text-purple-300 font-semibold uppercase tracking-wider">Progres Total</span>
-                    <div id="statPercent" class="text-3xl font-extrabold text-purple-600 dark:text-purple-400 mt-1">0%</div>
-                    <span class="text-[10px] text-slate-400 dark:text-purple-300/60">Menuju C1/C2 Mastery</span>
-                </div>
-                <div class="p-4 rounded-2xl bg-rose-50/60 dark:bg-purple-900/30 border border-rose-100 dark:border-purple-800/40">
-                    <span class="text-xs text-rose-500 dark:text-pink-400 font-semibold uppercase tracking-wider">Poin Pengalaman</span>
-                    <div id="statXP" class="text-3xl font-extrabold text-rose-500 dark:text-pink-400 mt-1">⭐ 0</div>
-                    <span class="text-[10px] text-slate-400 dark:text-purple-300/60">XP Terkumpul</span>
-                </div>
-                <div class="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-800/40">
-                    <span class="text-xs text-amber-600 dark:text-amber-400 font-semibold uppercase tracking-wider">CEFR Standard</span>
-                    <div class="text-xl font-extrabold text-amber-600 dark:text-amber-400 mt-2">A2 - C2</div>
-                    <span class="text-[10px] text-amber-600 dark:text-amber-400/80 font-medium">Cambridge & Cikal</span>
-                </div>
-            </div>
-
-            <div class="mt-6 pt-4 border-t border-pink-100/80 dark:border-purple-800/40">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs font-bold text-pink-700 dark:text-purple-300"><i class="fa-regular fa-calendar-check mr-1"></i> Aktivitas Belajar Harian Michelle</span>
-                    <div class="flex gap-2">
-                        <button onclick="openCertificateModal()" class="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline"><i class="fa-solid fa-award mr-1"></i> Cetak Sertifikat</button>
-                        <button onclick="openResetModal()" class="text-[10px] font-bold text-rose-500 dark:text-rose-400 hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Reset Progres Belajar</button>
-                        <button onclick="exportDataJSON()" class="text-[10px] font-bold text-purple-600 dark:text-purple-400 hover:underline"><i class="fa-solid fa-download mr-1"></i> Backup Data</button>
+                <!-- STREAK & QUICK STATS BADGE -->
+                <div class="p-3 rounded-2xl bg-gradient-to-r from-pink-50 to-purple-50 dark:from-purple-950/50 dark:to-slate-900 border border-pink-200 dark:border-purple-800/60 flex items-center justify-between text-xs font-bold">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-amber-500 text-base"></i>
+                        <div>
+                            <span class="block text-[10px] text-slate-400 font-normal">Streak Belajar</span>
+                            <span class="text-pink-700 dark:text-purple-200"><span id="sidebarStreakCount">1</span> Hari Unstoppable</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex items-center gap-1 overflow-x-auto py-1" id="activityHeatmap"></div>
-            </div>
-        </section>
 
-        <!-- NAVIGATION TABS -->
-        <div class="flex flex-wrap justify-center gap-1.5 p-1.5 glass-card rounded-2xl max-w-5xl mx-auto">
-            <button onclick="switchTab('learn')" id="tabBtn-learn" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 dark:bg-purple-600 text-white shadow-md">
-                <i class="fa-solid fa-book-open mr-1"></i> Belajar
-            </button>
-            <button onclick="switchTab('iepgen')" id="tabBtn-iepgen" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> IEP Generator
-            </button>
-            <button onclick="switchTab('matrix')" id="tabBtn-matrix" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-cubes-stacked mr-1"></i> Matrix Perilaku
-            </button>
-            <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-hands-holding-child mr-1"></i> Skenario ABK
-            </button>
-            <button onclick="switchTab('dictation')" id="tabBtn-dictation" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-ear-listen mr-1"></i> Tebak Suara
-            </button>
-            <button onclick="switchTab('badges')" id="tabBtn-badges" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-award mr-1"></i> Lencana (<span id="unlockedBadgesCount">0</span>/6)
-            </button>
-            <button onclick="switchTab('srs')" id="tabBtn-srs" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-rotate mr-1"></i> Ulang (SRS)
-            </button>
-            <button onclick="switchTab('autoplay')" id="tabBtn-autoplay" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-headphones mr-1"></i> Hands-Free
-            </button>
-            <button onclick="switchTab('notes')" id="tabBtn-notes" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-pen-to-square mr-1"></i> IEP Notes
-            </button>
-            <button onclick="switchTab('dict')" id="tabBtn-dict" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-book mr-1"></i> Kamus (<span id="tabDictCount">1000</span>)
-            </button>
-            <button onclick="switchTab('templates')" id="tabBtn-templates" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-envelope mr-1"></i> Template Email
-            </button>
-            <button onclick="switchTab('history')" id="tabBtn-history" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-box-archive mr-1"></i> Arsip Belajar
-            </button>
-            <button onclick="switchTab('testcefr')" id="tabBtn-testcefr" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-vial mr-1"></i> Tes Level
-            </button>
-            <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all">
-                <i class="fa-solid fa-puzzle-piece mr-1"></i> Quiz
-            </button>
-        </div>
-
-        <!-- TAB 1: FLASHCARD BELAJAR HARIAN (TAHAP 6 ENHANCED) -->
-        <section id="tab-learn" class="space-y-4">
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
-                <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200">Flashcard Belajar Harian ✨</h3>
-                
-                <div class="flex flex-wrap items-center gap-2">
-                    <button onclick="toggleCardAutoAudio()" id="cardAutoAudioBtn" class="text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 font-bold hover:bg-pink-50 transition-all flex items-center gap-1.5 shadow-sm">
-                        <i id="cardAutoAudioIcon" class="fa-solid fa-volume-xmark text-slate-400"></i> Auto-Audio: <span id="cardAutoAudioText">OFF</span>
+                <!-- MENU CATEGORY 1: PUSAT BELAJAR & LATIHAN -->
+                <div class="space-y-1">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-pink-400 dark:text-purple-400 px-2">Pusat Belajar</span>
+                    
+                    <button onclick="switchTab('learn')" id="tabBtn-learn" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-book-open text-pink-500 w-4"></i> Flashcard Harian</span>
+                        <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-pink-100 text-pink-700 dark:bg-purple-900 dark:text-purple-200">A2-C2</span>
                     </button>
 
-                    <div class="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-pink-200 dark:border-purple-800 shadow-sm text-xs">
-                        <i class="fa-solid fa-sliders text-pink-500 dark:text-purple-400"></i>
-                        <select id="cardVoiceAccent" class="bg-transparent font-bold text-pink-700 dark:text-purple-200 focus:outline-none cursor-pointer">
-                            <option value="en-GB">🇬🇧 UK British</option>
-                            <option value="en-US">🇺🇸 US English</option>
-                        </select>
-                    </div>
+                    <button onclick="switchTab('dict')" id="tabBtn-dict" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-book text-pink-500 w-4"></i> Kamus Kosakata</span>
+                        <span id="tabDictCount" class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200">1000</span>
+                    </button>
 
-                    <div class="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-pink-200 dark:border-purple-800 shadow-sm text-xs">
-                        <i class="fa-solid fa-gauge-high text-pink-500 dark:text-purple-400"></i>
-                        <select id="cardVoiceSpeed" class="bg-transparent font-bold text-pink-700 dark:text-purple-200 focus:outline-none cursor-pointer">
-                            <option value="0.75">Speed: 0.75x</option>
-                            <option value="1.0" selected>Speed: 1.0x</option>
-                            <option value="1.25">Speed: 1.25x</option>
-                        </select>
-                    </div>
+                    <button onclick="switchTab('srs')" id="tabBtn-srs" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-rotate text-pink-500 w-4"></i> Leitner SRS Review</span>
+                    </button>
 
-                    <select id="levelFilter" onchange="filterFlashcards()" class="px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-semibold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none shadow-sm">
-                        <option value="ALL">Semua Level (A2-C2)</option>
-                        <option value="A2">Level A2 (Elementary)</option>
-                        <option value="B1">Level B1 (Intermediate)</option>
-                        <option value="B2" selected>Level B2 (Upper-Interm.)</option>
-                        <option value="C1">Level C1 (Advanced Teacher)</option>
-                        <option value="C2">Level C2 (Mastery)</option>
-                    </select>
+                    <button onclick="switchTab('autoplay')" id="tabBtn-autoplay" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-headphones text-pink-500 w-4"></i> Hands-Free Audio</span>
+                    </button>
+
+                    <button onclick="switchTab('dictation')" id="tabBtn-dictation" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-ear-listen text-pink-500 w-4"></i> Dictation Game</span>
+                    </button>
+                </div>
+
+                <!-- MENU CATEGORY 2: APLIKASI PEDAGOGI & IEP -->
+                <div class="space-y-1 pt-2 border-t border-pink-100 dark:border-purple-800/40">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-pink-400 dark:text-purple-400 px-2">Aplikasi SEN & IEP</span>
+
+                    <button onclick="switchTab('iepgen')" id="tabBtn-iepgen" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-wand-magic-sparkles text-purple-500 w-4"></i> IEP Goal Generator</span>
+                    </button>
+
+                    <button onclick="switchTab('matrix')" id="tabBtn-matrix" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-cubes-stacked text-purple-500 w-4"></i> Behavior Matrix</span>
+                    </button>
+
+                    <button onclick="switchTab('sencases')" id="tabBtn-sencases" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-hands-holding-child text-purple-500 w-4"></i> Studi Kasus ABK</span>
+                    </button>
+
+                    <button onclick="switchTab('notes')" id="tabBtn-notes" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-pen-to-square text-purple-500 w-4"></i> IEP Notes Draft</span>
+                    </button>
+
+                    <button onclick="switchTab('templates')" id="tabBtn-templates" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-envelope text-purple-500 w-4"></i> Template Email</span>
+                    </button>
+                </div>
+
+                <!-- MENU CATEGORY 3: UJIAN, LENCANA & RIWAYAT -->
+                <div class="space-y-1 pt-2 border-t border-pink-100 dark:border-purple-800/40">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-pink-400 dark:text-purple-400 px-2">Evaluasi & Prestasi</span>
+
+                    <button onclick="switchTab('badges')" id="tabBtn-badges" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-award text-amber-500 w-4"></i> Lencana</span>
+                        <span id="unlockedBadgesCount" class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-700">0/6</span>
+                    </button>
+
+                    <button onclick="switchTab('testcefr')" id="tabBtn-testcefr" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-vial text-rose-500 w-4"></i> Tes Level CEFR</span>
+                    </button>
+
+                    <button onclick="switchTab('quiz')" id="tabBtn-quiz" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-puzzle-piece text-rose-500 w-4"></i> Quiz Pedagogy</span>
+                    </button>
+
+                    <button onclick="switchTab('history')" id="tabBtn-history" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-purple-200 hover:bg-pink-100/60 dark:hover:bg-purple-900/40 transition-all flex items-center justify-between">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-box-archive text-slate-400 w-4"></i> Arsip Belajar</span>
+                    </button>
                 </div>
             </div>
 
-            <div id="flashcardContainer" class="relative min-h-[360px] flex items-center justify-center"></div>
-
-            <div class="flex justify-center items-center gap-3 pt-2">
-                <button onclick="prevCard()" class="w-12 h-12 rounded-full glass-card border border-pink-200 dark:border-purple-800 text-pink-600 dark:text-purple-300 flex items-center justify-center shadow-md hover:bg-pink-50 dark:hover:bg-purple-900/40 transition-all">
-                    <i class="fa-solid fa-chevron-left text-lg"></i>
+            <!-- SIDEBAR FOOTER (AKSI & PROFILE) -->
+            <div class="pt-3 border-t border-pink-100 dark:border-purple-800/40 space-y-2">
+                <button onclick="openAddVocabModal()" class="w-full py-2 bg-pink-100 dark:bg-pink-900/40 hover:bg-pink-200 text-pink-700 dark:text-pink-300 font-bold rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i> Tambah Kata Baru
                 </button>
 
-                <button onclick="testPronunciation()" class="px-4 py-3 rounded-full text-xs font-bold bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 hover:bg-purple-200 transition-all flex items-center gap-1.5 border border-purple-200 dark:border-purple-700 shadow-sm">
-                    <i class="fa-solid fa-microphone text-purple-600 dark:text-purple-300"></i> Tes Pelafalan
-                </button>
+                <div class="flex items-center justify-between pt-1">
+                    <button onclick="toggleDarkMode()" class="text-xs bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 px-3 py-1.5 rounded-full font-bold hover:bg-purple-200 transition-all flex items-center gap-1.5">
+                        <i id="darkModeIcon" class="fa-solid fa-moon"></i> <span id="darkModeText">Night</span>
+                    </button>
 
-                <button onclick="toggleMasteredCurrent()" id="masteredBtn" class="px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 dark:border-purple-500 text-pink-600 dark:text-purple-200 bg-white dark:bg-slate-900 hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm">
-                    <i class="fa-regular fa-circle-check text-base"></i> Tandai Dihafal
-                </button>
-                <button onclick="nextCard()" class="w-12 h-12 rounded-full pink-gradient-btn text-white flex items-center justify-center shadow-md">
-                    <i class="fa-solid fa-chevron-right text-lg"></i>
-                </button>
-            </div>
-            
-            <div id="speechFeedbackBox" class="max-w-md mx-auto p-4 rounded-2xl glass-card border-2 border-purple-200 dark:border-purple-700 text-center text-xs font-bold transition-all hidden">
-                <div id="speechFeedbackStatus" class="text-purple-600 dark:text-purple-300">🎤 Mendengarkan... Ucapkan kata di atas!</div>
-            </div>
-        </section>
-
-        <!-- TAB SMART IEP GOAL GENERATOR (TAHAP 1) -->
-        <section id="tab-iepgen" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-5">
-                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-wand-magic-sparkles text-pink-500 dark:text-purple-400 mr-2"></i> Smart IEP Goal Generator (Draf Indikator IEP)</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Susun draf tujuan IEP profesional dalam Bahasa Inggris standar Cikal & Cambridge dengan memilih area pengembangan siswa.</p>
-                    </div>
+                    <button onclick="logout()" class="text-xs text-rose-400 hover:text-rose-600 font-bold p-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+                    </button>
                 </div>
+            </div>
+        </aside>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="space-y-3 bg-pink-50/50 dark:bg-purple-900/20 p-4 rounded-2xl border border-pink-200/80 dark:border-purple-800/50">
-                        <div>
-                            <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Pilih Area Pengembangan (Domain)</label>
-                            <select id="iepDomainSelect" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
-                                <option value="Executive Functioning & Focus">Executive Functioning & Focus (Atensi & Tugas)</option>
-                                <option value="Sensory & Emotion Regulation">Sensory & Emotional Regulation (Emosi & Sensorik)</option>
-                                <option value="Communication & Social Interaction">Communication & Social Interaction (Komunikasi)</option>
-                                <option value="Academic Reading & Writing Accommodations">Academic Reading & Writing (Akademik)</option>
-                            </select>
+        <!-- MAIN KONTEN KANAN -->
+        <main class="flex-1 max-w-6xl mx-auto px-4 lg:px-8 pt-16 lg:pt-8 pb-12 space-y-6">
+
+            <!-- LOVE & SUPPORT ENCOURAGEMENT BOARD -->
+            <section class="glass-card rounded-3xl p-5 border-2 border-rose-200/80 dark:border-purple-800/50 bg-gradient-to-r from-rose-100/60 via-pink-50/80 to-purple-100/60 dark:from-purple-950/40 dark:via-purple-900/20 dark:to-pink-950/40 shadow-md relative overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-pink-500 dark:bg-purple-600 text-white flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
+                            <i class="fa-solid fa-heart"></i>
                         </div>
-
                         <div>
-                            <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Target Perilaku / Spesifik Tantangan</label>
-                            <input type="text" id="iepChallengeInput" placeholder="Contoh: Menolak tugas bacaan panjang / Mudah cemas saat bising" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Tingkat Bantuan (Prompting Level)</label>
-                            <select id="iepPromptSelect" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
-                                <option value="with minimal verbal prompts">Minimal Verbal Prompts (Bantuan Minimal)</option>
-                                <option value="with visual cues and moderate scaffolding">Visual Cues & Scaffolding (Bantuan Visual/Sedang)</option>
-                                <option value="independently with self-regulation strategies">Independently (Secara Mandiri)</option>
-                            </select>
-                        </div>
-
-                        <button onclick="generateIEPGoalDraft()" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md text-xs flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-bolt"></i> Buat Draf Indikator IEP
-                        </button>
-                    </div>
-
-                    <div class="md:col-span-2 space-y-3">
-                        <div class="flex justify-between items-center">
-                            <h4 class="text-xs font-bold text-pink-800 dark:text-purple-200"><i class="fa-solid fa-file-signature text-purple-500 mr-1"></i> Hasil Draf Indikator & Accommodations:</h4>
-                            <div class="flex gap-2">
-                                <button onclick="copyIEPResult()" class="text-[11px] bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-bold px-3 py-1 rounded-lg hover:bg-pink-200 transition-all"><i class="fa-solid fa-copy mr-1"></i> Salin Teks</button>
-                                <button onclick="sendIEPToNote()" class="text-[11px] bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-bold px-3 py-1 rounded-lg hover:bg-purple-200 transition-all"><i class="fa-solid fa-square-plus mr-1"></i> Masukkan ke IEP Notes</button>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 dark:bg-purple-900 text-pink-800 dark:text-purple-200 uppercase tracking-wider">Love & Support Board 🌸</span>
                             </div>
+                            <p id="loveNoteDisplay" class="font-serif italic text-sm text-pink-900 dark:text-purple-100 font-semibold mt-1">
+                                "Semangat terus belajar Bahasa Inggrisnya yaa Michelle sayang! Kamu guru yang luar biasa dan hebat di Sekolah Cikal Serpong! 💖"
+                            </p>
+                        </div>
+                    </div>
+                    <button onclick="openEditLoveNoteModal()" class="text-xs bg-white/80 dark:bg-purple-900/60 hover:bg-white text-pink-700 dark:text-purple-200 font-bold px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-700 shadow-sm flex-shrink-0 transition-all">
+                        <i class="fa-solid fa-pen-heart text-pink-500 dark:text-pink-400 mr-1"></i> Ubah Pesan
+                    </button>
+                </div>
+            </section>
+
+            <!-- CIKAL ACADEMIC CALENDAR & DAILY STUDY GOAL WIDGET -->
+            <section class="glass-card rounded-3xl p-5 border-2 border-pink-200/60 dark:border-purple-800/40 bg-gradient-to-r from-pink-50/80 via-purple-50/50 to-pink-50/80 dark:from-purple-950/30 dark:via-purple-900/20 dark:to-purple-950/30">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                    <div class="flex items-center gap-3 border-b md:border-b-0 md:border-r border-pink-200/80 dark:border-purple-800/50 pb-3 md:pb-0 md:pr-4">
+                        <div class="w-12 h-12 rounded-2xl bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+                            <i class="fa-regular fa-calendar-days"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-pink-500 dark:text-purple-400 uppercase tracking-wider">Cikal Academic Calendar</span>
+                            <h4 id="todayDateDisplay" class="font-bold text-xs text-slate-800 dark:text-purple-100">Hari ini: ...</h4>
+                            <p id="cikalPeriodDisplay" class="text-[11px] text-purple-700 dark:text-purple-300 font-semibold mt-0.5"><i class="fa-solid fa-bullseye mr-1"></i> Target: Mid-Term Pedagogy Review</p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-pink-800 dark:text-purple-200"><i class="fa-solid fa-crosshair text-pink-500 dark:text-purple-400 mr-1"></i> Target Harian Michelle:</span>
+                                <select id="dailyGoalSelect" onchange="updateDailyGoalTarget()" class="px-2 py-0.5 rounded-lg border border-pink-200 dark:border-purple-800 text-xs font-bold text-pink-700 dark:text-purple-200 bg-white dark:bg-slate-900 focus:outline-none">
+                                    <option value="5">5 Kata / hari</option>
+                                    <option value="10" selected>10 Kata / hari</option>
+                                    <option value="15">15 Kata / hari</option>
+                                    <option value="20">20 Kata / hari</option>
+                                </select>
+                            </div>
+                            <span id="dailyGoalProgressText" class="font-extrabold text-pink-600 dark:text-pink-400">0 / 10 Kata</span>
                         </div>
 
-                        <div id="iepOutputBox" class="p-4 rounded-2xl bg-white/90 dark:bg-slate-900/90 border-2 border-pink-200 dark:border-purple-800 text-xs text-slate-700 dark:text-purple-100 min-h-[220px] leading-relaxed space-y-3 font-sans">
-                            <div class="text-slate-400 dark:text-purple-300/60 italic text-center pt-16">Pilih kriteria di sebelah kiri dan klik <b>"Buat Draf Indikator IEP"</b> untuk melihat hasilnya di sini.</div>
+                        <div class="w-full bg-pink-100 dark:bg-purple-950 h-3 rounded-full overflow-hidden p-0.5 border border-pink-200 dark:border-purple-800">
+                            <div id="dailyGoalProgressBar" class="bg-gradient-to-r from-pink-400 to-purple-500 dark:from-purple-500 dark:to-pink-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- TAB BEHAVIORAL STRATEGY MATRIX (TAHAP 2) -->
-        <section id="tab-matrix" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-cubes-stacked text-pink-500 dark:text-purple-400 mr-2"></i> Behavioral Strategy Matrix (Peta Perilaku Interactive)</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Panduan respons cepat untuk menangani pemicu/kondisi emosi murid ABK di kelas secara profesional.</p>
+            <!-- STATS & PROGRESS DASHBOARD -->
+            <section class="glass-card rounded-3xl p-6 relative overflow-hidden">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-purple-900/30 border border-pink-100 dark:border-purple-800/40">
+                        <span class="text-xs text-pink-500 dark:text-purple-300 font-semibold uppercase tracking-wider">Kata Dihafal</span>
+                        <div id="statMastered" class="text-3xl font-extrabold text-pink-600 dark:text-pink-400 mt-1">0</div>
+                        <span id="statTotalSub" class="text-[10px] text-slate-400 dark:text-purple-300/60">Target 1000 Kosakata</span>
                     </div>
-                    <select id="matrixFilterCategory" onchange="renderMatrixCards()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none">
-                        <option value="ALL">Semua Pemicu Perilaku</option>
-                        <option value="SENSORY">Sensory / Lingkungan Bising</option>
-                        <option value="EMOTIONAL">Emosi & Frustrasi</option>
-                        <option value="EXECUTIVE">Atensi & Fokus Membaca/Menulis</option>
-                        <option value="SOCIAL">Interaksi Sosial & Kerja Kelompok</option>
-                    </select>
+                    <div class="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/40">
+                        <span class="text-xs text-purple-600 dark:text-purple-300 font-semibold uppercase tracking-wider">Progres Total</span>
+                        <div id="statPercent" class="text-3xl font-extrabold text-purple-600 dark:text-purple-400 mt-1">0%</div>
+                        <span class="text-[10px] text-slate-400 dark:text-purple-300/60">Menuju C1/C2 Mastery</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-rose-50/60 dark:bg-purple-900/30 border border-rose-100 dark:border-purple-800/40">
+                        <span class="text-xs text-rose-500 dark:text-pink-400 font-semibold uppercase tracking-wider">Poin Pengalaman</span>
+                        <div id="statXP" class="text-3xl font-extrabold text-rose-500 dark:text-pink-400 mt-1">⭐ 0</div>
+                        <span class="text-[10px] text-slate-400 dark:text-purple-300/60">XP Terkumpul</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-800/40">
+                        <span class="text-xs text-amber-600 dark:text-amber-400 font-semibold uppercase tracking-wider">CEFR Standard</span>
+                        <div class="text-xl font-extrabold text-amber-600 dark:text-amber-400 mt-2">A2 - C2</div>
+                        <span class="text-[10px] text-amber-600 dark:text-amber-400/80 font-medium">Cambridge & Cikal</span>
+                    </div>
                 </div>
 
-                <div id="matrixGridContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </div>
-        </section>
-
-        <!-- TAB SEN CASE STUDY CARDS (TAHAP 5) -->
-        <section id="tab-sencases" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-hands-holding-child text-pink-500 dark:text-purple-400 mr-2"></i> Studi Kasus & Skenario ABK Real-Life</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Kumpulan tantangan situasi murid ABK di kelas beserta solusi strategi pedagogi pendampingan Bahasa Inggris.</p>
+                <div class="mt-6 pt-4 border-t border-pink-100/80 dark:border-purple-800/40">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-pink-700 dark:text-purple-300"><i class="fa-regular fa-calendar-check mr-1"></i> Aktivitas Belajar Harian Michelle</span>
+                        <div class="flex gap-2">
+                            <button onclick="openCertificateModal()" class="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline"><i class="fa-solid fa-award mr-1"></i> Cetak Sertifikat</button>
+                            <button onclick="openResetModal()" class="text-[10px] font-bold text-rose-500 dark:text-rose-400 hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Reset Progres</button>
+                            <button onclick="exportDataJSON()" class="text-[10px] font-bold text-purple-600 dark:text-purple-400 hover:underline"><i class="fa-solid fa-download mr-1"></i> Backup Data</button>
+                        </div>
                     </div>
+                    <div class="flex items-center gap-1 overflow-x-auto py-1" id="activityHeatmap"></div>
+                </div>
+            </section>
+
+            <!-- TAB 1: FLASHCARD BELAJAR HARIAN -->
+            <section id="tab-learn" class="space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200">Flashcard Belajar Harian ✨</h3>
+                    
                     <div class="flex flex-wrap items-center gap-2">
-                        <div class="relative w-full sm:w-48">
-                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-400 text-xs"></i>
-                            <input type="text" id="caseSearchInput" oninput="renderSenCases()" placeholder="Cari kasus..." class="w-full pl-8 pr-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
-                        </div>
-                        <select id="caseFilterTopic" onchange="renderSenCases()" class="px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none">
-                            <option value="ALL">Semua Topik</option>
-                            <option value="Autism / Sensory Needs">Autism / Sensory</option>
-                            <option value="ADHD / Executive Functioning">ADHD / Focus</option>
-                            <option value="Emotional Regulation">Emotional Regulation</option>
-                            <option value="Dysgraphia / Fine Motor Support">Dysgraphia / Fine Motor</option>
-                        </select>
-                        <button onclick="openAddCaseModal()" class="text-xs pink-gradient-btn text-white font-bold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus"></i> Tambah Kasus
+                        <button onclick="toggleCardAutoAudio()" id="cardAutoAudioBtn" class="text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 font-bold hover:bg-pink-50 transition-all flex items-center gap-1.5 shadow-sm">
+                            <i id="cardAutoAudioIcon" class="fa-solid fa-volume-xmark text-slate-400"></i> Auto-Audio: <span id="cardAutoAudioText">OFF</span>
                         </button>
+
+                        <div class="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-pink-200 dark:border-purple-800 shadow-sm text-xs">
+                            <i class="fa-solid fa-sliders text-pink-500 dark:text-purple-400"></i>
+                            <select id="cardVoiceAccent" class="bg-transparent font-bold text-pink-700 dark:text-purple-200 focus:outline-none cursor-pointer">
+                                <option value="en-GB">🇬🇧 UK British</option>
+                                <option value="en-US">🇺🇸 US English</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-pink-200 dark:border-purple-800 shadow-sm text-xs">
+                            <i class="fa-solid fa-gauge-high text-pink-500 dark:text-purple-400"></i>
+                            <select id="cardVoiceSpeed" class="bg-transparent font-bold text-pink-700 dark:text-purple-200 focus:outline-none cursor-pointer">
+                                <option value="0.75">Speed: 0.75x</option>
+                                <option value="1.0" selected>Speed: 1.0x</option>
+                                <option value="1.25">Speed: 1.25x</option>
+                            </select>
+                        </div>
+
+                        <select id="levelFilter" onchange="filterFlashcards()" class="px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-semibold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none shadow-sm">
+                            <option value="ALL">Semua Level (A2-C2)</option>
+                            <option value="A2">Level A2 (Elementary)</option>
+                            <option value="B1">Level B1 (Intermediate)</option>
+                            <option value="B2" selected>Level B2 (Upper-Interm.)</option>
+                            <option value="C1">Level C1 (Advanced Teacher)</option>
+                            <option value="C2">Level C2 (Mastery)</option>
+                        </select>
                     </div>
                 </div>
 
-                <div id="senCasesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </div>
-        </section>
+                <div id="flashcardContainer" class="relative min-h-[360px] flex items-center justify-center"></div>
 
-        <!-- TAB DICTATION AUDIO GAME -->
-        <section id="tab-dictation" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 text-center max-w-xl mx-auto space-y-5">
-                <div class="w-16 h-16 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-2xl shadow-inner">
-                    <i class="fa-solid fa-ear-listen"></i>
-                </div>
-                <div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Dictation Game (Tebak Suara) 🎧</h3>
-                    <p class="text-xs text-slate-500 dark:text-purple-300/70 mt-1">Dengarkan audio kata, lalu ketikkan ejaan kata Bahasa Inggris yang tepat untuk melatih pendengaranmu!</p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-purple-50/60 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 space-y-4">
-                    <button onclick="playDictationAudio()" class="w-16 h-16 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-2xl mx-auto flex items-center justify-center shadow-lg transition-all">
-                        <i class="fa-solid fa-volume-high"></i>
+                <div class="flex justify-center items-center gap-3 pt-2">
+                    <button onclick="prevCard()" class="w-12 h-12 rounded-full glass-card border border-pink-200 dark:border-purple-800 text-pink-600 dark:text-purple-300 flex items-center justify-center shadow-md hover:bg-pink-50 dark:hover:bg-purple-900/40 transition-all">
+                        <i class="fa-solid fa-chevron-left text-lg"></i>
                     </button>
-                    <p class="text-[11px] text-pink-600 dark:text-purple-300 font-bold">Klik tombol untuk mendengarkan kata</p>
-                    <p id="dictationHintDisplay" class="text-xs text-slate-500 italic">Arti: "..."</p>
 
-                    <input type="text" id="dictationAnswerInput" placeholder="Ketik kata yang didengar di sini..." class="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-purple-800 text-center font-bold text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white dark:bg-slate-900 text-sm">
-
-                    <button onclick="checkDictationAnswer()" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md text-xs">
-                        Periksa Jawaban <i class="fa-solid fa-check ml-1"></i>
+                    <button onclick="testPronunciation()" class="px-4 py-3 rounded-full text-xs font-bold bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 hover:bg-purple-200 transition-all flex items-center gap-1.5 border border-purple-200 dark:border-purple-700 shadow-sm">
+                        <i class="fa-solid fa-microphone text-purple-600 dark:text-purple-300"></i> Tes Pelafalan
                     </button>
-                </div>
 
-                <div id="dictationFeedback" class="text-xs font-bold hidden"></div>
-            </div>
-        </section>
-
-        <!-- TAB BADGES PRESTASI (GAMIFICATION) -->
-        <section id="tab-badges" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-award text-amber-500 mr-2"></i> Koleksi Lencana Prestasi Michelle</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Selesaikan milestone pembelajaran untuk membuka lencana khusus guru profesional Cikal.</p>
-                    </div>
-                </div>
-
-                <div id="badgesGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
-            </div>
-        </section>
-
-        <!-- TAB SRS (SPACED REPETITION SYSTEM - TAHAP 3) -->
-        <section id="tab-srs" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-5">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-rotate text-pink-500 dark:text-purple-400 mr-2"></i> Spaced Repetition System (Leitner 5 Box System) 🧠</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Metode pengulangan bertahap: Kata yang sulit diulang lebih sering, kata yang lancar akan dijadwalkan lebih jarang.</p>
-                    </div>
-                    <button onclick="startSrsReviewSession()" class="px-4 py-2 pink-gradient-btn text-white text-xs font-bold rounded-xl shadow-md flex items-center gap-1.5">
-                        <i class="fa-solid fa-play"></i> Mulai Sesi Ulang SRS
+                    <button onclick="toggleMasteredCurrent()" id="masteredBtn" class="px-5 py-3 rounded-full text-xs font-bold border-2 border-pink-400 dark:border-purple-500 text-pink-600 dark:text-purple-200 bg-white dark:bg-slate-900 hover:bg-pink-50 transition-all flex items-center gap-2 shadow-sm">
+                        <i class="fa-regular fa-circle-check text-base"></i> Tandai Dihafal
+                    </button>
+                    <button onclick="nextCard()" class="w-12 h-12 rounded-full pink-gradient-btn text-white flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-chevron-right text-lg"></i>
                     </button>
                 </div>
+                
+                <div id="speechFeedbackBox" class="max-w-md mx-auto p-4 rounded-2xl glass-card border-2 border-purple-200 dark:border-purple-700 text-center text-xs font-bold transition-all hidden">
+                    <div id="speechFeedbackStatus" class="text-purple-600 dark:text-purple-300">🎤 Mendengarkan... Ucapkan kata di atas!</div>
+                </div>
+            </section>
 
-                <!-- DASHBOARD LEITNER BOXES -->
-                <div id="srsDashboardView" class="space-y-4"></div>
-
-                <!-- ACTIVE SRS REVIEW CARD SESSION AREA -->
-                <div id="srsReviewSessionArea" class="hidden max-w-lg mx-auto p-6 rounded-3xl glass-card border-2 border-purple-300 dark:border-purple-700 text-center space-y-4 relative">
-                    <div class="flex justify-between items-center text-xs font-bold text-purple-700 dark:text-purple-300">
-                        <span id="srsSessionProgress">Sesi SRS #1</span>
-                        <span id="srsCurrentBoxBadge" class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900 text-pink-700 dark:text-purple-200 uppercase">Box 1</span>
+            <!-- TAB SMART IEP GOAL GENERATOR -->
+            <section id="tab-iepgen" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-5">
+                    <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-wand-magic-sparkles text-pink-500 dark:text-purple-400 mr-2"></i> Smart IEP Goal Generator (Draf Indikator IEP)</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Susun draf tujuan IEP profesional dalam Bahasa Inggris standar Cikal & Cambridge dengan memilih area pengembangan siswa.</p>
+                        </div>
                     </div>
 
-                    <div id="srsInteractiveCard" class="flashcard w-full h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
-                        <div class="flashcard-inner relative w-full h-full duration-500">
-                            <div class="flashcard-front absolute inset-0 p-5 rounded-2xl bg-gradient-to-tr from-pink-50 to-purple-50 dark:from-purple-950 dark:to-slate-900 border border-pink-200 dark:border-purple-800 flex flex-col justify-between text-center shadow-md">
-                                <span id="srsCardLevel" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase self-center">LEVEL B2</span>
-                                <div>
-                                    <h3 id="srsCardWord" class="font-serif text-3xl font-extrabold text-pink-900 dark:text-purple-100">...</h3>
-                                    <p id="srsCardPhonetic" class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">/.../</p>
-                                </div>
-                                <p class="text-[10px] text-pink-500 dark:text-purple-300 font-bold">Klik untuk balikkan & lihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="space-y-3 bg-pink-50/50 dark:bg-purple-900/20 p-4 rounded-2xl border border-pink-200/80 dark:border-purple-800/50">
+                            <div>
+                                <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Pilih Area Pengembangan (Domain)</label>
+                                <select id="iepDomainSelect" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
+                                    <option value="Executive Functioning & Focus">Executive Functioning & Focus (Atensi & Tugas)</option>
+                                    <option value="Sensory & Emotion Regulation">Sensory & Emotional Regulation (Emosi & Sensorik)</option>
+                                    <option value="Communication & Social Interaction">Communication & Social Interaction (Komunikasi)</option>
+                                    <option value="Academic Reading & Writing Accommodations">Academic Reading & Writing (Akademik)</option>
+                                </select>
                             </div>
 
-                            <div class="flashcard-back absolute inset-0 p-5 rounded-2xl bg-purple-100/80 dark:bg-purple-900/80 border border-purple-300 dark:border-purple-700 flex flex-col justify-between text-center shadow-md">
-                                <span class="text-[10px] font-bold text-purple-700 dark:text-purple-300 uppercase">Arti & Konteks</span>
-                                <div>
-                                    <h4 id="srsCardMeaning" class="font-bold text-base text-purple-900 dark:text-purple-100">...</h4>
-                                    <p id="srsCardContext" class="text-xs italic text-slate-600 dark:text-purple-200 mt-2">"..."</p>
+                            <div>
+                                <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Target Perilaku / Spesifik Tantangan</label>
+                                <input type="text" id="iepChallengeInput" placeholder="Contoh: Menolak tugas bacaan panjang / Mudah cemas saat bising" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-pink-800 dark:text-purple-200 mb-1">Tingkat Bantuan (Prompting Level)</label>
+                                <select id="iepPromptSelect" class="w-full px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-200 focus:outline-none">
+                                    <option value="with minimal verbal prompts">Minimal Verbal Prompts (Bantuan Minimal)</option>
+                                    <option value="with visual cues and moderate scaffolding">Visual Cues & Scaffolding (Bantuan Visual/Sedang)</option>
+                                    <option value="independently with self-regulation strategies">Independently (Secara Mandiri)</option>
+                                </select>
+                            </div>
+
+                            <button onclick="generateIEPGoalDraft()" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md text-xs flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> Buat Draf Indikator IEP
+                            </button>
+                        </div>
+
+                        <div class="md:col-span-2 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <h4 class="text-xs font-bold text-pink-800 dark:text-purple-200"><i class="fa-solid fa-file-signature text-purple-500 mr-1"></i> Hasil Draf Indikator & Accommodations:</h4>
+                                <div class="flex gap-2">
+                                    <button onclick="copyIEPResult()" class="text-[11px] bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 font-bold px-3 py-1 rounded-lg hover:bg-pink-200 transition-all"><i class="fa-solid fa-copy mr-1"></i> Salin Teks</button>
+                                    <button onclick="sendIEPToNote()" class="text-[11px] bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-bold px-3 py-1 rounded-lg hover:bg-purple-200 transition-all"><i class="fa-solid fa-square-plus mr-1"></i> Masukkan ke IEP Notes</button>
                                 </div>
-                                <p class="text-[10px] text-purple-600 dark:text-purple-300 font-bold">Pilih evaluasi daya ingat di bawah 👇</p>
+                            </div>
+
+                            <div id="iepOutputBox" class="p-4 rounded-2xl bg-white/90 dark:bg-slate-900/90 border-2 border-pink-200 dark:border-purple-800 text-xs text-slate-700 dark:text-purple-100 min-h-[220px] leading-relaxed space-y-3 font-sans">
+                                <div class="text-slate-400 dark:text-purple-300/60 italic text-center pt-16">Pilih kriteria di sebelah kiri dan klik <b>"Buat Draf Indikator IEP"</b> untuk melihat hasilnya di sini.</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="flex justify-center items-center gap-3 pt-2">
-                        <button onclick="handleSrsAnswer(false)" class="flex-1 py-3 bg-rose-100 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 font-extrabold rounded-xl text-xs hover:bg-rose-200 transition-all flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-xmark"></i> Lupa (Turun Box 1)
-                        </button>
-                        <button onclick="handleSrsAnswer(true)" class="flex-1 py-3 bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-extrabold rounded-xl text-xs hover:bg-emerald-200 transition-all flex items-center justify-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-check"></i> Ingat (Naik Box +1)
-                        </button>
-                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- MODE AUTOPLAY HANDS-FREE AUDIO (TAHAP 4) -->
-        <section id="tab-autoplay" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 max-w-xl mx-auto text-center space-y-5">
-                <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 dark:bg-purple-900/60 flex items-center justify-center text-purple-600 dark:text-purple-300 text-2xl shadow-inner relative">
-                    <i class="fa-solid fa-headphones"></i>
-                    <div id="audioWavePulse" class="absolute inset-0 rounded-full border-2 border-pink-400 animate-ping opacity-0"></div>
-                </div>
-                <div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Mode Belajar Audio Hands-Free 🎧</h3>
-                    <p class="text-xs text-slate-500 dark:text-purple-300/70 mt-1">Dengarkan pelafalan kosakata, arti, dan contoh kalimat secara otomatis tanpa perlu menekan tombol.</p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-pink-50/80 dark:bg-purple-900/30 border border-pink-200 dark:border-purple-800 space-y-3 relative overflow-hidden">
-                    <div class="flex justify-between items-center text-xs font-bold text-pink-700 dark:text-purple-300">
-                        <span id="autoLevelBadge" class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase">Level B2</span>
-                        <span id="autoIndexTracker" class="text-[10px] text-slate-400 dark:text-purple-300/60">Word 0 / 0</span>
-                    </div>
-
-                    <h2 id="autoWordDisplay" class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-200">Ready?</h2>
-                    <p id="autoMeaningDisplay" class="text-sm font-bold text-purple-700 dark:text-purple-300">Klik 'Mulai Autoplay' di bawah</p>
-                    <p id="autoContextDisplay" class="text-xs text-slate-500 dark:text-purple-300/60 italic mt-2">"..."</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2 text-xs font-bold">
-                    <div class="flex items-center justify-between px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900">
-                        <span class="text-pink-600 dark:text-purple-300">Aksen Audio:</span>
-                        <select id="autoVoiceAccent" class="bg-transparent text-slate-700 dark:text-purple-100 focus:outline-none">
-                            <option value="en-GB">🇬🇧 UK British</option>
-                            <option value="en-US">🇺🇸 US English</option>
-                        </select>
-                    </div>
-
-                    <div class="flex items-center justify-between px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900">
-                        <span class="text-pink-600 dark:text-purple-300">Kecepatan:</span>
-                        <select id="autoSpeedSelect" class="bg-transparent text-slate-700 dark:text-purple-100 focus:outline-none">
-                            <option value="0.75">0.75x (Pelan)</option>
-                            <option value="1.0" selected>1.0x (Normal)</option>
-                            <option value="1.25">1.25x (Cepat)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="flex justify-center items-center gap-3">
-                    <button id="autoPlayBtn" onclick="toggleAutoplay()" class="w-full py-3.5 pink-gradient-btn text-white font-bold rounded-2xl shadow-lg text-xs flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-play"></i> Mulai Autoplay
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB CATATAN IEP & LESSON PLANNER -->
-        <section id="tab-notes" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
-                    <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-pen-to-square text-pink-500 dark:text-purple-400 mr-2"></i> Asisten Catatan IEP & Lesson Plan Pribadi</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Ruang latihan mandiri Michelle menyusun catatan pengajaran dalam Bahasa Inggris profesional.</p>
-                    </div>
-                    <button onclick="downloadTeacherNote()" class="text-xs bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-bold px-3 py-1.5 rounded-xl hover:bg-purple-200 transition-all">
-                        <i class="fa-solid fa-file-arrow-down mr-1"></i> Simpan File Teks
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-purple-900/30 border border-pink-100 dark:border-purple-800/40 space-y-3">
-                        <h4 class="text-xs font-bold text-pink-700 dark:text-purple-300 uppercase tracking-wider"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Klik Kata Cikal/Cambridge</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-purple-300/60">Klik kata di bawah ini untuk menyelipkannya ke dalam draf catatanmu:</p>
-                        <div class="flex flex-wrap gap-1.5" id="noteVocabChips"></div>
-                    </div>
-                    <div class="md:col-span-2 space-y-3">
-                        <div class="flex justify-between items-center">
-                            <label class="text-xs font-bold text-pink-800 dark:text-purple-200">Draf Catatan Pengajaran Pribadi Michelle:</label>
-                            <span id="noteSavedStatus" class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold hidden"><i class="fa-solid fa-check mr-1"></i> Tersimpan Otomatis</span>
+            <!-- TAB BEHAVIORAL STRATEGY MATRIX -->
+            <section id="tab-matrix" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-cubes-stacked text-pink-500 dark:text-purple-400 mr-2"></i> Behavioral Strategy Matrix (Peta Perilaku Interactive)</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Panduan respons cepat untuk menangani pemicu/kondisi emosi murid ABK di kelas secara profesional.</p>
                         </div>
-                        <textarea id="teacherNoteInput" oninput="autoSaveNote()" rows="10" placeholder="Ketik draf catatan perkembangan murid atau rencana pengajaran harian di sini..." class="w-full p-4 rounded-2xl border-2 border-pink-200 dark:border-purple-800 focus:outline-none focus:border-pink-400 bg-white/90 dark:bg-slate-900/90 text-xs text-slate-700 dark:text-purple-100 leading-relaxed font-sans"></textarea>
+                        <select id="matrixFilterCategory" onchange="renderMatrixCards()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none">
+                            <option value="ALL">Semua Pemicu Perilaku</option>
+                            <option value="SENSORY">Sensory / Lingkungan Bising</option>
+                            <option value="EMOTIONAL">Emosi & Frustrasi</option>
+                            <option value="EXECUTIVE">Atensi & Fokus Membaca/Menulis</option>
+                            <option value="SOCIAL">Interaksi Sosial & Kerja Kelompok</option>
+                        </select>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- TAB 2: KAMUS KOSAKATA 1000 KATA -->
-        <section id="tab-dict" class="hidden space-y-4">
-            <div class="glass-card rounded-2xl p-4 flex flex-col md:flex-row gap-3 justify-between items-center">
-                <div class="relative w-full md:w-80">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 dark:text-purple-400 text-xs"></i>
-                    <input type="text" id="searchInput" oninput="renderDictionary()" placeholder="Cari kosakata / arti..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100">
+                    <div id="matrixGridContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
-                <div class="flex gap-2 w-full md:w-auto">
-                    <select id="dictLevelFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 font-medium focus:outline-none">
-                        <option value="ALL">Semua Level</option>
-                        <option value="A2">A2</option>
-                        <option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option>
-                    </select>
-                    <select id="dictStatusFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 font-medium focus:outline-none">
-                        <option value="ALL">Semua Status</option>
-                        <option value="MASTERED">Sudah Dihafal</option>
-                        <option value="UNMASTERED">Belum Dihafal</option>
-                    </select>
+            </section>
+
+            <!-- TAB SEN CASE STUDY CARDS -->
+            <section id="tab-sencases" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-hands-holding-child text-pink-500 dark:text-purple-400 mr-2"></i> Studi Kasus & Skenario ABK Real-Life</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Kumpulan tantangan situasi murid ABK di kelas beserta solusi strategi pedagogi pendampingan Bahasa Inggris.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <div class="relative w-full sm:w-48">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-400 text-xs"></i>
+                                <input type="text" id="caseSearchInput" oninput="renderSenCases()" placeholder="Cari kasus..." class="w-full pl-8 pr-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                            </div>
+                            <select id="caseFilterTopic" onchange="renderSenCases()" class="px-3 py-1.5 rounded-xl border border-pink-200 dark:border-purple-800 text-xs font-bold bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 focus:outline-none">
+                                <option value="ALL">Semua Topik</option>
+                                <option value="Autism / Sensory Needs">Autism / Sensory</option>
+                                <option value="ADHD / Executive Functioning">ADHD / Focus</option>
+                                <option value="Emotional Regulation">Emotional Regulation</option>
+                                <option value="Dysgraphia / Fine Motor Support">Dysgraphia / Fine Motor</option>
+                            </select>
+                            <button onclick="openAddCaseModal()" class="text-xs pink-gradient-btn text-white font-bold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-plus"></i> Tambah Kasus
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="senCasesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
-            </div>
+            </section>
 
-            <div id="dictList" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1"></div>
-        </section>
-
-        <!-- TAB TEMPLATE EMAIL GURU PIC -->
-        <section id="tab-templates" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+            <!-- TAB DICTATION AUDIO GAME -->
+            <section id="tab-dictation" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 text-center max-w-xl mx-auto space-y-5">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300 flex items-center justify-center text-2xl shadow-inner">
+                        <i class="fa-solid fa-ear-listen"></i>
+                    </div>
                     <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-envelope-open-text text-pink-500 dark:text-purple-400 mr-2"></i> Template Email & Komunikasi Guru Cikal</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Pilih template, isi data variabel, dan langsung salin pesan Bahasa Inggris resmi.</p>
+                        <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Dictation Game (Tebak Suara) 🎧</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70 mt-1">Dengarkan audio kata, lalu ketikkan ejaan kata Bahasa Inggris yang tepat untuk melatih pendengaranmu!</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-purple-50/60 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 space-y-4">
+                        <button onclick="playDictationAudio()" class="w-16 h-16 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-2xl mx-auto flex items-center justify-center shadow-lg transition-all">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                        <p class="text-[11px] text-pink-600 dark:text-purple-300 font-bold">Klik tombol untuk mendengarkan kata</p>
+                        <p id="dictationHintDisplay" class="text-xs text-slate-500 italic">Arti: "..."</p>
+
+                        <input type="text" id="dictationAnswerInput" placeholder="Ketik kata yang didengar di sini..." class="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-purple-800 text-center font-bold text-slate-700 dark:text-purple-100 focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white dark:bg-slate-900 text-sm">
+
+                        <button onclick="checkDictationAnswer()" class="w-full py-3 pink-gradient-btn text-white font-bold rounded-xl shadow-md text-xs">
+                            Periksa Jawaban <i class="fa-solid fa-check ml-1"></i>
+                        </button>
+                    </div>
+
+                    <div id="dictationFeedback" class="text-xs font-bold hidden"></div>
+                </div>
+            </section>
+
+            <!-- TAB BADGES PRESTASI -->
+            <section id="tab-badges" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-award text-amber-500 mr-2"></i> Koleksi Lencana Prestasi Michelle</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Selesaikan milestone pembelajaran untuk membuka lencana khusus guru profesional Cikal.</p>
+                        </div>
+                    </div>
+
+                    <div id="badgesGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+                </div>
+            </section>
+
+            <!-- TAB SRS -->
+            <section id="tab-srs" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-5">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-rotate text-pink-500 dark:text-purple-400 mr-2"></i> Spaced Repetition System (Leitner 5 Box System) 🧠</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Metode pengulangan bertahap: Kata yang sulit diulang lebih sering, kata yang lancar akan dijadwalkan lebih jarang.</p>
+                        </div>
+                        <button onclick="startSrsReviewSession()" class="px-4 py-2 pink-gradient-btn text-white text-xs font-bold rounded-xl shadow-md flex items-center gap-1.5">
+                            <i class="fa-solid fa-play"></i> Mulai Sesi Ulang SRS
+                        </button>
+                    </div>
+
+                    <div id="srsDashboardView" class="space-y-4"></div>
+
+                    <div id="srsReviewSessionArea" class="hidden max-w-lg mx-auto p-6 rounded-3xl glass-card border-2 border-purple-300 dark:border-purple-700 text-center space-y-4 relative">
+                        <div class="flex justify-between items-center text-xs font-bold text-purple-700 dark:text-purple-300">
+                            <span id="srsSessionProgress">Sesi SRS #1</span>
+                            <span id="srsCurrentBoxBadge" class="px-2.5 py-1 rounded-full bg-pink-100 dark:bg-purple-900 text-pink-700 dark:text-purple-200 uppercase">Box 1</span>
+                        </div>
+
+                        <div id="srsInteractiveCard" class="flashcard w-full h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                            <div class="flashcard-inner relative w-full h-full duration-500">
+                                <div class="flashcard-front absolute inset-0 p-5 rounded-2xl bg-gradient-to-tr from-pink-50 to-purple-50 dark:from-purple-950 dark:to-slate-900 border border-pink-200 dark:border-purple-800 flex flex-col justify-between text-center shadow-md">
+                                    <span id="srsCardLevel" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase self-center">LEVEL B2</span>
+                                    <div>
+                                        <h3 id="srsCardWord" class="font-serif text-3xl font-extrabold text-pink-900 dark:text-purple-100">...</h3>
+                                        <p id="srsCardPhonetic" class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">/.../</p>
+                                    </div>
+                                    <p class="text-[10px] text-pink-500 dark:text-purple-300 font-bold">Klik untuk balikkan & lihat arti <i class="fa-solid fa-rotate ml-1"></i></p>
+                                </div>
+
+                                <div class="flashcard-back absolute inset-0 p-5 rounded-2xl bg-purple-100/80 dark:bg-purple-900/80 border border-purple-300 dark:border-purple-700 flex flex-col justify-between text-center shadow-md">
+                                    <span class="text-[10px] font-bold text-purple-700 dark:text-purple-300 uppercase">Arti & Konteks</span>
+                                    <div>
+                                        <h4 id="srsCardMeaning" class="font-bold text-base text-purple-900 dark:text-purple-100">...</h4>
+                                        <p id="srsCardContext" class="text-xs italic text-slate-600 dark:text-purple-200 mt-2">"..."</p>
+                                    </div>
+                                    <p class="text-[10px] text-purple-600 dark:text-purple-300 font-bold">Pilih evaluasi daya ingat di bawah 👇</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center items-center gap-3 pt-2">
+                            <button onclick="handleSrsAnswer(false)" class="flex-1 py-3 bg-rose-100 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 font-extrabold rounded-xl text-xs hover:bg-rose-200 transition-all flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-xmark"></i> Lupa (Turun Box 1)
+                            </button>
+                            <button onclick="handleSrsAnswer(true)" class="flex-1 py-3 bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-extrabold rounded-xl text-xs hover:bg-emerald-200 transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-check"></i> Ingat (Naik Box +1)
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-bold">
-                    <input type="text" id="tplParentInput" oninput="renderEmailTemplates()" placeholder="Nama Orang Tua" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
-                    <input type="text" id="tplStudentInput" oninput="renderEmailTemplates()" placeholder="Nama Murid" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
-                    <input type="text" id="tplTeacherInput" oninput="renderEmailTemplates()" value="Ms. Michelle" placeholder="Nama Guru" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
-                    <input type="text" id="tplDateInput" oninput="renderEmailTemplates()" placeholder="Tanggal/Waktu" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
-                </div>
-
-                <div id="emailTemplatesList" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2"></div>
-            </div>
-        </section>
-
-        <!-- TAB ARSIP HISTORY BELAJAR SEBELUMNYA -->
-        <section id="tab-history" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 space-y-4">
-                <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+            <!-- MODE AUTOPLAY HANDS-FREE AUDIO -->
+            <section id="tab-autoplay" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 max-w-xl mx-auto text-center space-y-5">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 dark:bg-purple-900/60 flex items-center justify-center text-purple-600 dark:text-purple-300 text-2xl shadow-inner relative">
+                        <i class="fa-solid fa-headphones"></i>
+                        <div id="audioWavePulse" class="absolute inset-0 rounded-full border-2 border-pink-400 animate-ping opacity-0"></div>
+                    </div>
                     <div>
-                        <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-box-archive text-pink-500 dark:text-purple-400 mr-2"></i> Arsip Capaian Belajar Sebelumnya</h3>
-                        <p class="text-xs text-slate-500 dark:text-purple-300/70">Catatan riwayat pembelajaran yang pernah diselesaikan Michelle sebelum di-reset ke awal.</p>
+                        <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Mode Belajar Audio Hands-Free 🎧</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70 mt-1">Dengarkan pelafalan kosakata, arti, dan contoh kalimat secara otomatis tanpa perlu menekan tombol.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-pink-50/80 dark:bg-purple-900/30 border border-pink-200 dark:border-purple-800 space-y-3 relative overflow-hidden">
+                        <div class="flex justify-between items-center text-xs font-bold text-pink-700 dark:text-purple-300">
+                            <span id="autoLevelBadge" class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase">Level B2</span>
+                            <span id="autoIndexTracker" class="text-[10px] text-slate-400 dark:text-purple-300/60">Word 0 / 0</span>
+                        </div>
+
+                        <h2 id="autoWordDisplay" class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-200">Ready?</h2>
+                        <p id="autoMeaningDisplay" class="text-sm font-bold text-purple-700 dark:text-purple-300">Klik 'Mulai Autoplay' di bawah</p>
+                        <p id="autoContextDisplay" class="text-xs text-slate-500 dark:text-purple-300/60 italic mt-2">"..."</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                        <div class="flex items-center justify-between px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900">
+                            <span class="text-pink-600 dark:text-purple-300">Aksen Audio:</span>
+                            <select id="autoVoiceAccent" class="bg-transparent text-slate-700 dark:text-purple-100 focus:outline-none">
+                                <option value="en-GB">🇬🇧 UK British</option>
+                                <option value="en-US">🇺🇸 US English</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center justify-between px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900">
+                            <span class="text-pink-600 dark:text-purple-300">Kecepatan:</span>
+                            <select id="autoSpeedSelect" class="bg-transparent text-slate-700 dark:text-purple-100 focus:outline-none">
+                                <option value="0.75">0.75x (Pelan)</option>
+                                <option value="1.0" selected>1.0x (Normal)</option>
+                                <option value="1.25">1.25x (Cepat)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center items-center gap-3">
+                        <button id="autoPlayBtn" onclick="toggleAutoplay()" class="w-full py-3.5 pink-gradient-btn text-white font-bold rounded-2xl shadow-lg text-xs flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-play"></i> Mulai Autoplay
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB CATATAN IEP & LESSON PLANNER -->
+            <section id="tab-notes" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-pen-to-square text-pink-500 dark:text-purple-400 mr-2"></i> Asisten Catatan IEP & Lesson Plan Pribadi</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Ruang latihan mandiri Michelle menyusun catatan pengajaran dalam Bahasa Inggris profesional.</p>
+                        </div>
+                        <button onclick="downloadTeacherNote()" class="text-xs bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-200 font-bold px-3 py-1.5 rounded-xl hover:bg-purple-200 transition-all">
+                            <i class="fa-solid fa-file-arrow-down mr-1"></i> Simpan File Teks
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-purple-900/30 border border-pink-100 dark:border-purple-800/40 space-y-3">
+                            <h4 class="text-xs font-bold text-pink-700 dark:text-purple-300 uppercase tracking-wider"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Klik Kata Cikal/Cambridge</h4>
+                            <p class="text-[11px] text-slate-500 dark:text-purple-300/60">Klik kata di bawah ini untuk menyelipkannya ke dalam draf catatanmu:</p>
+                            <div class="flex flex-wrap gap-1.5" id="noteVocabChips"></div>
+                        </div>
+                        <div class="md:col-span-2 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <label class="text-xs font-bold text-pink-800 dark:text-purple-200">Draf Catatan Pengajaran Pribadi Michelle:</label>
+                                <span id="noteSavedStatus" class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold hidden"><i class="fa-solid fa-check mr-1"></i> Tersimpan Otomatis</span>
+                            </div>
+                            <textarea id="teacherNoteInput" oninput="autoSaveNote()" rows="10" placeholder="Ketik draf catatan perkembangan murid atau rencana pengajaran harian di sini..." class="w-full p-4 rounded-2xl border-2 border-pink-200 dark:border-purple-800 focus:outline-none focus:border-pink-400 bg-white/90 dark:bg-slate-900/90 text-xs text-slate-700 dark:text-purple-100 leading-relaxed font-sans"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: KAMUS KOSAKATA 1000 KATA -->
+            <section id="tab-dict" class="hidden space-y-4">
+                <div class="glass-card rounded-2xl p-4 flex flex-col md:flex-row gap-3 justify-between items-center">
+                    <div class="relative w-full md:w-80">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 dark:text-purple-400 text-xs"></i>
+                        <input type="text" id="searchInput" oninput="renderDictionary()" placeholder="Cari kosakata / arti..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100">
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <select id="dictLevelFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 font-medium focus:outline-none">
+                            <option value="ALL">Semua Level</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option>
+                        </select>
+                        <select id="dictStatusFilter" onchange="renderDictionary()" class="px-3 py-2 rounded-xl border border-pink-200 dark:border-purple-800 text-xs bg-white dark:bg-slate-900 text-pink-700 dark:text-purple-200 font-medium focus:outline-none">
+                            <option value="ALL">Semua Status</option>
+                            <option value="MASTERED">Sudah Dihafal</option>
+                            <option value="UNMASTERED">Belum Dihafal</option>
+                        </select>
                     </div>
                 </div>
 
-                <div id="historyLogContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </div>
-        </section>
+                <div id="dictList" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1"></div>
+            </section>
 
-        <!-- TAB TES LEVEL CEFR -->
-        <section id="tab-testcefr" class="hidden space-y-4">
-            <div id="testCefrContainer" class="glass-card rounded-3xl p-6 max-w-2xl mx-auto space-y-6"></div>
-        </section>
-
-        <!-- TAB QUIZ LATIHAN -->
-        <section id="tab-quiz" class="hidden space-y-4">
-            <div class="glass-card rounded-3xl p-6 text-center max-w-2xl mx-auto space-y-6">
-                <div id="quizStartScreen" class="space-y-4">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 flex items-center justify-center text-pink-500 dark:text-purple-300 text-2xl">
-                        <i class="fa-solid fa-graduation-cap"></i>
+            <!-- TAB TEMPLATE EMAIL GURU PIC -->
+            <section id="tab-templates" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-envelope-open-text text-pink-500 dark:text-purple-400 mr-2"></i> Template Email & Komunikasi Guru Cikal</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Pilih template, isi data variabel, dan langsung salin pesan Bahasa Inggris resmi.</p>
+                        </div>
                     </div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Quiz Latihan Cambridge Pedagogy 🎯</h3>
-                    <p class="text-xs text-slate-500 dark:text-purple-300/70 leading-relaxed max-w-md mx-auto">
-                        Uji pemahaman kosakata Cambridge & ABK Special Education untuk Michelle. Siap memulai 5 pertanyaan acak?
-                    </p>
-                    <button onclick="startQuiz()" class="px-8 py-3 pink-gradient-btn text-white font-bold rounded-2xl shadow-lg text-xs tracking-wide">
-                        Mulai Quiz Sekarang
-                    </button>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-bold">
+                        <input type="text" id="tplParentInput" oninput="renderEmailTemplates()" placeholder="Nama Orang Tua" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                        <input type="text" id="tplStudentInput" oninput="renderEmailTemplates()" placeholder="Nama Murid" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                        <input type="text" id="tplTeacherInput" oninput="renderEmailTemplates()" value="Ms. Michelle" placeholder="Nama Guru" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                        <input type="text" id="tplDateInput" oninput="renderEmailTemplates()" placeholder="Tanggal/Waktu" class="p-2.5 rounded-xl border border-pink-200 dark:border-purple-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-purple-100 focus:outline-none">
+                    </div>
+
+                    <div id="emailTemplatesList" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2"></div>
                 </div>
+            </section>
 
-                <div id="quizPlayScreen" class="hidden space-y-6 text-left">
-                    <div class="flex justify-between items-center text-xs text-pink-600 dark:text-purple-300 font-bold">
-                        <span id="quizProgress">Pertanyaan 1 / 5</span>
-                        <span id="quizScore">Skor: 0</span>
+            <!-- TAB ARSIP HISTORY BELAJAR SEBELUMNYA -->
+            <section id="tab-history" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-pink-100 dark:border-purple-800/40 pb-3">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-pink-800 dark:text-purple-200"><i class="fa-solid fa-box-archive text-pink-500 dark:text-purple-400 mr-2"></i> Arsip Capaian Belajar Sebelumnya</h3>
+                            <p class="text-xs text-slate-500 dark:text-purple-300/70">Catatan riwayat pembelajaran yang pernah diselesaikan Michelle sebelum di-reset ke awal.</p>
+                        </div>
                     </div>
-                    <div class="p-4 rounded-2xl bg-pink-50/80 dark:bg-purple-900/30 border border-pink-200 dark:border-purple-800">
-                        <span id="quizLevelBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase">Level B2</span>
-                        <h4 id="quizQuestion" class="font-bold text-base text-slate-800 dark:text-purple-100 mt-2">...</h4>
-                    </div>
-                    <div id="quizOptions" class="grid grid-cols-1 gap-2.5"></div>
+
+                    <div id="historyLogContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
+            </section>
 
-                <div id="quizResultScreen" class="hidden space-y-4">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-500 dark:text-emerald-300 text-2xl">
-                        <i class="fa-solid fa-trophy"></i>
+            <!-- TAB TES LEVEL CEFR -->
+            <section id="tab-testcefr" class="hidden space-y-4">
+                <div id="testCefrContainer" class="glass-card rounded-3xl p-6 max-w-2xl mx-auto space-y-6"></div>
+            </section>
+
+            <!-- TAB QUIZ LATIHAN -->
+            <section id="tab-quiz" class="hidden space-y-4">
+                <div class="glass-card rounded-3xl p-6 text-center max-w-2xl mx-auto space-y-6">
+                    <div id="quizStartScreen" class="space-y-4">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-pink-100 dark:bg-purple-900/60 flex items-center justify-center text-pink-500 dark:text-purple-300 text-2xl">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Quiz Latihan Cambridge Pedagogy 🎯</h3>
+                        <p class="text-xs text-slate-500 dark:text-purple-300/70 leading-relaxed max-w-md mx-auto">
+                            Uji pemahaman kosakata Cambridge & ABK Special Education untuk Michelle. Siap memulai 5 pertanyaan acak?
+                        </p>
+                        <button onclick="startQuiz()" class="px-8 py-3 pink-gradient-btn text-white font-bold rounded-2xl shadow-lg text-xs tracking-wide">
+                            Mulai Quiz Sekarang
+                        </button>
                     </div>
-                    <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Hebat Sekali, Michelle! 🌟</h3>
-                    <p id="quizResultText" class="text-xs text-slate-600 dark:text-purple-300/80">Kamu berhasil menyelesaikan quiz!</p>
-                    <button onclick="startQuiz()" class="px-6 py-2.5 pink-gradient-btn text-white font-bold rounded-xl text-xs">
-                        Coba Quiz Lagi
-                    </button>
-                </div>
-            </div>
-        </section>
 
-    </main>
+                    <div id="quizPlayScreen" class="hidden space-y-6 text-left">
+                        <div class="flex justify-between items-center text-xs text-pink-600 dark:text-purple-300 font-bold">
+                            <span id="quizProgress">Pertanyaan 1 / 5</span>
+                            <span id="quizScore">Skor: 0</span>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-pink-50/80 dark:bg-purple-900/30 border border-pink-200 dark:border-purple-800">
+                            <span id="quizLevelBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-pink-200 dark:bg-purple-800 text-pink-800 dark:text-purple-200 uppercase">Level B2</span>
+                            <h4 id="quizQuestion" class="font-bold text-base text-slate-800 dark:text-purple-100 mt-2">...</h4>
+                        </div>
+                        <div id="quizOptions" class="grid grid-cols-1 gap-2.5"></div>
+                    </div>
+
+                    <div id="quizResultScreen" class="hidden space-y-4">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-500 dark:text-emerald-300 text-2xl">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-xl text-pink-800 dark:text-purple-200">Hebat Sekali, Michelle! 🌟</h3>
+                        <p id="quizResultText" class="text-xs text-slate-600 dark:text-purple-300/80">Kamu berhasil menyelesaikan quiz!</p>
+                        <button onclick="startQuiz()" class="px-6 py-2.5 pink-gradient-btn text-white font-bold rounded-xl text-xs">
+                            Coba Quiz Lagi
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
 
     <!-- MODAL CERTIFICATE GENERATOR -->
     <div id="certificateModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
@@ -844,7 +930,7 @@
         </div>
     </div>
 
-    <!-- MODAL RESET PROGRES DENGAN SIMPAN ARSIP -->
+    <!-- MODAL RESET PROGRES -->
     <div id="resetModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm hidden">
         <div class="glass-card max-w-md w-full rounded-3xl p-6 space-y-4 border-2 border-rose-300 dark:border-rose-700 relative text-center">
             <button onclick="closeResetModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -984,84 +1070,24 @@
             { id: 'mastery_1000', title: 'Master Teacher C2', icon: 'fa-crown', color: 'from-rose-500 to-purple-600', reqText: 'Hafal 1000 kosakata', check: (m, xp, cases) => m >= 1000 }
         ];
 
-        // TAHAP 2: MASTER DATA BEHAVIORAL MATRIX
         const behavioralMatrixData = [
-            {
-                id: 'bm1',
-                cat: 'SENSORY',
-                trigger: 'Kebisingan Ruang Kelas / Transisi Kegiatan',
-                reaction: 'Menutupi telinga, menolak jalan, atau gelisah berlebihan.',
-                action: 'Gunakan Noise-Cancelling Headphones & sediakan visual transition countdown.',
-                pedagogyTerm: 'Sensory De-escalation & Environmental Accommodation'
-            },
-            {
-                id: 'bm2',
-                cat: 'EMOTIONAL',
-                trigger: 'Kewalahan Saat Lembar Kerja Terlalu Banyak',
-                reaction: 'Menangis, meremas kertas, atau menolak menulis.',
-                action: 'Terapkan Task Chunking (potong tugas jadi 2-3 soal saja dulu) & abaikan respon emosi sementara.',
-                pedagogyTerm: 'Executive Scaffolding & Co-regulation'
-            },
-            {
-                id: 'bm3',
-                cat: 'EXECUTIVE',
-                trigger: 'Mudah Terdistraksi Dalam 5 Menit Pertama',
-                reaction: 'Melamun, memainkan alat tulis, tidak memulai instruksi.',
-                action: 'Berikan penunjuk visual berpotongan tinggi (pointer) & timer visual 5 menit.',
-                pedagogyTerm: 'Prompting Sequence & Visual Anchor'
-            },
-            {
-                id: 'bm4',
-                cat: 'SOCIAL',
-                trigger: 'Kerja Kelompok Bising / Konflik Giliran Bicara',
-                reaction: 'Menjauh dari kelompok, diam membisu, atau frustrasi.',
-                action: 'Berikan Role-Card spesifik (misal: penanggung jawab penanda kertas) & berikan kalimat pembuka (*sentence starters*).',
-                pedagogyTerm: 'Structured Peer Collaboration & Social Scripting'
-            }
+            { id: 'bm1', cat: 'SENSORY', trigger: 'Kebisingan Ruang Kelas / Transisi Kegiatan', reaction: 'Menutupi telinga, menolak jalan, atau gelisah berlebihan.', action: 'Gunakan Noise-Cancelling Headphones & sediakan visual transition countdown.', pedagogyTerm: 'Sensory De-escalation & Environmental Accommodation' },
+            { id: 'bm2', cat: 'EMOTIONAL', trigger: 'Kewalahan Saat Lembar Kerja Terlalu Banyak', reaction: 'Menangis, meremas kertas, atau menolak menulis.', action: 'Terapkan Task Chunking (potong tugas jadi 2-3 soal saja dulu) & abaikan respon emosi sementara.', pedagogyTerm: 'Executive Scaffolding & Co-regulation' },
+            { id: 'bm3', cat: 'EXECUTIVE', trigger: 'Mudah Terdistraksi Dalam 5 Menit Pertama', reaction: 'Melamun, memainkan alat tulis, tidak memulai instruksi.', action: 'Berikan penunjuk visual berpotongan tinggi (pointer) & timer visual 5 menit.', pedagogyTerm: 'Prompting Sequence & Visual Anchor' },
+            { id: 'bm4', cat: 'SOCIAL', trigger: 'Kerja Kelompok Bising / Konflik Giliran Bicara', reaction: 'Menjauh dari kelompok, diam membisu, atau frustrasi.', action: 'Berikan Role-Card spesifik (misal: penanggung jawab penanda kertas) & berikan kalimat pembuka (*sentence starters*).', pedagogyTerm: 'Structured Peer Collaboration & Social Scripting' }
         ];
 
-        // TAHAP 5: INTERACTIVE SEN CASE STUDY MASTER DATA
         const initialSenCases = [
-            {
-                id: 1,
-                title: "Sensory Overload During Class Transition",
-                topic: "Autism / Sensory Needs",
-                scenario: "Murid merasa cemas, menutupi telinga, dan menolak berpindah dari ruang kelas ke perpustakaan karena suasana bising.",
-                strategy: "Use visual schedule countdowns, offer noise-cancelling headphones, and prepare a designated quiet corridor transition.",
-                keyTerms: ["Sensory Overload", "Visual Schedule", "Transitioning"]
-            },
-            {
-                id: 2,
-                title: "Difficulty Focusing on Long Reading Tasks",
-                topic: "ADHD / Executive Functioning",
-                scenario: "Siswa mudah terdistraksi dan tidak bisa menyelesaikan lembar bacaan panjang lebih dari 5 menit.",
-                strategy: "Break the reading task into smaller chunks using a timer and implement high-contrast visual pointers.",
-                keyTerms: ["Task Chunking", "Executive Functioning", "Visual Anchor"]
-            },
-            {
-                id: 3,
-                title: "Emotional Meltdown During Group Work",
-                topic: "Emotional Regulation",
-                scenario: "Anak merasa kewalahan saat kerja kelompok dan tiba-tiba menangis atau diam membisu.",
-                strategy: "Apply co-regulation: approach with a low, calm voice, validate feelings, and transition to a sensory calm corner.",
-                keyTerms: ["Co-regulation", "Calm Corner", "Validation"]
-            },
-            {
-                id: 4,
-                title: "Frustration in Fine Motor Writing Tasks",
-                topic: "Dysgraphia / Fine Motor Support",
-                scenario: "Murid mengalami kesulitan menulis tangan secara rapi dan cepat lelah saat menyalin instruksi.",
-                strategy: "Provide adaptive pencil grips, offer speech-to-text options, or allow modified fill-in-the-blank worksheets.",
-                keyTerms: ["Accommodation", "Adaptive Tools", "Differentiation"]
-            }
+            { id: 1, title: "Sensory Overload During Class Transition", topic: "Autism / Sensory Needs", scenario: "Murid merasa cemas, menutupi telinga, dan menolak berpindah dari ruang kelas ke perpustakaan karena suasana bising.", strategy: "Use visual schedule countdowns, offer noise-cancelling headphones, and prepare a designated quiet corridor transition.", keyTerms: ["Sensory Overload", "Visual Schedule", "Transitioning"] },
+            { id: 2, title: "Difficulty Focusing on Long Reading Tasks", topic: "ADHD / Executive Functioning", scenario: "Siswa mudah terdistraksi dan tidak bisa menyelesaikan lembar bacaan panjang lebih dari 5 menit.", strategy: "Break the reading task into smaller chunks using a timer and implement high-contrast visual pointers.", keyTerms: ["Task Chunking", "Executive Functioning", "Visual Anchor"] },
+            { id: 3, title: "Emotional Meltdown During Group Work", topic: "Emotional Regulation", scenario: "Anak merasa kewalahan saat kerja kelompok dan tiba-tiba menangis atau diam membisu.", strategy: "Apply co-regulation: approach with a low, calm voice, validate feelings, and transition to a sensory calm corner.", keyTerms: ["Co-regulation", "Calm Corner", "Validation"] },
+            { id: 4, title: "Frustration in Fine Motor Writing Tasks", topic: "Dysgraphia / Fine Motor Support", scenario: "Murid mengalami kesulitan menulis tangan secara rapi dan cepat lelah saat menyalin instruksi.", strategy: "Provide adaptive pencil grips, offer speech-to-text options, or allow modified fill-in-the-blank worksheets.", keyTerms: ["Accommodation", "Adaptive Tools", "Differentiation"] }
         ];
 
         let senCasesList = [...initialSenCases];
         let historyLogs = [];
         let currentDictationItem = null;
         let lastGeneratedIEPText = "";
-
-        // TAHAP 3: SRS STATE VARIABLES
         let srsQueue = [];
         let srsCurrentIndex = 0;
 
@@ -1071,28 +1097,11 @@
             { word: "Lesson Plan", level: "A2", meaning: "Rencana pelaksanaan pembelajaran", phonetic: "/ˈles.ən plæn/", context: "Preparing a clear lesson plan structures teaching.", category: "Pedagogy" },
             { word: "Assessment", level: "A2", meaning: "Penilaian atau evaluasi pembelajaran", phonetic: "/əˈses.mənt/", context: "Assessment helps track student learning progress.", category: "Pedagogy" },
             { word: "Instruction", level: "A2", meaning: "Petunjuk atau instruksi mengajar", phonetic: "/ɪnˈstrʌk.ʃən/", context: "Clear instructions make activities easier to follow.", category: "Pedagogy" },
-            { word: "Assignment", level: "A2", meaning: "Tugas sekolah", phonetic: "/əˈsaɪn.mənt/", context: "Students submitted their daily reading assignment.", category: "General" },
-            { word: "Feedback", level: "A2", meaning: "Umpan balik / tanggapan", phonetic: "/ˈfiːd.bæk/", context: "Positive feedback builds student confidence.", category: "Pedagogy" },
             { word: "Curriculum", level: "B1", meaning: "Kurikulum atau rancangan mata pelajaran", phonetic: "/kəˈrɪk.jə.ləm/", context: "Sekolah Cikal implements a learner-centered curriculum.", category: "Pedagogy" },
-            { word: "Collaboration", level: "B1", meaning: "Kerja sama antar siswa atau guru", phonetic: "/kəˌlæb.əˈreɪ.ʃən/", context: "Group work fosters strong collaboration skills.", category: "General" },
-            { word: "Inquiry", level: "B1", meaning: "Penyelidikan / Pembelajaran berbasis rasa ingin tahu", phonetic: "/ɪnˈkwaɪ.ə.ri/", context: "Inquiry-based learning encourages critical thinking.", category: "Pedagogy" },
-            { word: "Behavior", level: "B1", meaning: "Perilaku atau tingkah laku siswa", phonetic: "/bɪˈheɪ.vjər/", context: "Understanding student behavior helps classroom management.", category: "SEN" },
-            { word: "Objective", level: "B1", meaning: "Tujuan pembelajaran", phonetic: "/əbˈdʒek.tɪv/", context: "Today's learning objective is to understand context.", category: "Pedagogy" },
-            { word: "Intervention", level: "B1", meaning: "Tindakan intervensi khusus untuk siswa", phonetic: "/ˌɪn.təˈven.ʃən/", context: "Early intervention supports children with learning difficulties.", category: "SEN" },
             { word: "Accommodation", level: "B2", meaning: "Penyesuaian cara belajar tanpa merubah standar", phonetic: "/əˌkɒm.əˈdeɪ.ʃən/", context: "Extra time is a helpful accommodation during tests.", category: "SEN" },
-            { word: "Formative", level: "B2", meaning: "Evaluasi berkelanjutan selama proses belajar", phonetic: "/ˈfɔː.mə.tɪv/", context: "Formative assessment guides daily teaching strategies.", category: "Pedagogy" },
             { word: "Individualised Education Plan", level: "B2", meaning: "Rencana Pendidikan Individual (IEP) untuk siswa ABK", phonetic: "/ˌɪn.dɪˈvɪdʒ.u.ə.laɪzd/", context: "We review each Individualised Education Plan every term.", category: "SEN" },
-            { word: "Sensory Overload", level: "B2", meaning: "Kelebihan stimulasi panca indera pada anak", phonetic: "/ˈsen.sər.i ˈəʊ.və.ləʊd/", context: "A quiet sensory room helps prevent sensory overload.", category: "SEN" },
-            { word: "Co-regulation", level: "B2", meaning: "Proses pendampingan emosi antara guru dan siswa", phonetic: "/kəʊ ˌreɡ.jəˈleɪ.ʃən/", context: "Co-regulation helps children manage intense emotions.", category: "SEN" },
-            { word: "Syllabus", level: "B2", meaning: "Silabus topik dan alur pembelajaran", phonetic: "/ˈsɪl.ə.bəs/", context: "The Cambridge syllabus provides a global framework.", category: "Pedagogy" },
-            { word: "Scaffolding", level: "B2", meaning: "Dukungan bertahap dari guru hingga siswa mandiri", phonetic: "/ˈskæf.əl.dɪŋ/", context: "Scaffolding helps students master complex concepts.", category: "Pedagogy" },
             { word: "Differentiation", level: "C1", meaning: "Penyesuaian pengajaran sesuai kebutuhan siswa", phonetic: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", context: "Differentiation ensures every student can access goals.", category: "Pedagogy" },
-            { word: "Neurodiversity", level: "C1", meaning: "Keberagaman fungsi otak dan perkembangan saraf", phonetic: "/ˌnjʊə.rəʊ.daɪˈvɜː.sə.ti/", context: "Embracing neurodiversity creates an inclusive community.", category: "SEN" },
-            { word: "Facilitate", level: "C1", meaning: "Memfasilitasi atau mempermudah proses belajar", phonetic: "/fəˈsɪl.ɪ.teɪt/", context: "Teachers facilitate meaningful discussion in class.", category: "Pedagogy" },
-            { word: "Self-Regulation", level: "C1", meaning: "Kemampuan mengatur emosi & fokus mandiri", phonetic: "/ˌself.reɡ.jəˈleɪ.ʃən/", context: "Self-regulation is a crucial life skill for all learners.", category: "SEN" },
-            { word: "Metacognition", level: "C2", meaning: "Kesadaran & pemahaman tentang proses berpikir sendiri", phonetic: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", context: "Encouraging metacognition helps SEN students self-reflect.", category: "Pedagogy" },
-            { word: "Pedagogy", level: "C2", meaning: "Ilmu dan metode strategi pengajaran", phonetic: "/ˈped.ə.ɡɒdʒ.i/", context: "Modern pedagogy emphasizes active learning and empathy.", category: "Pedagogy" },
-            { word: "Meticulous", level: "C2", meaning: "Sangat teliti, cermat, dan detail", phonetic: "/məˈtɪk.jə.ləs/", context: "Ms. Michelle is meticulous in tracking student progress.", category: "General" }
+            { word: "Metacognition", level: "C2", meaning: "Kesadaran & pemahaman tentang proses berpikir sendiri", phonetic: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", context: "Encouraging metacognition helps SEN students self-reflect.", category: "Pedagogy" }
         ];
 
         const academicPrefixes = [
@@ -1100,25 +1109,14 @@
             { w: "Systematic", m: "Secara terstruktur & sistematis", l: "B2" },
             { w: "Empirical", m: "Berdasarkan bukti pengamatan nyata", l: "C1" },
             { w: "Comprehensive", m: "Menyeluruh dan luas mencakup semua", l: "C1" },
-            { w: "Analytical", m: "Menggunakan pemikiran analisis mendalam", l: "B2" },
-            { w: "Holistic", m: "Menyeluruh memandang semua aspek", l: "C1" },
-            { w: "Pragmatic", m: "Praktis dan fokus pada hasil nyata", l: "C2" },
-            { w: "Substantive", m: "Penting, nyata, dan memiliki bobot", l: "C2" },
-            { w: "Constructive", m: "Membangun dan bersifat positif", l: "B2" },
-            { w: "Methodological", m: "Sesuai metode ilmiah teratur", l: "C1" }
+            { w: "Analytical", m: "Menggunakan pemikiran analisis mendalam", l: "B2" }
         ];
 
         const academicNouns = [
             { w: "Approach", m: "Pendekatan atau strategi metode", l: "B1" },
             { w: "Framework", m: "Kerangka kerja konseptual dasar", l: "B2" },
-            { w: "Perspective", m: "Sudut pandang dalam memahami", l: "B2" },
             { w: "Competency", m: "Keahlian atau kompetensi kemampuan", l: "B2" },
-            { w: "Methodology", m: "Metodologi langkah-langkah pengajaran", l: "C1" },
-            { w: "Implementation", m: "Penerapan atau pelaksanaan rencana", l: "B2" },
-            { w: "Engagement", m: "Keterlibatan aktif siswa dalam kelas", l: "B2" },
-            { w: "Reflection", m: "Refleksi dan evaluasi pengalaman", l: "B1" },
-            { w: "Adaptation", m: "Adaptasi penyesuaian kondisi", l: "B2" },
-            { w: "Integrity", m: "Integritas dan kejujuran akademis", l: "C1" }
+            { w: "Methodology", m: "Metodologi langkah-langkah pengajaran", l: "C1" }
         ];
 
         let vocabList = [];
@@ -1132,7 +1130,6 @@
             while (vocabList.length < 1000) {
                 const pref = academicPrefixes[pIdx % academicPrefixes.length];
                 const noun = academicNouns[nIdx % academicNouns.length];
-                
                 const combinedWord = `${pref.w} ${noun.w}`;
                 const combinedMeaning = `${pref.m} dalam ${noun.m.toLowerCase()}`;
                 const level = pref.l === 'C2' || noun.l === 'C2' ? 'C2' : (pref.l === 'C1' || noun.l === 'C1' ? 'C1' : 'B2');
@@ -1148,7 +1145,6 @@
                     mastered: false,
                     srsBox: 1
                 });
-
                 pIdx++;
                 if (pIdx % academicPrefixes.length === 0) nIdx++;
             }
@@ -1183,7 +1179,35 @@
             initCikalCalendarWidget();
             loadLoveNote();
             initDictationGame();
+            switchTab('learn');
         });
+
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebarNav');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function switchTab(tab) {
+            if (isAutoplayActive && tab !== 'autoplay') stopAutoplay();
+            
+            ['learn', 'iepgen', 'matrix', 'sencases', 'dictation', 'badges', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'history', 'testcefr', 'quiz'].forEach(t => {
+                const sec = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`tabBtn-${t}`);
+                if (sec) sec.classList.add('hidden');
+                if (btn) btn.classList.remove('nav-btn-active');
+            });
+
+            const targetSec = document.getElementById(`tab-${tab}`);
+            const targetBtn = document.getElementById(`tabBtn-${tab}`);
+            
+            if (targetSec) targetSec.classList.remove('hidden');
+            if (targetBtn) targetBtn.classList.add('nav-btn-active');
+
+            if (window.innerWidth < 1024) {
+                const sidebar = document.getElementById('sidebarNav');
+                if (sidebar) sidebar.classList.add('-translate-x-full');
+            }
+        }
 
         function toggleDarkMode() {
             const html = document.documentElement;
@@ -1193,13 +1217,13 @@
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 localStorage.setItem('michelle_theme', 'light');
-                icon.className = 'fa-solid fa-moon';
-                text.innerText = 'Night';
+                if (icon) icon.className = 'fa-solid fa-moon';
+                if (text) text.innerText = 'Night';
             } else {
                 html.classList.add('dark');
                 localStorage.setItem('michelle_theme', 'dark');
-                icon.className = 'fa-solid fa-sun';
-                text.innerText = 'Day';
+                if (icon) icon.className = 'fa-solid fa-sun';
+                if (text) text.innerText = 'Day';
             }
         }
 
@@ -1255,7 +1279,6 @@
             renderBadges();
         }
 
-        // TAHAP 6: FLASHCARD AUDIO ENHANCEMENTS & PRONUNCIATION REFINEMENT
         function toggleCardAutoAudio() {
             isCardAutoAudioEnabled = !isCardAutoAudioEnabled;
             const btnText = document.getElementById('cardAutoAudioText');
@@ -1282,7 +1305,7 @@
         function renderCurrentCard() {
             const container = document.getElementById('flashcardContainer');
             if (filteredCards.length === 0) {
-                container.innerHTML = `<div class="text-center text-xs text-pink-400 dark:text-purple-300 p-8 glass-card rounded-3xl">Belum ada kosakata di level ini. Silakan klik <b>+ Tambah Kata</b> di kanan atas!</div>`;
+                container.innerHTML = `<div class="text-center text-xs text-pink-400 dark:text-purple-300 p-8 glass-card rounded-3xl">Belum ada kosakata di level ini. Silakan klik <b>+ Tambah Kata</b> di sidebar!</div>`;
                 return;
             }
 
@@ -1332,20 +1355,17 @@
 
         function speakWord(word) {
             const utterance = new SpeechSynthesisUtterance(word);
-            
             const accent = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
             const speed = document.getElementById('cardVoiceSpeed') ? parseFloat(document.getElementById('cardVoiceSpeed').value) : 1.0;
 
             utterance.lang = accent;
             utterance.rate = speed;
-            
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         }
 
         function testPronunciation() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
             if (!SpeechRecognition) {
                 alert('Browser kamu belum mendukung Speech Recognition. Silakan gunakan Google Chrome.');
                 return;
@@ -1361,7 +1381,7 @@
 
             box.classList.remove('hidden');
             status.className = "text-purple-600 dark:text-purple-300 font-bold";
-            status.innerHTML = `<i class="fa-solid fa-microphone text-pink-500 animate-pulse mr-1"></i> Mendengarkan... Silakan ucapkan kata di kartu!`;
+            status.innerHTML = `<i class="fa-solid fa-microphone text-pink-500 animate-pulse mr-1"></i> Mendengarkan... Ucapkan kata di atas!`;
 
             recognition.start();
 
@@ -1429,7 +1449,6 @@
             }
         }
 
-        // TAHAP 5: INTERACTIVE SEN CASE STUDY RENDER & FILTERING LOGIC
         function renderSenCases() {
             const container = document.getElementById('senCasesContainer');
             if (!container) return;
@@ -1483,7 +1502,6 @@
             });
         }
 
-        // TAHAP 4: AUTOPLAY HANDS-FREE AUDIO ENGINE LOGIC
         function toggleAutoplay() {
             if (isAutoplayActive) stopAutoplay();
             else startAutoplay();
@@ -1556,7 +1574,6 @@
             };
         }
 
-        // TAHAP 3: SRS LEITNER SYSTEM RENDER & INTERACTIVE LOGIC
         const leitnerIntervals = { 1: "Review Setiap Hari", 2: "Review Tiap 3 Hari", 3: "Review Tiap 7 Hari", 4: "Review Tiap 14 Hari", 5: "Review Tiap 30 Hari (Mastered)" };
 
         function renderSrsView() {
@@ -1637,7 +1654,6 @@
             renderSrsCurrentCard();
         }
 
-        // TAHAP 2: BEHAVIORAL MATRIX RENDER FUNCTION
         function renderMatrixCards() {
             const container = document.getElementById('matrixGridContainer');
             if (!container) return;
@@ -1678,7 +1694,6 @@
             });
         }
 
-        // TAHAP 1: SMART IEP GOAL GENERATOR LOGIC
         function generateIEPGoalDraft() {
             const domain = document.getElementById('iepDomainSelect').value;
             const challenge = document.getElementById('iepChallengeInput').value.trim() || "maintaining sustained attention during learning tasks";
@@ -1792,9 +1807,7 @@
             document.getElementById('certificateModal').classList.add('hidden');
         }
 
-        function printCertificate() {
-            window.print();
-        }
+        function printCertificate() { window.print(); }
 
         function renderBadges() {
             const container = document.getElementById('badgesGrid');
@@ -1825,7 +1838,7 @@
                 container.appendChild(card);
             });
 
-            document.getElementById('unlockedBadgesCount').innerText = unlockedCount;
+            document.getElementById('unlockedBadgesCount').innerText = `${unlockedCount}/${badgesMaster.length}`;
         }
 
         function openResetModal() {
@@ -1835,9 +1848,7 @@
             document.getElementById('resetModal').classList.remove('hidden');
         }
 
-        function closeResetModal() {
-            document.getElementById('resetModal').classList.add('hidden');
-        }
+        function closeResetModal() { document.getElementById('resetModal').classList.add('hidden'); }
 
         function confirmResetProgress() {
             const masteredCount = vocabList.filter(v => v.mastered).length;
@@ -1947,16 +1958,6 @@
             }
         }
 
-        function switchTab(tab) {
-            if (isAutoplayActive && tab !== 'autoplay') stopAutoplay();
-            ['learn', 'iepgen', 'matrix', 'sencases', 'dictation', 'badges', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'history', 'testcefr', 'quiz'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tabBtn-${t}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold text-pink-700 dark:text-purple-200 hover:bg-pink-100/50 dark:hover:bg-purple-900/40 transition-all';
-            });
-            document.getElementById(`tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tabBtn-${tab}`).className = 'flex-1 min-w-[75px] py-2 rounded-xl text-xs font-bold transition-all bg-pink-500 dark:bg-purple-600 text-white shadow-md';
-        }
-
         function openAddCaseModal() { document.getElementById('addCaseModal').classList.remove('hidden'); }
         function closeAddCaseModal() { document.getElementById('addCaseModal').classList.add('hidden'); }
 
@@ -1974,14 +1975,7 @@
             const termsRaw = document.getElementById('caseTermsInput').value.trim();
             const keyTerms = termsRaw ? termsRaw.split(',').map(t => t.trim()) : ["Support", "Strategy"];
 
-            const newCase = {
-                id: senCasesList.length + 1,
-                title,
-                topic,
-                scenario,
-                strategy,
-                keyTerms
-            };
+            const newCase = { id: senCasesList.length + 1, title, topic, scenario, strategy, keyTerms };
 
             senCasesList.unshift(newCase);
             saveData();
@@ -2004,9 +1998,7 @@
             document.getElementById('editLoveNoteModal').classList.remove('hidden');
         }
 
-        function closeEditLoveNoteModal() {
-            document.getElementById('editLoveNoteModal').classList.add('hidden');
-        }
+        function closeEditLoveNoteModal() { document.getElementById('editLoveNoteModal').classList.add('hidden'); }
 
         function handleSaveLoveNote(e) {
             e.preventDefault();
