@@ -131,3 +131,18 @@ img, svg, video, canvas { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Account themes and role-specific areas */
+.role-hidden { display: none !important; }
+body[data-role="admin"] { background-color: #eff6ff; background-image: radial-gradient(#93c5fd 0.7px, transparent 0.7px); color: #1e3a8a; }
+body[data-role="admin"] .glass-card { border-color: rgba(147, 197, 253, .55); box-shadow: 0 8px 28px rgba(37, 99, 235, .08); }
+body[data-role="admin"] #sidebarNav, body[data-role="admin"] .mobile-header { background: rgba(239, 246, 255, .96); }
+body[data-role="admin"] #sidebarNav .w-10.h-10, body[data-role="admin"] #sidebarNav .w-8.h-8 { background: linear-gradient(135deg, #2563eb, #38bdf8) !important; }
+body[data-role="admin"] .admin-only { color: #1e3a8a; }
+#loginOverlay.admin-login { background-color: rgba(30, 64, 175, .25); }
+#loginOverlay.admin-login .pink-gradient-btn { background: linear-gradient(135deg, #2563eb, #06b6d4); }
+#certificatePrintArea { color: #1f2937; }
+@media print {
+  @page { size: A4 landscape; margin: 12mm; }
+  body[data-role="admin"] #certificatePrintArea, #certificatePrintArea { border-color: #fbcfe8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

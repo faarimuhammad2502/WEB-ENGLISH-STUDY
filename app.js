@@ -117,7 +117,11 @@
             initCikalCalendarWidget();
             loadLoveNote();
             initDictationGame();
-            switchTab('home');
+            loadCertificateSettings();
+            renderAdminDashboard();
+            renderAdminNotices();
+            renderUserNotices();
+            switchTab(getCurrentRole() === 'admin' ? 'adminDashboard' : 'home');
         });
 
         function toggleMobileSidebar() {
@@ -129,8 +133,9 @@
 
         function switchTab(tab) {
             if (isAutoplayActive && tab !== 'autoplay') stopAutoplay();
+            if (tab.startsWith('admin') && getCurrentRole() !== 'admin') return;
             
-            ['home', 'learn', 'iepgen', 'matrix', 'sencases', 'dictation', 'badges', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'history', 'testcefr', 'quiz'].forEach(t => {
+            ['home', 'learn', 'iepgen', 'matrix', 'sencases', 'dictation', 'badges', 'srs', 'autoplay', 'notes', 'dict', 'templates', 'history', 'testcefr', 'quiz', 'adminDashboard', 'adminNotices', 'adminCertificates'].forEach(t => {
                 const sec = document.getElementById(`tab-${t}`);
                 const btn = document.getElementById(`tabBtn-${t}`);
                 if (sec) sec.classList.add('hidden');
@@ -734,6 +739,8 @@
         }
 
         function openCertificateModal() {
+            if (getCurrentRole() === 'admin') { switchTab('adminCertificates'); return; }
+            applyCertificateSettings();
             const masteredCount = vocabList.filter(v => v.mastered).length;
             const now = new Date();
             const dateStr = now.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -747,7 +754,7 @@
 
         function closeCertificateModal() { document.getElementById('certificateModal').classList.add('hidden'); }
 
-        function printCertificate() { window.print(); }
+        function printCertificate() { if (getCurrentRole() === 'admin') return; applyCertificateSettings(); window.print(); }
 
         function renderBadges() {
             const container = document.getElementById('badgesGrid');
@@ -864,28 +871,123 @@
             renderStats();
         }
 
-        function checkAuth() {
-            if (localStorage.getItem('michelle_auth') === 'true') {
-                document.getElementById('loginOverlay').classList.add('hidden');
+        const APP_PASSWORDS = { michelle: 'SEMANGATBELAJAR', admin: 'ADMIN2026' };
+        const DEFAULT_CERTIFICATE = {
+            name: 'Ms. Michelle', title: 'Sertifikat Capaian Belajar',
+            description: 'Atas dedikasi dan pencapaian luar biasa dalam menguasai kosakata Cambridge English, pedagogi pendampingan anak berkebutuhan khusus (SEN), dan penulisan laporan IEP profesional di Sekolah Cikal Serpong.',
+            institution: 'Sekolah Cikal Serpong', signer: 'SEN Pedagogy Team'
+        };
+        function getCurrentRole() { return localStorage.getItem('michelle_app_role') || 'michelle'; }
+        function updateLoginRole() {
+            const role = document.getElementById('loginRole').value;
+            const name = document.getElementById('loginName');
+            const welcome = document.getElementById('loginWelcome');
+            name.value = role === 'admin' ? 'Admin' : 'Michelle';
+            name.readOnly = role === 'admin';
+            welcome.innerText = role === 'admin' ? 'Welcome, Admin! 🔷' : 'Welcome, Michelle! 🌸';
+            document.getElementById('loginOverlay').classList.toggle('admin-login', role === 'admin');
+            document.getElementById('loginError').classList.add('hidden');
+        }
+        function applyRoleUI() {
+            const role = getCurrentRole();
+            document.body.dataset.role = role;
+            const brandTitle = document.getElementById('portalBrandTitle'); if (brandTitle) brandTitle.innerText = role === 'admin' ? 'Admin Learning Monitor' : "Michelle's Portal";
+            const brandSub = document.getElementById('portalBrandSubtitle'); if (brandSub) brandSub.innerText = role === 'admin' ? 'Admin Dashboard' : 'Cikal Serpong SEN Pedagogy';
+            const mobileTitle = document.getElementById('mobilePortalTitle'); if (mobileTitle) mobileTitle.innerText = role === 'admin' ? 'Admin Monitor' : "Michelle's Portal";
+            document.getElementById('adminNavGroup').classList.toggle('hidden', role !== 'admin');
+            document.querySelectorAll('#sidebarNav .sidebar-scroll > .space-y-1:not(#adminNavGroup)').forEach(group => group.classList.toggle('role-hidden', role === 'admin'));
+            document.getElementById('loginOverlay').classList.add('hidden');
+            if (role === 'admin') {
+                document.getElementById('tab-home').classList.add('hidden');
+                document.querySelectorAll('#sidebarNav .pt-3').forEach(el => { const add = el.querySelector('button[onclick^="openAddVocabModal"]'); if (add) add.classList.add('hidden'); });
+                renderAdminDashboard(); renderAdminNotices(); loadCertificateSettings();
+                switchTab('adminDashboard');
+            } else {
+                document.querySelectorAll('#sidebarNav .pt-3 button[onclick^="openAddVocabModal"]').forEach(el => el.classList.remove('hidden'));
+                renderUserNotices(); switchTab('home');
             }
         }
-
+        function checkAuth() {
+            if (localStorage.getItem('michelle_auth') === 'true' && !localStorage.getItem('michelle_app_role')) localStorage.setItem('michelle_app_role', 'michelle');
+            if (localStorage.getItem('michelle_app_role')) applyRoleUI();
+        }
         function handleLogin(e) {
             e.preventDefault();
-            if (document.getElementById('loginPass').value.trim().toUpperCase() === 'SEMANGATBELAJAR') {
-                localStorage.setItem('michelle_auth', 'true');
-                document.getElementById('loginOverlay').classList.add('hidden');
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
+            const role = document.getElementById('loginRole').value;
+            const pass = document.getElementById('loginPass').value.trim();
+            const expected = APP_PASSWORDS[role];
+            if (pass === expected) {
+                localStorage.setItem('michelle_app_role', role);
+                if (role === 'michelle') localStorage.setItem('michelle_auth', 'true'); else localStorage.removeItem('michelle_auth');
+                applyRoleUI();
+                if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 65, origin: { y: 0.6 } });
+            } else document.getElementById('loginError').classList.remove('hidden');
         }
-
         function logout() {
+            localStorage.removeItem('michelle_app_role');
             localStorage.removeItem('michelle_auth');
+            document.body.dataset.role = '';
+            document.getElementById('loginRole').value = 'michelle'; updateLoginRole();
+            document.getElementById('loginPass').value = '';
             document.getElementById('loginOverlay').classList.remove('hidden');
         }
 
+        function getNotices() { try { return JSON.parse(localStorage.getItem('michelle_notices') || '[]'); } catch { return []; } }
+        function saveNotices(items) { localStorage.setItem('michelle_notices', JSON.stringify(items)); }
+        function publishNotice(e) {
+            e.preventDefault();
+            const items = getNotices();
+            items.unshift({ id: Date.now(), title: document.getElementById('noticeTitle').value.trim(), message: document.getElementById('noticeMessage').value.trim(), audience: document.getElementById('noticeAudience').value, createdAt: new Date().toISOString(), readBy: [] });
+            saveNotices(items); e.target.reset(); renderAdminNotices(); renderUserNotices(); renderAdminDashboard();
+        }
+        function deleteNotice(id) { saveNotices(getNotices().filter(n => n.id !== id)); renderAdminNotices(); renderUserNotices(); renderAdminDashboard(); }
+        function renderAdminNotices() {
+            const list = document.getElementById('adminNoticeList'); if (!list) return;
+            const notices = getNotices();
+            list.innerHTML = notices.length ? notices.map(n => `<article class="rounded-2xl border border-blue-100 p-4"><div class="flex justify-between gap-3"><b class="text-blue-900">${escapeHtml(n.title)}</b><button onclick="deleteNotice(${n.id})" class="text-rose-500 text-xs">Hapus</button></div><p class="text-sm text-slate-600 mt-2 whitespace-pre-line">${escapeHtml(n.message)}</p><small class="text-slate-400">${n.audience === 'all' ? 'Semua pengguna' : 'Michelle'} · Dibaca ${n.readBy?.includes('michelle') ? '✓' : 'belum'}</small></article>`).join('') : '<p class="text-sm text-slate-500">Belum ada pemberitahuan.</p>';
+        }
+        function renderUserNotices() {
+            const board = document.getElementById('userNoticeBoard'); if (!board) return;
+            const all = getNotices().filter(n => n.audience === 'all' || n.audience === 'michelle');
+            const read = JSON.parse(localStorage.getItem('michelle_notice_read') || '[]');
+            const unread = all.filter(n => !read.includes(n.id));
+            board.classList.toggle('hidden', all.length === 0);
+            board.innerHTML = all.map(n => `<article class="rounded-2xl border border-blue-200 bg-blue-50 p-4"><div class="flex justify-between gap-3"><div><span class="text-[10px] uppercase font-black text-blue-600">Pemberitahuan</span><h3 class="font-bold text-blue-900">${escapeHtml(n.title)}</h3><p class="text-sm text-blue-900/80 mt-1 whitespace-pre-line">${escapeHtml(n.message)}</p><small class="text-blue-500">${new Date(n.createdAt).toLocaleDateString('id-ID')}</small></div><button onclick="markNoticeRead(${n.id})" class="self-start text-xs text-blue-700 underline">${read.includes(n.id) ? 'Dibaca' : 'Tandai dibaca'}</button></div></article>`).join('');
+            if (unread.length) localStorage.setItem('michelle_notice_pending', String(unread.length));
+        }
+        function markNoticeRead(id) {
+            const read = JSON.parse(localStorage.getItem('michelle_notice_read') || '[]'); if (!read.includes(id)) read.push(id);
+            localStorage.setItem('michelle_notice_read', JSON.stringify(read));
+            const all = getNotices(); const n = all.find(x => x.id === id); if (n && !n.readBy.includes('michelle')) n.readBy.push('michelle'); saveNotices(all);
+            renderUserNotices(); renderAdminNotices(); renderAdminDashboard();
+        }
+        function escapeHtml(value) { return String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+        function renderAdminDashboard() {
+            const mastered = document.getElementById('adminMastered'); if (!mastered) return;
+            mastered.innerText = vocabList.filter(v => v.mastered).length;
+            document.getElementById('adminXP').innerText = `${userXP} XP`;
+            document.getElementById('adminSessions').innerText = historyLogs.length;
+            const activity = document.getElementById('adminActivityList');
+            activity.innerHTML = historyLogs.length ? historyLogs.slice(0, 6).map(log => `<div class="flex justify-between gap-3 border-b border-blue-50 py-2"><span>Sesi belajar #${log.id}</span><b class="text-blue-700">+${log.xp} XP</b></div>`).join('') : '<p>Belum ada sesi belajar tercatat.</p>';
+            const notices = getNotices(); const unread = notices.filter(n => !n.readBy?.includes('michelle')).length;
+            document.getElementById('adminNoticeStats').innerText = `${notices.length} pemberitahuan terbit · ${unread} belum dibaca Michelle`;
+        }
+        function loadCertificateSettings() {
+            const settings = { ...DEFAULT_CERTIFICATE, ...JSON.parse(localStorage.getItem('michelle_certificate_settings') || '{}') };
+            const fields = {certEditName: 'name', certEditTitle: 'title', certEditDescription: 'description', certEditInstitution: 'institution', certEditSigner: 'signer'};
+            Object.entries(fields).forEach(([id, key]) => { const el = document.getElementById(id); if (el && !el.value) el.value = settings[key]; });
+            applyCertificateSettings(settings);
+        }
+        function saveCertificateSettings(e) {
+            e.preventDefault();
+            const settings = { name: document.getElementById('certEditName').value.trim(), title: document.getElementById('certEditTitle').value.trim(), description: document.getElementById('certEditDescription').value.trim(), institution: document.getElementById('certEditInstitution').value.trim(), signer: document.getElementById('certEditSigner').value.trim() };
+            localStorage.setItem('michelle_certificate_settings', JSON.stringify(settings)); applyCertificateSettings(settings); alert('Pengaturan sertifikat berhasil disimpan.');
+        }
+        function applyCertificateSettings(settings) {
+            settings = settings || { ...DEFAULT_CERTIFICATE, ...JSON.parse(localStorage.getItem('michelle_certificate_settings') || '{}') };
+            const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+            set('certTeacherName', settings.name); set('certDescription', settings.description); set('certTitle', settings.title); set('certInstitutionHead', settings.institution.toUpperCase()); set('certInstitutionFoot', settings.institution); set('certSigner', settings.signer);
+        }
         function togglePassVisibility() {
             const passInput = document.getElementById('loginPass');
             const eyeIcon = document.getElementById('passEyeIcon');
@@ -1256,4 +1358,10 @@
             if (quizState.score >= 80) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
     
+
+
+
+
+
+
 
