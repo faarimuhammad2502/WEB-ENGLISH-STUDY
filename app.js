@@ -239,7 +239,8 @@
                             </div>
                             <div>
                                 <h2 class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-100">${card.word}</h2>
-                                <p class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">${card.phonetic || "Gunakan audio untuk mendengar pelafalan"}</p>
+                                <p class="text-xs text-pink-600 dark:text-purple-300 font-semibold mt-1">Cara baca: ${getPronunciationInfo(card.word).simple}</p>
+                                <p class="text-[10px] text-slate-400 dark:text-purple-300/60 mt-0.5">IPA ${getPronunciationInfo(card.word).ipa}</p>
                                 <button onclick="event.stopPropagation(); speakWord('${card.word.replace(/'/g, "\\'")}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-200 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
@@ -273,14 +274,62 @@
         }
 
         function speakWord(word) {
-            const utterance = new SpeechSynthesisUtterance(word);
-            const accent = document.getElementById('cardVoiceAccent') ? document.getElementById('cardVoiceAccent').value : 'en-GB';
-            const speed = document.getElementById('cardVoiceSpeed') ? parseFloat(document.getElementById('cardVoiceSpeed').value) : 1.0;
-
-            utterance.lang = accent;
-            utterance.rate = speed;
+            if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+                alert('Fitur suara belum didukung browser ini. Coba buka dengan Safari atau Chrome terbaru.');
+                return;
+            }
+            const utterance = new SpeechSynthesisUtterance(String(word || ''));
+            const accentSelect = document.getElementById('cardVoiceAccent') || document.getElementById('autoVoiceAccent');
+            const requestedAccent = accentSelect?.value || 'en-US';
+            const voices = window.speechSynthesis.getVoices();
+            const exactVoice = voices.find(voice => voice.lang.toLowerCase() === requestedAccent.toLowerCase());
+            const regionalVoice = voices.find(voice => voice.lang.toLowerCase().startsWith(requestedAccent.slice(0, 2).toLowerCase()));
+            const englishFallback = voices.find(voice => /^en(-|_)/i.test(voice.lang));
+            const selectedVoice = exactVoice || regionalVoice || englishFallback;
+            utterance.voice = selectedVoice || null;
+            utterance.lang = selectedVoice?.lang || requestedAccent || 'en-US';
+            utterance.rate = Math.min(1.1, Math.max(0.7, parseFloat(document.getElementById('cardVoiceSpeed')?.value) || 0.9));
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            utterance.onerror = event => {
+                console.warn('Audio pelafalan gagal:', event.error);
+                if (!['canceled', 'interrupted'].includes(event.error)) {
+                    alert('Suara tidak bisa diputar oleh browser. Pastikan volume media aktif dan suara Text-to-Speech bahasa Inggris tersedia di pengaturan HP.');
+                }
+            };
             window.speechSynthesis.cancel();
+            window.speechSynthesis.resume();
             window.speechSynthesis.speak(utterance);
+        }
+
+        function getPronunciationInfo(word) {
+            const ipa = window.MICHELLE_IPA?.[String(word || '').trim().toLowerCase().replace(/\s+/g, ' ')];
+            if (!ipa) return { ipa: '', simple: 'Pelafalan belum tersedia' };
+            const replacements = [
+                ['t͡ʃ', 'ch'], ['d͡ʒ', 'j'], ['tʃ', 'ch'], ['dʒ', 'j'],
+                ['eɪ', 'ei'], ['oʊ', 'ou'], ['aɪ', 'ai'], ['aʊ', 'au'], ['ɔɪ', 'oi'],
+                ['ɝ', 'er'], ['ɚ', 'er'], ['ɫ', 'l'], ['ɹ', 'r'], ['æ', 'a'],
+                ['ɑ', 'a'], ['ɒ', 'o'], ['ɔ', 'o'], ['ə', 'e'], ['ɪ', 'i'],
+                ['ɛ', 'e'], ['ʊ', 'u'], ['ʌ', 'a'], ['θ', 'th'], ['ð', 'dh'],
+                ['ʃ', 'sh'], ['ʒ', 'zh'], ['ŋ', 'ng'], ['j', 'y'], ['ː', '']
+            ];
+            const simple = ipa.split('‿').map(part => {
+                const syllables = part.match(/[ˈˌ]?[^ˈˌ]+/g) || [part];
+                const vowels = /[aeiouɑɒɔəɛɜɪʊʌæɝɚ]/;
+                for (let i = syllables.length - 2; i >= 0; i--) {
+                    if (!/[ˈˌ]/.test(syllables[i]) && !vowels.test(syllables[i])) {
+                        syllables[i + 1] = syllables[i] + syllables[i + 1];
+                        syllables.splice(i, 1);
+                    }
+                }
+                return syllables.map(syllable => {
+                    const stressed = /^[ˈˌ]/.test(syllable);
+                    let text = syllable.replace(/[ˈˌ]/g, '');
+                    replacements.forEach(([from, to]) => { text = text.replaceAll(from, to); });
+                    return stressed ? text.toUpperCase() : text;
+                }).join('-');
+            }).join(' ');
+            return { ipa: `/${ipa.replaceAll('‿', ' ‿ ')}/`, simple };
         }
 
         function testPronunciation() {
@@ -547,7 +596,8 @@
             document.getElementById('srsCurrentBoxBadge').innerText = `Box ${item.srsBox || 1}`;
             document.getElementById('srsCardLevel').innerText = `LEVEL ${item.level}`;
             document.getElementById('srsCardWord').innerText = item.word;
-            document.getElementById('srsCardPhonetic').innerText = item.phonetic || 'Gunakan tombol audio untuk pelafalan';
+            const pronunciation = getPronunciationInfo(item.word);
+            document.getElementById('srsCardPhonetic').innerText = pronunciation.simple + (pronunciation.ipa ? ` · IPA ${pronunciation.ipa}` : '');
             document.getElementById('srsCardMeaning').innerText = item.meaning;
             document.getElementById('srsCardContext').innerText = `"${item.context}"`;
         }
@@ -1242,7 +1292,17 @@
                 const categoryLabel = document.createElement('span'); categoryLabel.className = 'text-[10px] font-semibold text-slate-400'; categoryLabel.innerText = item.category;
                 const meaning = document.createElement('p'); meaning.className = 'text-xs text-slate-600 dark:text-purple-300/80 mt-1'; meaning.innerText = item.meaning;
                 const context = document.createElement('p'); context.className = 'text-[11px] text-slate-500 dark:text-purple-300/70 mt-1 italic'; context.innerText = item.context;
-                text.append(titleRow, categoryLabel, meaning, context);
+                const pronunciationInfo = getPronunciationInfo(item.word);
+                const pronunciation = document.createElement('p');
+                pronunciation.className = 'text-[11px] text-pink-700 dark:text-purple-200 mt-1.5 font-semibold';
+                pronunciation.innerText = `Cara baca (perkiraan): ${pronunciationInfo.simple}${pronunciationInfo.ipa ? ` · IPA ${pronunciationInfo.ipa}` : ''}`;
+                const listen = document.createElement('button');
+                listen.type = 'button';
+                listen.className = 'mt-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 text-[10px] font-bold hover:bg-pink-200 dark:hover:bg-purple-800';
+                listen.innerHTML = '<i class="fa-solid fa-volume-high"></i> Dengarkan kata';
+                listen.setAttribute('aria-label', `Dengarkan pengucapan ${item.word}`);
+                listen.onclick = () => speakWord(item.word);
+                text.append(titleRow, categoryLabel, meaning, context, pronunciation, listen);
                 const mastered = document.createElement('button'); mastered.type = 'button'; mastered.setAttribute('aria-label', `${item.mastered ? 'Hapus status hafal' : 'Tandai sudah hafal'}: ${item.word}`);
                 mastered.className = `shrink-0 text-lg ${item.mastered ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-700 hover:text-pink-400'}`;
                 mastered.innerHTML = '<i class="fa-solid fa-circle-check"></i>'; mastered.onclick = () => toggleDictMastered(item.id);
