@@ -5,7 +5,7 @@
             { id: 'vocab_200', title: 'Cambridge Scholar', icon: 'fa-graduation-cap', color: 'from-purple-500 to-indigo-600', reqText: 'Hafal 200 kosakata', check: (m, xp, cases) => m >= 200 },
             { id: 'xp_500', title: 'Dedicated Educator', icon: 'fa-star', color: 'from-yellow-400 to-amber-600', reqText: 'Kumpulkan 500 XP', check: (m, xp, cases) => xp >= 500 },
             { id: 'sen_expert', title: 'SEN Specialist', icon: 'fa-hands-holding-child', color: 'from-emerald-400 to-teal-600', reqText: 'Miliki 5+ Skenario ABK', check: (m, xp, cases) => cases.length >= 5 },
-            { id: 'mastery_1000', title: 'Master Teacher C2', icon: 'fa-crown', color: 'from-rose-500 to-purple-600', reqText: 'Hafal 1000 kosakata', check: (m, xp, cases) => m >= 1000 }
+            { id: 'mastery_100', title: 'Master Teacher', icon: 'fa-crown', color: 'from-rose-500 to-purple-600', reqText: 'Hafal 100 kosakata', check: (m, xp, cases) => m >= 100 }
         ];
 
         const behavioralMatrixData = [
@@ -29,64 +29,7 @@
         let srsQueue = [];
         let srsCurrentIndex = 0;
 
-        const baseVocabBank = [
-            { word: "Classroom", level: "A2", meaning: "Ruang kelas tempat belajar mengajar", phonetic: "/ˈklɑːs.ruːm/", context: "The classroom is equipped with interactive tools.", category: "General" },
-            { word: "Whiteboard", level: "A2", meaning: "Papan tulis putih", phonetic: "/ˈwaɪt.bɔːd/", context: "Ms. Michelle wrote the agenda on the whiteboard.", category: "General" },
-            { word: "Lesson Plan", level: "A2", meaning: "Rencana pelaksanaan pembelajaran", phonetic: "/ˈles.ən plæn/", context: "Preparing a clear lesson plan structures teaching.", category: "Pedagogy" },
-            { word: "Assessment", level: "A2", meaning: "Penilaian atau evaluasi pembelajaran", phonetic: "/əˈses.mənt/", context: "Assessment helps track student learning progress.", category: "Pedagogy" },
-            { word: "Instruction", level: "A2", meaning: "Petunjuk atau instruksi mengajar", phonetic: "/ɪnˈstrʌk.ʃən/", context: "Clear instructions make activities easier to follow.", category: "Pedagogy" },
-            { word: "Curriculum", level: "B1", meaning: "Kurikulum atau rancangan mata pelajaran", phonetic: "/kəˈrɪk.jə.ləm/", context: "Sekolah Cikal implements a learner-centered curriculum.", category: "Pedagogy" },
-            { word: "Accommodation", level: "B2", meaning: "Penyesuaian cara belajar tanpa merubah standar", phonetic: "/əˌkɒm.əˈdeɪ.ʃən/", context: "Extra time is a helpful accommodation during tests.", category: "SEN" },
-            { word: "Individualised Education Plan", level: "B2", meaning: "Rencana Pendidikan Individual (IEP) untuk siswa ABK", phonetic: "/ˌɪn.dɪˈvɪdʒ.u.ə.laɪzd/", context: "We review each Individualised Education Plan every term.", category: "SEN" },
-            { word: "Differentiation", level: "C1", meaning: "Penyesuaian pengajaran sesuai kebutuhan siswa", phonetic: "/ˌdɪf.ə.ren.ʃiˈeɪ.ʃən/", context: "Differentiation ensures every student can access goals.", category: "Pedagogy" },
-            { word: "Metacognition", level: "C2", meaning: "Kesadaran & pemahaman tentang proses berpikir sendiri", phonetic: "/ˌmet.ə.kɒɡˈnɪʃ.ən/", context: "Encouraging metacognition helps SEN students self-reflect.", category: "Pedagogy" }
-        ];
-
-        const academicPrefixes = [
-            { w: "Cognitive", m: "Terkait proses kognitif berpikir", l: "B2" },
-            { w: "Systematic", m: "Secara terstruktur & sistematis", l: "B2" },
-            { w: "Empirical", m: "Berdasarkan bukti pengamatan nyata", l: "C1" },
-            { w: "Comprehensive", m: "Menyeluruh dan luas mencakup semua", l: "C1" },
-            { w: "Analytical", m: "Menggunakan pemikiran analisis mendalam", l: "B2" }
-        ];
-
-        const academicNouns = [
-            { w: "Approach", m: "Pendekatan atau strategi metode", l: "B1" },
-            { w: "Framework", m: "Kerangka kerja konseptual dasar", l: "B2" },
-            { w: "Competency", m: "Keahlian atau kompetensi kemampuan", l: "B2" },
-            { w: "Methodology", m: "Metodologi langkah-langkah pengajaran", l: "C1" }
-        ];
-
-        let vocabList = [];
-        (function generate1000List() {
-            let id = 1;
-            baseVocabBank.forEach(item => {
-                vocabList.push({ ...item, id: id++, mastered: false, srsBox: 1 });
-            });
-
-            let pIdx = 0, nIdx = 0;
-            while (vocabList.length < 1000) {
-                const pref = academicPrefixes[pIdx % academicPrefixes.length];
-                const noun = academicNouns[nIdx % academicNouns.length];
-                const combinedWord = `${pref.w} ${noun.w}`;
-                const combinedMeaning = `${pref.m} dalam ${noun.m.toLowerCase()}`;
-                const level = pref.l === 'C2' || noun.l === 'C2' ? 'C2' : (pref.l === 'C1' || noun.l === 'C1' ? 'C1' : 'B2');
-
-                vocabList.push({
-                    id: id++,
-                    word: combinedWord,
-                    level: level,
-                    meaning: combinedMeaning,
-                    phonetic: `/${pref.w.toLowerCase()} ${noun.w.toLowerCase()}/`,
-                    context: `Applying a ${combinedWord.toLowerCase()} enhances teaching effectiveness at Cikal.`,
-                    category: "Pedagogy",
-                    mastered: false,
-                    srsBox: 1
-                });
-                pIdx++;
-                if (pIdx % academicPrefixes.length === 0) nIdx++;
-            }
-        })();
+        let vocabList = window.MICHELLE_VOCAB_BANK.map(item => ({ ...item }));
 
         let filteredCards = [];
         let currentCardIndex = 0;
@@ -186,12 +129,33 @@
         }
 
         function loadData() {
-            const saved = localStorage.getItem('michelle_vocab_data_v12');
+            const saved = localStorage.getItem('michelle_vocab_data_v13') || localStorage.getItem('michelle_vocab_data_v12');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    if (parsed.length >= 1000) vocabList = parsed;
-                } catch(e) {}
+                    if (Array.isArray(parsed)) {
+                        const keyFor = item => String(item.word || '').trim().toLocaleLowerCase().replace(/\s+/g, ' ');
+                        const progressByWord = new Map();
+                        parsed.forEach(item => {
+                            const key = keyFor(item); if (!key) return;
+                            const previous = progressByWord.get(key);
+                            progressByWord.set(key, { mastered: Boolean(previous?.mastered || item.mastered), srsBox: Math.max(previous?.srsBox || 1, item.srsBox || 1) });
+                        });
+                        vocabList.forEach(item => {
+                            const progress = progressByWord.get(keyFor(item));
+                            if (progress) { item.mastered = progress.mastered; item.srsBox = progress.srsBox; }
+                        });
+                        const knownWords = new Set(vocabList.map(keyFor));
+                        let nextId = Math.max(...vocabList.map(item => item.id)) + 1;
+                        parsed.filter(item => (item.custom || Number(item.id) > 1000) && item.word && item.meaning).forEach(item => {
+                            const key = keyFor(item); if (!key || knownWords.has(key)) return;
+                            const fakePhonetic = item.phonetic === `/${String(item.word).toLowerCase()}/`;
+                            vocabList.push({ ...item, id: nextId++, phonetic: fakePhonetic ? '' : (item.phonetic || ''), custom: true, mastered: Boolean(item.mastered), srsBox: item.srsBox || 1 });
+                            knownWords.add(key);
+                        });
+                        localStorage.setItem('michelle_vocab_data_v13', JSON.stringify(vocabList));
+                    }
+                } catch(e) { console.warn('Data kosakata tersimpan tidak dapat dimigrasikan.', e); }
             }
 
             const savedCases = localStorage.getItem('michelle_sen_cases');
@@ -217,9 +181,8 @@
                 if (sel) sel.value = dailyGoalTarget;
             }
         }
-
         function saveData() {
-            localStorage.setItem('michelle_vocab_data_v12', JSON.stringify(vocabList));
+            localStorage.setItem('michelle_vocab_data_v13', JSON.stringify(vocabList));
             localStorage.setItem('michelle_sen_cases', JSON.stringify(senCasesList));
             localStorage.setItem('michelle_history_logs', JSON.stringify(historyLogs));
             localStorage.setItem('michelle_xp', userXP);
@@ -267,7 +230,7 @@
                             </div>
                             <div>
                                 <h2 class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-100">${card.word}</h2>
-                                <p class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">${card.phonetic}</p>
+                                <p class="text-xs text-slate-400 dark:text-purple-300/60 mt-1">${card.phonetic || "Gunakan audio untuk mendengar pelafalan"}</p>
                                 <button onclick="event.stopPropagation(); speakWord('${card.word.replace(/'/g, "\\'")}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-200 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
@@ -575,7 +538,7 @@
             document.getElementById('srsCurrentBoxBadge').innerText = `Box ${item.srsBox || 1}`;
             document.getElementById('srsCardLevel').innerText = `LEVEL ${item.level}`;
             document.getElementById('srsCardWord').innerText = item.word;
-            document.getElementById('srsCardPhonetic').innerText = item.phonetic || '/.../';
+            document.getElementById('srsCardPhonetic').innerText = item.phonetic || 'Gunakan tombol audio untuk pelafalan';
             document.getElementById('srsCardMeaning').innerText = item.meaning;
             document.getElementById('srsCardContext').innerText = `"${item.context}"`;
         }
@@ -1086,7 +1049,7 @@
             const percent = total > 0 ? ((masteredCount / total) * 100).toFixed(1) : 0;
 
             document.getElementById('statMastered').innerText = masteredCount;
-            document.getElementById('statTotalSub').innerText = `Target ${total} Kosakata`;
+            document.getElementById('statTotalSub').innerText = `${total} entri · level CEFR perkiraan`;
             document.getElementById('tabDictCount').innerText = total;
             document.getElementById('statPercent').innerText = `${percent}%`;
             document.getElementById('statXP').innerText = `⭐ ${userXP}`;
@@ -1094,7 +1057,8 @@
             const currentDailyDone = Math.min(masteredCount, dailyGoalTarget);
             const goalPercent = Math.min(100, Math.round((currentDailyDone / dailyGoalTarget) * 100));
             document.getElementById('dailyGoalProgressText').innerText = `${currentDailyDone} / ${dailyGoalTarget} Kata`;
-            document.getElementById('dailyGoalProgressBar').style.width = `${goalPercent}%`;
+            document.getElementById('dailyGoalProgressBar').style.width = `${goalPercent}%`; 
+            if (document.getElementById('certificateAdminPreview')) renderCertificatePreview();
         }
 
         function renderHeatmap() {
@@ -1240,41 +1204,44 @@
         }
 
         function renderDictionary() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
             const lvl = document.getElementById('dictLevelFilter').value;
             const status = document.getElementById('dictStatusFilter').value;
-
+            const category = document.getElementById('dictCategoryFilter')?.value || 'ALL';
             const list = document.getElementById('dictList');
             list.innerHTML = '';
-
             const filtered = vocabList.filter(v => {
-                const matchSearch = v.word.toLowerCase().includes(search) || v.meaning.toLowerCase().includes(search);
-                const matchLvl = (lvl === 'ALL') || (v.level === lvl);
-                const matchStatus = (status === 'ALL') || 
-                                    (status === 'MASTERED' && v.mastered) || 
-                                    (status === 'UNMASTERED' && !v.mastered);
-                return matchSearch && matchLvl && matchStatus;
+                const matchSearch = v.word.toLowerCase().includes(search) || v.meaning.toLowerCase().includes(search) || (v.context || "").toLowerCase().includes(search);
+                const matchLvl = lvl === 'ALL' || v.level === lvl;
+                const matchCategory = category === 'ALL' || v.category === category;
+                const matchStatus = status === 'ALL' || (status === 'MASTERED' && v.mastered) || (status === 'UNMASTERED' && !v.mastered);
+                return matchSearch && matchLvl && matchCategory && matchStatus;
             });
-
+            if (!filtered.length) {
+                list.innerHTML = '<div class="col-span-full p-6 text-center text-sm text-slate-500 glass-card rounded-2xl">Tidak ada kosakata yang cocok. Coba kata pencarian atau filter lain.</div>';
+                return;
+            }
             filtered.forEach(item => {
-                const div = document.createElement('div');
-                div.className = `p-3.5 rounded-2xl glass-card border ${item.mastered ? 'border-emerald-200 bg-emerald-50/20 dark:border-emerald-800 dark:bg-emerald-950/20' : 'border-pink-100 dark:border-purple-800'} flex justify-between items-center`;
-                div.innerHTML = `
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-pink-800 dark:text-purple-200">${item.word}</span>
-                            <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300">${item.level}</span>
-                        </div>
-                        <p class="text-xs text-slate-600 dark:text-purple-300/80 mt-0.5">${item.meaning}</p>
-                    </div>
-                    <button onclick="toggleDictMastered(${item.id})" class="text-lg ${item.mastered ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-700 hover:text-pink-400'}">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </button>
-                `;
-                list.appendChild(div);
+                const card = document.createElement('article');
+                card.className = `p-3.5 rounded-2xl glass-card border ${item.mastered ? 'border-emerald-200 bg-emerald-50/20 dark:border-emerald-800 dark:bg-emerald-950/20' : 'border-pink-100 dark:border-purple-800'} flex justify-between items-start gap-3`;
+                const text = document.createElement('div');
+                const titleRow = document.createElement('div');
+                titleRow.className = 'flex flex-wrap items-center gap-2';
+                const word = document.createElement('span'); word.className = 'text-xs font-bold text-pink-800 dark:text-purple-200'; word.innerText = item.word;
+                const level = document.createElement('span'); level.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-300'; level.innerText = `CEFR ~${item.level}`;
+                titleRow.append(word, level);
+                const categoryLabel = document.createElement('span'); categoryLabel.className = 'text-[10px] font-semibold text-slate-400'; categoryLabel.innerText = item.category;
+                const meaning = document.createElement('p'); meaning.className = 'text-xs text-slate-600 dark:text-purple-300/80 mt-1'; meaning.innerText = item.meaning;
+                const context = document.createElement('p'); context.className = 'text-[11px] text-slate-500 dark:text-purple-300/70 mt-1 italic'; context.innerText = item.context;
+                text.append(titleRow, categoryLabel, meaning, context);
+                const mastered = document.createElement('button'); mastered.type = 'button'; mastered.setAttribute('aria-label', `${item.mastered ? 'Hapus status hafal' : 'Tandai sudah hafal'}: ${item.word}`);
+                mastered.className = `shrink-0 text-lg ${item.mastered ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-700 hover:text-pink-400'}`;
+                mastered.innerHTML = '<i class="fa-solid fa-circle-check"></i>'; mastered.onclick = () => toggleDictMastered(item.id);
+                card.append(text, mastered); list.appendChild(card);
             });
+            const summary = document.getElementById('dictQualitySummary');
+            if (summary) summary.innerText = `${vocabList.length} entri unik · ${filtered.length} ditampilkan · Level CEFR merupakan perkiraan untuk belajar.`;
         }
-
         function toggleDictMastered(id) {
             const target = vocabList.find(v => v.id === id);
             if (target) {
@@ -1295,9 +1262,12 @@
             const level = document.getElementById('newLevel').value;
             const category = document.getElementById('newCategory').value;
             const meaning = document.getElementById('newMeaning').value.trim();
-            const context = document.getElementById('newContext').value.trim() || `Example context for ${word}.`;
+            const context = document.getElementById('newContext').value.trim();
+            const duplicate = vocabList.some(item => item.word.trim().toLocaleLowerCase() === word.toLocaleLowerCase());
+            if (duplicate) { alert(`Kosakata "${word}" sudah ada di kamus.`); return; }
+            if (!context) { alert('Tambahkan contoh kalimat agar entri lebih bermanfaat.'); return; }
 
-            vocabList.unshift({ id: vocabList.length + 1, word, level, meaning, phonetic: `/${word.toLowerCase()}/`, context, category, mastered: false, srsBox: 1 });
+            vocabList.unshift({ id: Math.max(...vocabList.map(item => item.id)) + 1, word, level, meaning, phonetic: '', context, category, mastered: false, srsBox: 1, custom: true });
             saveData();
             renderStats();
             filterFlashcards();
@@ -1368,6 +1338,11 @@
             if (quizState.score >= 80) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
     
+
+
+
+
+
 
 
 
