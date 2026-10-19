@@ -29,7 +29,16 @@
         let srsQueue = [];
         let srsCurrentIndex = 0;
 
-        let vocabList = window.MICHELLE_VOCAB_BANK.map(item => ({ ...item }));
+        const builtInWordKeys = new Set();
+        let vocabList = window.MICHELLE_VOCAB_BANK
+            .filter(item => {
+                const key = String(item.word || '').trim().toLocaleLowerCase().replace(/\s+/g, ' ');
+                if (!key || builtInWordKeys.has(key)) return false;
+                builtInWordKeys.add(key);
+                return true;
+            })
+            .slice(0, 1000)
+            .map((item, index) => ({ ...item, id: index + 1 }));
 
         let filteredCards = [];
         let currentCardIndex = 0;
