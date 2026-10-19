@@ -778,7 +778,17 @@
             </section>
             <section id="tab-adminCertificates" class="hidden space-y-5 admin-only">
                 <div class="glass-card rounded-3xl p-6 border border-blue-100"><h2 class="text-2xl font-bold text-blue-900">Kelola sertifikat</h2><p class="text-sm text-slate-500 mt-1">Ubah data sertifikat yang bisa dilihat dan diunduh oleh Michelle.</p>
-                    <form onsubmit="saveCertificateSettings(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4"><label class="text-xs font-bold text-slate-600">Nama penerima<input id="certEditName" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><label class="text-xs font-bold text-slate-600">Judul sertifikat<input id="certEditTitle" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><label class="text-xs font-bold text-slate-600 sm:col-span-2">Keterangan<textarea id="certEditDescription" rows="4" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></textarea></label><label class="text-xs font-bold text-slate-600">Institusi<input id="certEditInstitution" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><label class="text-xs font-bold text-slate-600">Nama penandatangan<input id="certEditSigner" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><button class="sm:col-span-2 px-5 py-3 rounded-xl bg-blue-600 text-white font-bold">Simpan perubahan sertifikat</button></form>
+                    <form onsubmit="saveCertificateSettings(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4"><label class="text-xs font-bold text-slate-600">Nama penerima<input id="certEditName" oninput="renderCertificatePreview()" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><label class="text-xs font-bold text-slate-600">Judul sertifikat<input id="certEditTitle" oninput="renderCertificatePreview()" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><label class="text-xs font-bold text-slate-600 sm:col-span-2">Keterangan<textarea id="certEditDescription" oninput="renderCertificatePreview()" rows="4" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></textarea></label><label class="text-xs font-bold text-slate-600">Institusi<input id="certEditInstitution" oninput="renderCertificatePreview()" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><label class="text-xs font-bold text-slate-600">Nama penandatangan<input id="certEditSigner" oninput="renderCertificatePreview()" class="mt-1 w-full p-3 rounded-xl border border-blue-200" required></label><button class="sm:col-span-2 px-5 py-3 rounded-xl bg-blue-600 text-white font-bold">Simpan perubahan sertifikat</button></form>
+                    <div class="mt-6"><div class="flex items-center justify-between gap-3 mb-3"><div><h3 class="font-bold text-blue-900">Pratinjau sertifikat</h3><p class="text-xs text-slate-500">Tampilan ini mengikuti isian secara langsung.</p></div><span class="text-xs font-bold text-blue-600"><i class="fa-solid fa-eye mr-1"></i>Pratinjau</span></div>
+                        <article id="certificateAdminPreview" class="certificate-preview"><div class="certificate-preview-inner">
+                            <div class="flex justify-between items-center gap-3 text-[10px] sm:text-xs font-bold text-blue-800 border-b border-blue-200 pb-3"><span id="previewInstitution">SEKOLAH CIKAL SERPONG</span><span>CAMBRIDGE ENGLISH PORTAL</span></div>
+                            <div class="py-4 sm:py-6"><div class="certificate-seal"><i class="fa-solid fa-award"></i></div><p class="text-[10px] sm:text-xs text-blue-500 font-semibold tracking-[.22em] uppercase mt-2">Certificate of Achievement</p><h2 id="previewTitle" class="font-serif font-black text-blue-950 text-xl sm:text-3xl uppercase tracking-wide mt-2">Sertifikat Capaian Belajar</h2><p class="text-xs text-slate-500 italic mt-1">Certificate of Academic &amp; Pedagogical Achievement</p></div>
+                            <div class="py-2"><p class="text-xs text-slate-500">Diberikan dengan bangga kepada</p><h3 id="previewName" class="font-serif font-bold text-blue-900 text-2xl sm:text-3xl mt-2">Ms. Michelle</h3></div>
+                            <p id="previewDescription" class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl mx-auto py-3">Atas dedikasi dan pencapaian luar biasa.</p>
+                            <div class="grid grid-cols-3 gap-2 py-3 border-y border-blue-200 text-xs"><div><span class="text-[9px] sm:text-[10px] text-slate-400 block">Kosakata</span><b id="previewVocab" class="text-blue-700">0 Kata</b></div><div><span class="text-[9px] sm:text-[10px] text-slate-400 block">Poin belajar</span><b id="previewXP" class="text-blue-700">0 XP</b></div><div><span class="text-[9px] sm:text-[10px] text-slate-400 block">Tanggal</span><b id="previewDate" class="text-slate-700">—</b></div></div>
+                            <div class="flex justify-between items-end pt-4 text-[10px] sm:text-xs text-slate-500"><div class="text-left"><p id="previewInstitutionFoot" class="font-bold text-blue-800">Sekolah Cikal Serpong</p><p id="previewSigner">SEN Pedagogy Team</p></div><div class="preview-stamp">MICHELLE<br>LEARNING<br>ACHIEVEMENT</div></div>
+                        </div></article>
+                    </div>
                 </div>
             </section>
         </main>
@@ -978,6 +988,8 @@
     <script src="app.js"></script>
 </body>
 </html>
+
+
 
 
 

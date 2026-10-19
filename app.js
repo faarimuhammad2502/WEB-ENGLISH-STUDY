@@ -972,16 +972,31 @@
             const fields = {certEditName: 'name', certEditTitle: 'title', certEditDescription: 'description', certEditInstitution: 'institution', certEditSigner: 'signer'};
             Object.entries(fields).forEach(([id, key]) => { const el = document.getElementById(id); if (el && !el.value) el.value = settings[key]; });
             applyCertificateSettings(settings);
+            renderCertificatePreview();
         }
         function saveCertificateSettings(e) {
             e.preventDefault();
             const settings = { name: document.getElementById('certEditName').value.trim(), title: document.getElementById('certEditTitle').value.trim(), description: document.getElementById('certEditDescription').value.trim(), institution: document.getElementById('certEditInstitution').value.trim(), signer: document.getElementById('certEditSigner').value.trim() };
-            localStorage.setItem('michelle_certificate_settings', JSON.stringify(settings)); applyCertificateSettings(settings); alert('Pengaturan sertifikat berhasil disimpan.');
+            localStorage.setItem('michelle_certificate_settings', JSON.stringify(settings)); applyCertificateSettings(settings); renderCertificatePreview(); alert('Pengaturan sertifikat berhasil disimpan.');
         }
         function applyCertificateSettings(settings) {
             settings = settings || { ...DEFAULT_CERTIFICATE, ...JSON.parse(localStorage.getItem('michelle_certificate_settings') || '{}') };
             const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
             set('certTeacherName', settings.name); set('certDescription', settings.description); set('certTitle', settings.title); set('certInstitutionHead', settings.institution.toUpperCase()); set('certInstitutionFoot', settings.institution); set('certSigner', settings.signer);
+        }
+        function renderCertificatePreview() {
+            const settings = {
+                name: document.getElementById('certEditName')?.value || DEFAULT_CERTIFICATE.name,
+                title: document.getElementById('certEditTitle')?.value || DEFAULT_CERTIFICATE.title,
+                description: document.getElementById('certEditDescription')?.value || DEFAULT_CERTIFICATE.description,
+                institution: document.getElementById('certEditInstitution')?.value || DEFAULT_CERTIFICATE.institution,
+                signer: document.getElementById('certEditSigner')?.value || DEFAULT_CERTIFICATE.signer
+            };
+            const set = (id, value) => { const el = document.getElementById(id); if (el) el.innerText = value; };
+            set('previewName', settings.name); set('previewTitle', settings.title); set('previewDescription', settings.description);
+            set('previewInstitution', settings.institution.toUpperCase()); set('previewInstitutionFoot', settings.institution); set('previewSigner', settings.signer);
+            set('previewVocab', `${vocabList.filter(v => v.mastered).length} Kata`); set('previewXP', `${userXP} XP`);
+            set('previewDate', new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }));
         }
         function togglePassVisibility() {
             const passInput = document.getElementById('loginPass');
@@ -1353,6 +1368,8 @@
             if (quizState.score >= 80) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
     
+
+
 
 
 
