@@ -739,7 +739,6 @@
         }
 
         function openCertificateModal() {
-            if (getCurrentRole() === 'admin') { switchTab('adminCertificates'); return; }
             applyCertificateSettings();
             const masteredCount = vocabList.filter(v => v.mastered).length;
             const now = new Date();
@@ -754,7 +753,7 @@
 
         function closeCertificateModal() { document.getElementById('certificateModal').classList.add('hidden'); }
 
-        function printCertificate() { if (getCurrentRole() === 'admin') return; applyCertificateSettings(); window.print(); }
+        function printCertificate() { applyCertificateSettings(); window.print(); }
 
         function renderBadges() {
             const container = document.getElementById('badgesGrid');
@@ -871,7 +870,7 @@
             renderStats();
         }
 
-        const APP_PASSWORDS = { michelle: 'SEMANGATBELAJAR', admin: 'ADMIN2026' };
+        const APP_PASSWORDS = { michelle: 'SEMANGATBELAJAR', admin: 'BAMBUAPUS123' };
         const DEFAULT_CERTIFICATE = {
             name: 'Ms. Michelle', title: 'Sertifikat Capaian Belajar',
             description: 'Atas dedikasi dan pencapaian luar biasa dalam menguasai kosakata Cambridge English, pedagogi pendampingan anak berkebutuhan khusus (SEN), dan penulisan laporan IEP profesional di Sekolah Cikal Serpong.',
@@ -895,15 +894,11 @@
             const brandSub = document.getElementById('portalBrandSubtitle'); if (brandSub) brandSub.innerText = role === 'admin' ? 'Admin Dashboard' : 'Cikal Serpong SEN Pedagogy';
             const mobileTitle = document.getElementById('mobilePortalTitle'); if (mobileTitle) mobileTitle.innerText = role === 'admin' ? 'Admin Monitor' : "Michelle's Portal";
             document.getElementById('adminNavGroup').classList.toggle('hidden', role !== 'admin');
-            document.querySelectorAll('#sidebarNav .sidebar-scroll > .space-y-1:not(#adminNavGroup)').forEach(group => group.classList.toggle('role-hidden', role === 'admin'));
             document.getElementById('loginOverlay').classList.add('hidden');
             if (role === 'admin') {
-                document.getElementById('tab-home').classList.add('hidden');
-                document.querySelectorAll('#sidebarNav .pt-3').forEach(el => { const add = el.querySelector('button[onclick^="openAddVocabModal"]'); if (add) add.classList.add('hidden'); });
                 renderAdminDashboard(); renderAdminNotices(); loadCertificateSettings();
                 switchTab('adminDashboard');
             } else {
-                document.querySelectorAll('#sidebarNav .pt-3 button[onclick^="openAddVocabModal"]').forEach(el => el.classList.remove('hidden'));
                 renderUserNotices(); switchTab('home');
             }
         }
@@ -1358,6 +1353,8 @@
             if (quizState.score >= 80) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
     
+
+
 
 
 
