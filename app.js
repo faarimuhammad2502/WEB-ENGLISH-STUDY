@@ -239,8 +239,7 @@
                             </div>
                             <div>
                                 <h2 class="font-serif text-3xl font-extrabold text-pink-800 dark:text-purple-100">${card.word}</h2>
-                                <p class="text-xs text-pink-600 dark:text-purple-300 font-semibold mt-1">Cara baca: ${getPronunciationInfo(card.word).simple}</p>
-                                <p class="text-[10px] text-slate-400 dark:text-purple-300/60 mt-0.5">IPA ${getPronunciationInfo(card.word).ipa}</p>
+                                <p class="text-xs text-slate-400 dark:text-purple-300/70 mt-1">${getPronunciationInfo(card.word).ipa}</p>
                                 <button onclick="event.stopPropagation(); speakWord('${card.word.replace(/'/g, "\\'")}')" class="mt-3 w-10 h-10 rounded-full bg-pink-100 dark:bg-purple-900/60 text-pink-600 dark:text-purple-200 inline-flex items-center justify-center hover:bg-pink-200 transition-all shadow-sm">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
@@ -597,7 +596,7 @@
             document.getElementById('srsCardLevel').innerText = `LEVEL ${item.level}`;
             document.getElementById('srsCardWord').innerText = item.word;
             const pronunciation = getPronunciationInfo(item.word);
-            document.getElementById('srsCardPhonetic').innerText = pronunciation.simple + (pronunciation.ipa ? ` · IPA ${pronunciation.ipa}` : '');
+            document.getElementById('srsCardPhonetic').innerText = pronunciation.ipa || pronunciation.simple;
             document.getElementById('srsCardMeaning').innerText = item.meaning;
             document.getElementById('srsCardContext').innerText = `"${item.context}"`;
         }
@@ -1295,7 +1294,7 @@
                 const pronunciationInfo = getPronunciationInfo(item.word);
                 const pronunciation = document.createElement('p');
                 pronunciation.className = 'text-[11px] text-pink-700 dark:text-purple-200 mt-1.5 font-semibold';
-                pronunciation.innerText = `Cara baca (perkiraan): ${pronunciationInfo.simple}${pronunciationInfo.ipa ? ` · IPA ${pronunciationInfo.ipa}` : ''}`;
+                pronunciation.innerText = pronunciationInfo.ipa ? `Pelafalan: ${pronunciationInfo.ipa}` : `Pelafalan: ${pronunciationInfo.simple}`;
                 const listen = document.createElement('button');
                 listen.type = 'button';
                 listen.className = 'mt-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-pink-100 dark:bg-purple-900/60 text-pink-700 dark:text-purple-200 text-[10px] font-bold hover:bg-pink-200 dark:hover:bg-purple-800';
